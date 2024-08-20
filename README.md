@@ -1,47 +1,47 @@
-# 📊 Cadena de suministro Dashboard Power BI
+# 📊 Supply Chain Dashboard Power BI
 
-¡Bienvenido al repositorio del **Cadena de suministro** creado con Power BI! 
-Este proyecto tiene como objetivo proporcionar un análisis interactivo y detallado de las métricas clave de una cadena de suministro para apoyar la toma de decisiones estratégicas.
+Welcome to the **Supply Chain** repository created with Power BI! 
+This project aims to provide an interactive and detailed analysis of key metrics of a supply chain to support strategic decision making.
 
-## 🚀 Descripción
+## 🚀 Description
 
-Este dashboard incluye:
-- 📈 **Visualizaciones interactivas**: Gráficos y tablas dinámicas para explorar los datos.
-- 📊 **Métricas clave**: Análisis de KPIs importantes como ontime, OTIF, días de entrega, ventas, órdenes, y más.
-- 📅 **Análisis temporal**: Tendencias a lo largo del tiempo para identificar patrones y oportunidades.
-- 🗂️ **Tres pestañas**: 
-  - **Compras**: Vista general de todas las compras.
-  - **Proveedores**: Análisis detallado de los proveedores.
-  - **Productos**: Seguimiento y análisis de los diferentes productos.
+This dashboard includes:
+- 📈 **Interactive visualizations**: Pivot charts and tables to explore data.
+- 📊 **Key metrics**: Analysis of important KPIs such as ontime, OTIF, delivery days, sales, orders, and more.
+- 📅 **Temporal analysis**: Trends over time to identify patterns and opportunities.
+- 🗂️ **Three tabs**: 
+  - **Purchases**: General view of all purchases.
+  - **Suppliers**: Detailed analysis of suppliers.
+  - **Products**: Monitoring and analysis of the different products.
 
-## 🔄 Proceso ETL
+## 🔄 ETL process
 
-Este proyecto incluye un completo proceso de **ETL (Extracción, Transformación y Carga)**:
-- **Extracción**: Datos obtenidos de archivos excel.
-- **Transformación**: 
-  - **Combinación de tablas**: Uso de Power Query para combinar y relacionar múltiples tablas de datos.
-  - **Limpieza de datos**: Eliminación de duplicados, tratamiento de valores nulos y normalización de datos.
-  - **Enriquecimiento de datos**: Agregación de columnas calculadas y transformación de datos para mejorar el análisis.
-- **Carga**: Integración de los datos transformados en Power BI para su análisis y visualización.
+This project includes a complete **ETL (Extract, Transform and Load)** process:
+- **Extraction**: Data obtained from excel files.
+- **Transformation**: 
+  - **Combining tables**: Using Power Query to combine and relate multiple data tables.
+  - **Data cleaning**: Elimination of duplicates, treatment of null values ​​and data normalization.
+  - **Data enrichment**: Aggregation of calculated columns and data transformation to improve analysis.
+- **Load**: Integration of transformed data into Power BI for analysis and visualization.
 
-## 🛠️ Métricas DAX
+## 🛠️ DAX Metrics
 
-Se han creado diversas métricas utilizando **DAX (Data Analysis Expressions)** para proporcionar análisis detallados y personalizados:
-- **Cálculo de KPIs**
-- **Medidas calculadas**: Creación de medidas personalizadas para análisis específicos.
-- **Columnas calculadas**: Agregación de columnas adicionales para enriquecer los datos.
-- **Filtrado y segmentación**: Uso de DAX para aplicar filtros y segmentaciones dinámicas en los datos.
+Various metrics have been created using **DAX (Data Analysis Expressions)** to provide detailed and customized analysis:
+- **KPIs calculation**
+- **Calculated measures**: Creation of custom measures for specific analyses.
+- **Calculated columns**: Adding additional columns to enrich the data.
+- **Filtering and segmentation**: Use of DAX to apply filters and dynamic segmentations to the data.
 
-## 📂 Estructura del Proyecto
+## 📂 Project Structure
 
-- `SuplyChan.pbix`: Archivo principal del dashboard de Power BI.
-- `Compras.xlxs`: Datos de la campaña de marketing utilizados en el dashboard.
-- `Imágenes/`: Capturas de pantalla del dashboard.
+- `SuplyChan.pbix`: Main file of the Power BI dashboard.
+- `Purchases.xlxs`: Data from the marketing campaign used in the dashboard.
+- `Images/`: Screenshots of the dashboard.
 
-## 🛠️ Requisitos
+## 🛠️ Requirements
 
 - Power BI Desktop
 
-## 📧 Contacto
+## 📧 Contact
 
-Para cualquier consulta, puedes contactarme en jotaduranbon@gmail.com.
+For any questions, you can contact me at jotaduranbon@gmail.com.
