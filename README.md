@@ -2,13 +2,13 @@
 
 ![Cover Image](assets/portada.png)
 
-![Commits](https://img.shields.io/github/commit-activity/m/Jotis86/People-Analytics-Project)
-![Issues Abiertas](https://img.shields.io/github/issues/Jotis86/People-Analytics-Project)
-![Pull Requests](https://img.shields.io/github/issues-pr/Jotis86/People-Analytics-Project)
-![Forks](https://img.shields.io/github/forks/Jotis86/People-Analytics-Project)
-![Tamaño del Repositorio](https://img.shields.io/github/repo-size/Jotis86/People-Analytics-Project)
+![Commits](https://img.shields.io/github/commit-activity/m/Jotis86/Supply-Chain-Project)
+![Issues Abiertas](https://img.shields.io/github/issues/Jotis86/Supply-Chain-Project)
+![Pull Requests](https://img.shields.io/github/issues-pr/Jotis86/Supply-Chain-Project)
+![Forks](https://img.shields.io/github/forks/Jotis86/Supply-Chain-Project)
+![Tamaño del Repositorio](https://img.shields.io/github/repo-size/Jotis86/Supply-Chain-Project)
 ![Autor](https://img.shields.io/badge/autor-Juan%20Duran%20Bon-blue)
-![Licencia](https://img.shields.io/github/license/Jotis86/People-Analytics-Project)
+![Licencia](https://img.shields.io/github/license/Jotis86/Supply-Chain-Project)
 
 Welcome to the **Supply Chain** repository created with Power BI! 
 This project aims to provide an interactive and detailed analysis of key metrics of a supply chain to support strategic decision making.
