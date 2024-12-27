@@ -109,12 +109,12 @@ A web application created using Streamlit to provide an interactive interface fo
 
 ## 🛠️ Requirements
 
-- Power BI Desktop
-- Python 3.x
-- Pandas
-- Seaborn
-- Matplotlib
-- Streamlit
+- 💻 Power BI Desktop
+- 🐍 Python 3.x
+- 🐼 Pandas
+- 📊 Seaborn
+- 📉 Matplotlib
+- 🌐 Streamlit
 
 ## 📧 Contact
 
@@ -126,25 +126,25 @@ For any questions, you can contact me at:
 
 We welcome and appreciate any suggestions or contributions to improve this project. Here are some ways you can contribute:
 
-- **Report Issues**: If you encounter any bugs or have any issues while using the project, please open an issue on GitHub. Provide as much detail as possible, including steps to reproduce the issue and any relevant screenshots.
+- 🐞 **Report Issues**: If you encounter any bugs or have any issues while using the project, please open an issue on GitHub. Provide as much detail as possible, including steps to reproduce the issue and any relevant screenshots.
 
-- **Feature Requests**: If you have ideas for new features or enhancements, feel free to submit a feature request. Describe the feature in detail and explain how it would benefit the project.
+- 🌟 **Feature Requests**: If you have ideas for new features or enhancements, feel free to submit a feature request. Describe the feature in detail and explain how it would benefit the project.
 
-- **Submit Pull Requests**: If you would like to contribute code, you can fork the repository and submit a pull request. Make sure to follow the project's coding standards and include detailed commit messages. Before submitting a pull request, ensure that your code passes all tests and does not introduce any new issues.
+- 🔄 **Submit Pull Requests**: If you would like to contribute code, you can fork the repository and submit a pull request. Make sure to follow the project's coding standards and include detailed commit messages. Before submitting a pull request, ensure that your code passes all tests and does not introduce any new issues.
 
-- **Documentation**: Improving documentation is always helpful. If you find any part of the documentation unclear or incomplete, you can contribute by updating the documentation. This includes adding examples, clarifying instructions, and correcting any errors.
+- 📚 **Documentation**: Improving documentation is always helpful. If you find any part of the documentation unclear or incomplete, you can contribute by updating the documentation. This includes adding examples, clarifying instructions, and correcting any errors.
 
-- **Testing**: Help us improve the quality of the project by writing and running tests. You can add unit tests, integration tests, and end-to-end tests to ensure the project works as expected.
+- 🧪 **Testing**: Help us improve the quality of the project by writing and running tests. You can add unit tests, integration tests, and end-to-end tests to ensure the project works as expected.
 
-- **Feedback**: Your feedback is valuable to us. Let us know what you think about the project, what you like, and what could be improved. Your insights can help shape the future direction of the project.
+- 🗣️ **Feedback**: Your feedback is valuable to us. Let us know what you think about the project, what you like, and what could be improved. Your insights can help shape the future direction of the project.
 
 To get started with contributing, please follow these steps:
-1. Fork the repository on GitHub.
-2. Clone your forked repository to your local machine.
-3. Create a new branch for your changes.
-4. Make your changes and commit them with clear and descriptive messages.
-5. Push your changes to your forked repository.
-6. Open a pull request to the main repository.
+1. 🍴 Fork the repository on GitHub.
+2. 🖥️ Clone your forked repository to your local machine.
+3. 🌿 Create a new branch for your changes.
+4. ✏️ Make your changes and commit them with clear and descriptive messages.
+5. 📤 Push your changes to your forked repository.
+6. 🔀 Open a pull request to the main repository.
 
 We appreciate your contributions and look forward to collaborating with you to make this project better!
 
