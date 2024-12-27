@@ -154,3 +154,9 @@ Feel free to reach out if you have any questions or need assistance with your co
 
 This project is licensed under the [MIT License](LICENSE).
 
+## 👋 Farewell
+
+Thank you for taking the time to explore this project! We hope you find it insightful and useful for your supply chain analysis needs. If you have any questions, suggestions, or just want to say hi, feel free to reach out. Your feedback and contributions are always welcome.
+
+Happy analyzing! 🚀📊✨
+
