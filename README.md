@@ -93,7 +93,7 @@ A comprehensive dashboard with the following charts:
 9. ⏰ **On-time Deliveries by Provider**
 10. ✅ **OTIF Deliveries by Provider**
 
-![Cover Image](assets/dasboard_2.png)
+![Dashboard Image](assets/dashboard_2.png)
 
 ## 📂 Project Structure
 
