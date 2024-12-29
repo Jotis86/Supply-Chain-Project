@@ -163,7 +163,6 @@ def main():
         - **Data Loading**: 📂 Using pandas to load and manipulate the data.
         - **Data Visualization**: 📊 Creating various plots and charts using seaborn and matplotlib to gain insights into the data.
         - **Statistical Analysis**: 📈 Performing statistical analysis to identify trends and patterns in the data.
-        - **Machine Learning**: 🤖 Implementing machine learning models to predict future trends and outcomes.
 
         ### Streamlit Application
         To present our findings interactively, we have developed a Streamlit application. This application allows users to explore the data and visualizations in an intuitive and user-friendly manner:
