@@ -97,11 +97,17 @@ A comprehensive dashboard with the following charts:
 
 ## 📂 Project Structure
 
-- `SuplyChan.pbix`: Main file of the Power BI dashboard.
-- `Purchases.xlxs`: Data from the marketing campaign used in the dashboard.
-- `Images/`: Screenshots of the dashboard.
+- `app/`: Contains the Streamlit application code.
+- `assets/`: Contains images and videos used in the Streamlit app.
+- `data/`: Contains the data files used for analysis.
+- `images/`: Screenshots of the Power BI dashboard.
+- `notebooks/`: Jupyter notebooks with data visualizations and analysis.
+- `powerbi/`: Contains the Power BI dashboard file.
 - `summary_report/`: Contains the summary report and visualizations.
-- `data_visualization.ipynb`: Jupyter notebook with the data visualizations.
+- `.gitignore`: Specifies files and directories to be ignored by Git.
+- `LICENSE`: The license for the project.
+- `README.md`: The main readme file for the project.
+- `requirements.txt`: Lists the Python dependencies required for the project.
 
 ## 🌐 Web App (Streamlit)
 
