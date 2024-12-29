@@ -186,10 +186,6 @@ def main():
         st.write(data.head())
 
         st.write('''
-        In this section, we provide various visualizations to help you explore and understand the supply chain data. These visualizations include histograms, pie charts, line plots, box plots, and bar plots, each offering unique insights into different aspects of the data. Use the dropdown menu below to select and view the visualization of your choice.
-        ''')
-
-        st.write('''
         ### 🧮 New Calculated Columns 🧮
         From the original data, we have calculated additional columns to enhance and improve the analysis. These new columns provide deeper insights and allow for a more comprehensive evaluation of the supply chain performance.
 
@@ -221,6 +217,10 @@ def main():
         - **Description**: Total amount of the order (ordered quantity * unit price).
         - **Calculation**: `data['total_amount'] = data['cant_prod_odc'] * data['prec_unt']`
         - **Value**: Provides a measure of the total value of each order.
+        ''')
+
+        st.write('''
+        In this section, we provide various visualizations to help you explore and understand the supply chain data. These visualizations include histograms, pie charts, line plots, box plots, and bar plots, each offering unique insights into different aspects of the data. Use the dropdown menu below to select and view the visualization of your choice.
         ''')
 
         # Visualization menu
