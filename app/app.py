@@ -72,7 +72,7 @@ def plot_count(data, column, title, xlabel):
 # Function to display the main image
 def display_main_image(image_path):
     if os.path.exists(image_path):
-        st.image(image_path, use_column_width=True)
+        st.image(image_path, use_container_width=True)
     else:
         st.error(f"Image not found: {image_path}")
 
