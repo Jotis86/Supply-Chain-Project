@@ -185,6 +185,10 @@ def main():
         st.write('## Data Preview')
         st.write(data.head())
 
+        st.write('''
+        In this section, we provide various visualizations to help you explore and understand the supply chain data. These visualizations include histograms, pie charts, line plots, box plots, and bar plots, each offering unique insights into different aspects of the data. Use the dropdown menu below to select and view the visualization of your choice.
+        ''')
+
         # Visualization menu
         visualization_menu = st.selectbox('Select a visualization', [
             'Histogram of ordered product quantity',
