@@ -189,6 +189,40 @@ def main():
         In this section, we provide various visualizations to help you explore and understand the supply chain data. These visualizations include histograms, pie charts, line plots, box plots, and bar plots, each offering unique insights into different aspects of the data. Use the dropdown menu below to select and view the visualization of your choice.
         ''')
 
+        st.write('''
+        ### 🧮 New Calculated Columns 🧮
+        From the original data, we have calculated additional columns to enhance and improve the analysis. These new columns provide deeper insights and allow for a more comprehensive evaluation of the supply chain performance.
+
+        1. ⏱️ **ontime**
+        - **Description**: Indicates whether the delivery was on time (True) or not (False).
+        - **Calculation**: `data['ontime'] = data['fecha_entrega'] >= data['fecha_recibido']`
+        - **Value**: Allows evaluating the punctuality of deliveries.
+        2. 📦 **OTIF**
+        - **Description**: Indicates whether the delivery was on time and in full (True) or not (False).
+        - **Calculation**: `data['OTIF'] = (data['ontime']) & (data['cant_prod_odc'] == data['cant_recibida'])`
+        - **Value**: Allows evaluating performance in terms of complete and on-time deliveries.
+        3. 📅 **delivery_days**
+        - **Description**: Number of days between the order date and the delivery date.
+        - **Calculation**: `data['delivery_days'] = (data['fecha_entrega'] - data['fecha_odc']).dt.days`
+        - **Value**: Allows analyzing the efficiency of deliveries.
+        4. 📅 **reception_days**
+        - **Description**: Number of days between the order date and the reception date.
+        - **Calculation**: `data['reception_days'] = (data['fecha_recibido'] - data['fecha_odc']).dt.days`
+        - **Value**: Allows analyzing the efficiency of the reception process.
+        5. 📊 **percentage_received**
+        - **Description**: Percentage of the received quantity relative to the ordered quantity.
+        - **Calculation**: `data['percentage_received'] = (data['cant_recibida'] / data['cant_prod_odc']) * 100`
+        - **Value**: Allows evaluating the accuracy of deliveries in terms of quantity.
+        6. 💰 **amount_difference**
+        - **Description**: Difference between the ordered amount and the received amount.
+        - **Calculation**: `data['amount_difference'] = data['monto_odc'] - data['monto_recibido']`
+        - **Value**: Allows identifying monetary discrepancies between ordered and received amounts.
+        7. 💵 **total_amount**
+        - **Description**: Total amount of the order (ordered quantity * unit price).
+        - **Calculation**: `data['total_amount'] = data['cant_prod_odc'] * data['prec_unt']`
+        - **Value**: Provides a measure of the total value of each order.
+        ''')
+
         # Visualization menu
         visualization_menu = st.selectbox('Select a visualization', [
             'Histogram of ordered product quantity',
