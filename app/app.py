@@ -92,7 +92,7 @@ def main():
     display_main_image(os.path.join('app', 'portada.png'))
 
     # Load data
-    data_file = os.path.join('data', 'cleaned_data.csv')
+    data_file = os.path.join('app', 'cleaned_data.csv')
     data = load_data(data_file)
 
     # Sidebar menu for navigation
