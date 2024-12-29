@@ -212,7 +212,9 @@ def main():
     elif menu == 'GitHub Repo':
         st.header('GitHub Repository')
         st.write('Visit the GitHub repository for more details and to access the source code.')
-        st.markdown('[GitHub Repository](https://github.com/Jotis86/Supply-Chain-Project)')
+        if st.button('Go to GitHub Repo'):
+            st.markdown('[GitHub Repository](https://github.com/Jotis86/Supply-Chain-Project)')
+
 
 if __name__ == '__main__':
     main()
