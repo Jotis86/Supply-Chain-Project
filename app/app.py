@@ -86,7 +86,7 @@ def display_video(video_path):
 # Main function to run the Streamlit app
 def main():
     # Set the title of the app
-    st.title('Supply Chain Dashboard')
+    st.title('Supply Chain Project')
 
     # Display the main image
     display_main_image(os.path.join('app', 'portada.png'))
