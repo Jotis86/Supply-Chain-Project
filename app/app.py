@@ -89,10 +89,10 @@ def main():
     st.title('Supply Chain Dashboard')
 
     # Display the main image
-    display_main_image(os.path.join('portada.png'))
+    display_main_image(os.path.join('app','portada.png'))
 
     # Load data
-    data_file = 'cleaned_data.csv'
+    data_file = os.path.join('app', 'cleaned_data.csv')
     data = load_data(data_file)
 
     if data is not None:
