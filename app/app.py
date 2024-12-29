@@ -179,7 +179,7 @@ def main():
 
         elif menu == 'Power BI Video':
             st.header('Power BI Video')
-            display_video('clip.mp4')
+            display_video(os.path.join('app', 'video.mp4'))
 
 if __name__ == '__main__':
     main()
