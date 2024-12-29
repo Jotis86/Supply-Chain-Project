@@ -118,7 +118,7 @@ A web application created using Streamlit to provide an interactive interface fo
 You can access the Streamlit web app using the following URL:
 [Supply Chain Project Web App](https://supply-chain-project-jy9fx2ga95cbnwbjcu3nyg.streamlit.app/)
 
-Explore the data and gain valuable insights into the supply chain performance through our interactive web app. 🚚📦
+Explore the data and gain valuable insights into the supply chain performance through our interactive web app. 🚚
 
 ## 🛠️ Requirements
 
