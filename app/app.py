@@ -98,7 +98,7 @@ def main():
     # Sidebar menu for navigation
     st.sidebar.title('Navigation')
     st.sidebar.image(os.path.join('app', 'menu.png'), use_container_width=True)
-    menu = st.sidebar.radio('Go to', ['Introduction', 'Objectives', 'Development Process', 'Visualizations', 'Power BI Video', 'GitHub Repo'])
+    menu = st.sidebar.radio('Go to', ['Introduction', 'Objectives', 'Development Process', 'Visualizations', 'Power BI Video', 'GitHub Repository'])
 
     if menu == 'Introduction':
         st.header('Introduction')
@@ -209,7 +209,7 @@ def main():
         st.header('Power BI Video')
         display_video(os.path.join('app', 'video.mp4'))
 
-    elif menu == 'GitHub Repo':
+    elif menu == 'GitHub Repository':
         st.header('GitHub Repository')
         st.write('Visit the GitHub repository for more details and to access the source code.')
         if st.button('Go to GitHub Repo'):
