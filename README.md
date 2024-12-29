@@ -105,7 +105,20 @@ A comprehensive dashboard with the following charts:
 
 ## 🌐 Web App (Streamlit)
 
-A web application created using Streamlit to provide an interactive interface for the analysis.
+A web application created using Streamlit to provide an interactive interface for the analysis. This web app allows users to explore the supply chain data through various visualizations and interactive dashboards. The application is designed to be user-friendly and accessible, even for non-technical users.
+
+### Features
+- **Interactive Dashboards**: 📊 Users can interact with the visualizations to gain deeper insights into the supply chain data.
+- **Real-time Updates**: 🔄 The application updates in real-time as users interact with it, providing the most up-to-date information.
+- **User-friendly Interface**: 🖥️ The interface is designed to be intuitive and easy to use, making it accessible to a wide range of users.
+- **Comprehensive Analysis**: 📈 The app includes various types of visualizations such as histograms, pie charts, line plots, box plots, and bar plots, each offering unique insights into different aspects of the data.
+- **Calculated Columns**: 🧮 Additional columns calculated from the original data to enhance the analysis, such as on-time delivery indicators, OTIF (On Time In Full) metrics, and more.
+
+### Access the Web App
+You can access the Streamlit web app using the following URL:
+[Supply Chain Project Web App](https://supply-chain-project-jy9fx2ga95cbnwbjcu3nyg.streamlit.app/)
+
+Explore the data and gain valuable insights into the supply chain performance through our interactive web app. 🚚📦
 
 ## 🛠️ Requirements
 
