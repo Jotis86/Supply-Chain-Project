@@ -140,19 +140,45 @@ def main():
         st.header('Development Process')
         st.write('''
         ### ETL Process
-        - **Extraction**: Data obtained from Excel files.
-        - **Transformation**: 
-          - Combining tables using Power Query.
-          - Data cleaning: Elimination of duplicates, treatment of null values, and data normalization.
-          - Data enrichment: Aggregation of calculated columns and data transformation to improve analysis.
-        - **Load**: Integration of transformed data into Power BI for analysis and visualization.
+        The ETL (Extract, Transform, Load) process is a crucial part of our data pipeline. Here's a detailed breakdown of each step:
+
+        - **Extraction**: 📥 Data obtained from various sources, primarily Excel files. This step involves gathering all necessary data for analysis.
+        - **Transformation**: 🔄 This step involves several sub-processes:
+        - **Combining Tables**: 🔗 Using Power Query to merge multiple tables into a single dataset.
+        - **Data Cleaning**: 🧹 Elimination of duplicates, treatment of null values, and normalization of data to ensure consistency and accuracy.
+        - **Data Enrichment**: 📈 Aggregation of calculated columns and transformation of data to enhance its value for analysis.
+        - **Load**: 🚀 Integration of the transformed data into Power BI for analysis and visualization. This step ensures that the data is ready for reporting and insights generation.
 
         ### DAX Metrics
-        Various metrics have been created using **DAX (Data Analysis Expressions)** to provide detailed and customized analysis:
-        - KPIs calculation
-        - Calculated measures: Creation of custom measures for specific analyses.
-        - Calculated columns: Adding additional columns to enrich the data.
-        - Filtering and segmentation: Use of DAX to apply filters and dynamic segmentations to the data.
+        DAX (Data Analysis Expressions) is a powerful formula language used in Power BI for data modeling. We have created various metrics using DAX to provide detailed and customized analysis:
+
+        - **KPIs Calculation**: 📊 Key Performance Indicators (KPIs) are calculated to track the performance of different aspects of the supply chain.
+        - **Calculated Measures**: 📐 Creation of custom measures for specific analyses, allowing for more precise and tailored insights.
+        - **Calculated Columns**: 📏 Adding additional columns to enrich the data and provide more context for analysis.
+        - **Filtering and Segmentation**: 🔍 Use of DAX to apply dynamic filters and segmentations to the data, enabling more granular analysis.
+
+        ### Python Analysis
+        In addition to Power BI, we have utilized Python for data analysis and visualization. Here are the steps involved:
+
+        - **Data Loading**: 📂 Using pandas to load and manipulate the data.
+        - **Data Visualization**: 📊 Creating various plots and charts using seaborn and matplotlib to gain insights into the data.
+        - **Statistical Analysis**: 📈 Performing statistical analysis to identify trends and patterns in the data.
+        - **Machine Learning**: 🤖 Implementing machine learning models to predict future trends and outcomes.
+
+        ### Streamlit Application
+        To present our findings interactively, we have developed a Streamlit application. This application allows users to explore the data and visualizations in an intuitive and user-friendly manner:
+
+        - **Interactive Dashboards**: 📊 Users can interact with the visualizations to gain deeper insights.
+        - **Real-time Updates**: 🔄 The application updates in real-time as users interact with it.
+        - **User-friendly Interface**: 🖥️ The interface is designed to be easy to use, even for non-technical users.
+
+        ### Additional Steps
+        - **Data Validation**: ✅ Ensuring the accuracy and reliability of the data through rigorous validation checks.
+        - **Automation**: 🤖 Automating repetitive tasks to improve efficiency and reduce the risk of human error.
+        - **Documentation**: 📝 Maintaining comprehensive documentation of the ETL process, DAX metrics, Python analysis, and Streamlit application to ensure transparency and reproducibility.
+        - **Collaboration**: 🤝 Working closely with stakeholders to understand their requirements and tailor the analysis to meet their needs.
+
+        This comprehensive development process ensures that our data is accurate, reliable, and ready for insightful analysis. We hope this detailed explanation provides a clear understanding of the steps involved in our project. 📈🔍
         ''')
 
     elif menu == 'Visualizations':
