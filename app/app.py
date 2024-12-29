@@ -298,6 +298,13 @@ def main():
         
         The video is designed to help you understand the full potential of our Power BI dashboard and how it can be used to support strategic decision-making and improve supply chain efficiency.
         ''')
+
+        # Display Power BI screenshots
+        st.image(os.path.join('app', 'image_1.png'), caption='Purchases: General view of all purchases', use_container_width=True)
+        st.image(os.path.join('app', 'image_2.png'), caption='Suppliers: Detailed analysis of suppliers', use_container_width=True)
+        st.image(os.path.join('app', 'image_3.png'), caption='Products: Monitoring and analysis of the different products', use_container_width=True)
+
+
         display_video(os.path.join('app', 'video.mp4'))
 
     elif menu == 'GitHub Repository':
