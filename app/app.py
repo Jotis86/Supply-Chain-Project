@@ -98,7 +98,7 @@ def main():
     # Sidebar menu for navigation
     st.sidebar.title('Navigation')
     st.sidebar.image(os.path.join('app', 'menu.png'), use_container_width=True)
-    menu = st.sidebar.radio('Go to', ['Project Objectives', 'Development Process', 'Visualizations', 'Power BI Video', 'GitHub Repository'])
+    menu = st.sidebar.radio('Go to', ['Project Objectives', 'Development Process', 'Visualizations', 'Power BI', 'GitHub Repository'])
 
     if menu == 'Project Objectives':
         st.header('Introduction')
@@ -257,8 +257,13 @@ def main():
         elif visualization_menu == 'Bar plot of OTIF deliveries by provider':
             plot_count(data, 'nom_prov', 'Bar Plot of OTIF Deliveries by Provider', 'Provider')
 
-    elif menu == 'Power BI Video':
-        st.header('Power BI Video')
+    elif menu == 'Power BI':
+        st.header('Power BI Dashboard')
+        st.write('''
+        In this section, you can watch a comprehensive video presentation of our Power BI dashboard. The video provides an in-depth walkthrough of the various features and insights that our dashboard offers. It covers key metrics, visualizations, and how to interact with the dashboard to gain valuable insights into the supply chain data.
+        
+        The video is designed to help you understand the full potential of our Power BI dashboard and how it can be used to support strategic decision-making and improve supply chain efficiency.
+        ''')
         display_video(os.path.join('app', 'video.mp4'))
 
     elif menu == 'GitHub Repository':
