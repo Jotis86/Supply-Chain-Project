@@ -98,19 +98,24 @@ def main():
     # Sidebar menu for navigation
     st.sidebar.title('Navigation')
     st.sidebar.image(os.path.join('app', 'menu.png'), use_container_width=True)
-    menu = st.sidebar.radio('Go to', ['Introduction', 'Objectives', 'Development Process', 'Visualizations', 'Power BI Video', 'GitHub Repository'])
+    menu = st.sidebar.radio('Go to', ['Objectives', 'Development Process', 'Visualizations', 'Power BI Video', 'GitHub Repository'])
 
-    if menu == 'Introduction':
-        st.header('Introduction')
-        st.write('This repository contains a comprehensive analysis of supply chain data using Power BI and Python. The project includes interactive visualizations, key metrics, and detailed reports to help in strategic decision making.')
-
-    elif menu == 'Objectives':
-        st.header('Objectives')
+    if menu == 'Objectives':
+        st.header('Introduction & Objectives')
         st.write('''
+        This repository contains a comprehensive analysis of supply chain data using Power BI and Python. The project includes interactive visualizations, key metrics, and detailed reports to help in strategic decision making.
+
+        ### Objectives
         - Provide an interactive and detailed analysis of supply chain metrics.
         - Support strategic decision making with key performance indicators (KPIs).
         - Identify patterns and trends over time.
         - Analyze the performance of suppliers and products.
+        - Enhance data-driven decision making.
+        - Improve supply chain efficiency and effectiveness.
+        - Facilitate better understanding of supply chain dynamics.
+        - Enable proactive management of supply chain risks.
+        - Foster continuous improvement in supply chain processes.
+        - Deliver actionable insights for strategic planning.
         ''')
 
     elif menu == 'Development Process':
