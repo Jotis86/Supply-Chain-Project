@@ -89,97 +89,130 @@ def main():
     st.title('Supply Chain Dashboard')
 
     # Display the main image
-    display_main_image(os.path.join('app','portada.png'))
+    display_main_image(os.path.join('app', 'portada.png'))
 
     # Load data
-    data_file = os.path.join('app', 'cleaned_data.csv')
+    data_file = os.path.join('data', 'cleaned_data.csv')
     data = load_data(data_file)
 
-    if data is not None:
-        # Sidebar menu for navigation
-        st.sidebar.title('Navigation')
-        menu = st.sidebar.radio('Go to', ['Introduction', 'Visualizations', 'Power BI Video'])
+    # Sidebar menu for navigation
+    st.sidebar.title('Navigation')
+    st.sidebar.image(os.path.join('app', 'menu.png'), use_container_width=True)
+    menu = st.sidebar.radio('Go to', ['Introduction', 'Objectives', 'Development Process', 'Visualizations', 'Power BI Video', 'GitHub Repo'])
 
-        if menu == 'Introduction':
-            st.header('Introduction')
-            st.write('This repository contains a comprehensive analysis of supply chain data using Power BI and Python. The project includes interactive visualizations, key metrics, and detailed reports to help in strategic decision making.')
+    if menu == 'Introduction':
+        st.header('Introduction')
+        st.write('This repository contains a comprehensive analysis of supply chain data using Power BI and Python. The project includes interactive visualizations, key metrics, and detailed reports to help in strategic decision making.')
 
-        elif menu == 'Visualizations':
-            st.header('Visualizations')
-            st.write('## Data Preview')
-            st.write(data.head())
+    elif menu == 'Objectives':
+        st.header('Objectives')
+        st.write('''
+        - Provide an interactive and detailed analysis of supply chain metrics.
+        - Support strategic decision making with key performance indicators (KPIs).
+        - Identify patterns and trends over time.
+        - Analyze the performance of suppliers and products.
+        ''')
 
-            # Visualization menu
-            visualization_menu = st.selectbox('Select a visualization', [
-                'Histogram of ordered product quantity',
-                'Histogram of unit price',
-                'Histogram of order amount',
-                'Histogram of received quantity',
-                'Pie chart of order status',
-                'Line plot of order amount over time',
-                'Line plot of received amount over time',
-                'Box plot of unit price by order status',
-                'Box plot of order amount by order status',
-                'Bar plot of on-time deliveries',
-                'Bar plot of OTIF deliveries',
-                'Bar plot of origin country',
-                'Box plot of unit price by category',
-                'Box plot of unit price by subcategory',
-                'Bar plot of on-time deliveries by provider',
-                'Bar plot of OTIF deliveries by provider'
-            ])
+    elif menu == 'Development Process':
+        st.header('Development Process')
+        st.write('''
+        ### ETL Process
+        - **Extraction**: Data obtained from Excel files.
+        - **Transformation**: 
+          - Combining tables using Power Query.
+          - Data cleaning: Elimination of duplicates, treatment of null values, and data normalization.
+          - Data enrichment: Aggregation of calculated columns and data transformation to improve analysis.
+        - **Load**: Integration of transformed data into Power BI for analysis and visualization.
 
-            if visualization_menu == 'Histogram of ordered product quantity':
-                plot_histogram(data, 'cant_prod_odc', 'Histogram of Ordered Product Quantity', 'Ordered Product Quantity')
+        ### DAX Metrics
+        Various metrics have been created using **DAX (Data Analysis Expressions)** to provide detailed and customized analysis:
+        - KPIs calculation
+        - Calculated measures: Creation of custom measures for specific analyses.
+        - Calculated columns: Adding additional columns to enrich the data.
+        - Filtering and segmentation: Use of DAX to apply filters and dynamic segmentations to the data.
+        ''')
 
-            elif visualization_menu == 'Histogram of unit price':
-                plot_histogram(data, 'prec_unt', 'Histogram of Unit Price', 'Unit Price')
+    elif menu == 'Visualizations':
+        st.header('Visualizations')
+        st.write('## Data Preview')
+        st.write(data.head())
 
-            elif visualization_menu == 'Histogram of order amount':
-                plot_histogram(data, 'monto_odc', 'Histogram of Order Amount', 'Order Amount')
+        # Visualization menu
+        visualization_menu = st.selectbox('Select a visualization', [
+            'Histogram of ordered product quantity',
+            'Histogram of unit price',
+            'Histogram of order amount',
+            'Histogram of received quantity',
+            'Pie chart of order status',
+            'Line plot of order amount over time',
+            'Line plot of received amount over time',
+            'Box plot of unit price by order status',
+            'Box plot of order amount by order status',
+            'Bar plot of on-time deliveries',
+            'Bar plot of OTIF deliveries',
+            'Bar plot of origin country',
+            'Box plot of unit price by category',
+            'Box plot of unit price by subcategory',
+            'Bar plot of on-time deliveries by provider',
+            'Bar plot of OTIF deliveries by provider'
+        ])
 
-            elif visualization_menu == 'Histogram of received quantity':
-                plot_histogram(data, 'cant_recibida', 'Histogram of Received Quantity', 'Received Quantity')
+        if visualization_menu == 'Histogram of ordered product quantity':
+            plot_histogram(data, 'cant_prod_odc', 'Histogram of Ordered Product Quantity', 'Ordered Product Quantity')
 
-            elif visualization_menu == 'Pie chart of order status':
-                plot_pie_chart(data, 'estado_odc', 'Pie Chart of Order Status')
+        elif visualization_menu == 'Histogram of unit price':
+            plot_histogram(data, 'prec_unt', 'Histogram of Unit Price', 'Unit Price')
 
-            elif visualization_menu == 'Line plot of order amount over time':
-                plot_line(data, 'fecha_odc', 'monto_odc', 'Line Plot of Order Amount Over Time', 'Order Date', 'Order Amount')
+        elif visualization_menu == 'Histogram of order amount':
+            plot_histogram(data, 'monto_odc', 'Histogram of Order Amount', 'Order Amount')
 
-            elif visualization_menu == 'Line plot of received amount over time':
-                plot_line(data, 'fecha_recibido', 'monto_recibido', 'Line Plot of Received Amount Over Time', 'Received Date', 'Received Amount')
+        elif visualization_menu == 'Histogram of received quantity':
+            plot_histogram(data, 'cant_recibida', 'Histogram of Received Quantity', 'Received Quantity')
 
-            elif visualization_menu == 'Box plot of unit price by order status':
-                plot_box(data, 'estado_odc', 'prec_unt', 'Box Plot of Unit Price by Order Status', 'Order Status', 'Unit Price')
+        elif visualization_menu == 'Pie chart of order status':
+            plot_pie_chart(data, 'estado_odc', 'Pie Chart of Order Status')
 
-            elif visualization_menu == 'Box plot of order amount by order status':
-                plot_box(data, 'estado_odc', 'monto_odc', 'Box Plot of Order Amount by Order Status', 'Order Status', 'Order Amount')
+        elif visualization_menu == 'Line plot of order amount over time':
+            plot_line(data, 'fecha_odc', 'monto_odc', 'Line Plot of Order Amount Over Time', 'Order Date', 'Order Amount')
 
-            elif visualization_menu == 'Bar plot of on-time deliveries':
-                plot_count(data, 'ontime', 'Bar Plot of On-time Deliveries', 'On-time')
+        elif visualization_menu == 'Line plot of received amount over time':
+            plot_line(data, 'fecha_recibido', 'monto_recibido', 'Line Plot of Received Amount Over Time', 'Received Date', 'Received Amount')
 
-            elif visualization_menu == 'Bar plot of OTIF deliveries':
-                plot_count(data, 'OTIF', 'Bar Plot of OTIF Deliveries', 'OTIF')
+        elif visualization_menu == 'Box plot of unit price by order status':
+            plot_box(data, 'estado_odc', 'prec_unt', 'Box Plot of Unit Price by Order Status', 'Order Status', 'Unit Price')
 
-            elif visualization_menu == 'Bar plot of origin country':
-                plot_count(data, 'org_pais', 'Bar Plot of Origin Country', 'Origin Country')
+        elif visualization_menu == 'Box plot of order amount by order status':
+            plot_box(data, 'estado_odc', 'monto_odc', 'Box Plot of Order Amount by Order Status', 'Order Status', 'Order Amount')
 
-            elif visualization_menu == 'Box plot of unit price by category':
-                plot_box(data, 'Categoria', 'prec_unt', 'Box Plot of Unit Price by Category', 'Category', 'Unit Price')
+        elif visualization_menu == 'Bar plot of on-time deliveries':
+            plot_count(data, 'ontime', 'Bar Plot of On-time Deliveries', 'On-time')
 
-            elif visualization_menu == 'Box plot of unit price by subcategory':
-                plot_box(data, 'Subcategoria', 'prec_unt', 'Box Plot of Unit Price by Subcategory', 'Subcategory', 'Unit Price')
+        elif visualization_menu == 'Bar plot of OTIF deliveries':
+            plot_count(data, 'OTIF', 'Bar Plot of OTIF Deliveries', 'OTIF')
 
-            elif visualization_menu == 'Bar plot of on-time deliveries by provider':
-                plot_count(data, 'nom_prov', 'Bar Plot of On-time Deliveries by Provider', 'Provider')
+        elif visualization_menu == 'Bar plot of origin country':
+            plot_count(data, 'org_pais', 'Bar Plot of Origin Country', 'Origin Country')
 
-            elif visualization_menu == 'Bar plot of OTIF deliveries by provider':
-                plot_count(data, 'nom_prov', 'Bar Plot of OTIF Deliveries by Provider', 'Provider')
+        elif visualization_menu == 'Box plot of unit price by category':
+            plot_box(data, 'Categoria', 'prec_unt', 'Box Plot of Unit Price by Category', 'Category', 'Unit Price')
 
-        elif menu == 'Power BI Video':
-            st.header('Power BI Video')
-            display_video(os.path.join('app', 'video.mp4'))
+        elif visualization_menu == 'Box plot of unit price by subcategory':
+            plot_box(data, 'Subcategoria', 'prec_unt', 'Box Plot of Unit Price by Subcategory', 'Subcategory', 'Unit Price')
+
+        elif visualization_menu == 'Bar plot of on-time deliveries by provider':
+            plot_count(data, 'nom_prov', 'Bar Plot of On-time Deliveries by Provider', 'Provider')
+
+        elif visualization_menu == 'Bar plot of OTIF deliveries by provider':
+            plot_count(data, 'nom_prov', 'Bar Plot of OTIF Deliveries by Provider', 'Provider')
+
+    elif menu == 'Power BI Video':
+        st.header('Power BI Video')
+        display_video(os.path.join('app', 'video.mp4'))
+
+    elif menu == 'GitHub Repo':
+        st.header('GitHub Repository')
+        st.write('Visit the GitHub repository for more details and to access the source code.')
+        st.markdown('[GitHub Repository](https://github.com/Jotis86/Supply-Chain-Project)')
 
 if __name__ == '__main__':
     main()
