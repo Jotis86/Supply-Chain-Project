@@ -98,24 +98,43 @@ def main():
     # Sidebar menu for navigation
     st.sidebar.title('Navigation')
     st.sidebar.image(os.path.join('app', 'menu.png'), use_container_width=True)
-    menu = st.sidebar.radio('Go to', ['Objectives', 'Development Process', 'Visualizations', 'Power BI Video', 'GitHub Repository'])
+    menu = st.sidebar.radio('Go to', ['Project Objectives', 'Development Process', 'Visualizations', 'Power BI Video', 'GitHub Repository'])
 
-    if menu == 'Objectives':
-        st.header('Introduction & Objectives')
+    if menu == 'Project Objectives':
+        st.header('Introduction and Objectives')
         st.write('''
         This repository contains a comprehensive analysis of supply chain data using Power BI and Python. The project includes interactive visualizations, key metrics, and detailed reports to help in strategic decision making.
 
+        ### Introduction
+        The supply chain is a critical component of any business, and understanding its dynamics can lead to significant improvements in efficiency and effectiveness. This project leverages the power of data analytics to provide insights into various aspects of the supply chain, from supplier performance to product trends.
+
         ### Objectives
-        - Provide an interactive and detailed analysis of supply chain metrics.
-        - Support strategic decision making with key performance indicators (KPIs).
-        - Identify patterns and trends over time.
-        - Analyze the performance of suppliers and products.
-        - Enhance data-driven decision making.
-        - Improve supply chain efficiency and effectiveness.
-        - Facilitate better understanding of supply chain dynamics.
-        - Enable proactive management of supply chain risks.
-        - Foster continuous improvement in supply chain processes.
-        - Deliver actionable insights for strategic planning.
+        - 📊 **Provide an interactive and detailed analysis of supply chain metrics.**
+        - 📈 **Support strategic decision making with key performance indicators (KPIs).**
+        - 🔍 **Identify patterns and trends over time.**
+        - 🏭 **Analyze the performance of suppliers and products.**
+        - 💡 **Enhance data-driven decision making.**
+        - 🚀 **Improve supply chain efficiency and effectiveness.**
+        - 🌐 **Facilitate better understanding of supply chain dynamics.**
+        - ⚠️ **Enable proactive management of supply chain risks.**
+        - 🔄 **Foster continuous improvement in supply chain processes.**
+        - 📋 **Deliver actionable insights for strategic planning.**
+
+        ### Key Features
+        - 🔗 **Data Integration**: Combining data from multiple sources to provide a holistic view of the supply chain.
+        - 📊 **Interactive Dashboards**: Visualizations that allow users to explore data and gain insights.
+        - 🔮 **Predictive Analytics**: Using historical data to forecast future trends and identify potential issues.
+        - 📈 **Performance Metrics**: Tracking key performance indicators to measure the effectiveness of the supply chain.
+        - 📝 **Custom Reports**: Generating detailed reports tailored to the needs of different stakeholders.
+
+        ### Benefits
+        - 🧠 **Improved Decision Making**: Access to accurate and timely information helps in making informed decisions.
+        - 💸 **Increased Efficiency**: Identifying bottlenecks and inefficiencies in the supply chain can lead to significant cost savings.
+        - 🤝 **Enhanced Collaboration**: Sharing insights with suppliers and partners fosters better collaboration and coordination.
+        - 🛡️ **Risk Mitigation**: Proactively managing risks helps in avoiding disruptions and maintaining smooth operations.
+        - 📈 **Strategic Planning**: Data-driven insights support long-term strategic planning and growth.
+
+        We hope this project provides valuable insights and helps in optimizing your supply chain operations. 🚚📦
         ''')
 
     elif menu == 'Development Process':
