@@ -89,7 +89,7 @@ def main():
     st.title('Supply Chain Dashboard')
 
     # Display the main image
-    display_main_image('portada.png')
+    display_main_image(os.path.join('portada.png'))
 
     # Load data
     data_file = 'cleaned_data.csv'
