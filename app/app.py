@@ -302,7 +302,19 @@ def main():
 
     elif menu == 'GitHub Repository':
         st.header('GitHub Repository')
-        st.write('Visit the GitHub repository for more details and to access the source code.')
+        st.write('''
+        Welcome to our GitHub repository! Here you will find all the details and source code for our Supply Chain Dashboard project. The repository includes:
+
+        - 📂 **Source Code**: Access the complete source code for the project, including the ETL process, DAX metrics, Python analysis, and Streamlit application.
+        - 📄 **Documentation**: Detailed documentation explaining the development process, data analysis, and how to use the dashboard.
+        - 🛠️ **Setup Instructions**: Step-by-step instructions on how to set up and run the project on your local machine.
+        - 📝 **Issues and Contributions**: Report issues, suggest improvements, and contribute to the project by submitting pull requests.
+
+        We encourage you to explore the repository, review the code, and provide feedback. Your contributions are valuable to us and help improve the project.
+
+        Click the button below to visit our GitHub repository and start exploring!
+        ''')
+
         if st.button('Go to GitHub Repo'):
             st.markdown('[GitHub Repository](https://github.com/Jotis86/Supply-Chain-Project)')
 
