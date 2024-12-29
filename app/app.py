@@ -101,11 +101,10 @@ def main():
     menu = st.sidebar.radio('Go to', ['Project Objectives', 'Development Process', 'Visualizations', 'Power BI Video', 'GitHub Repository'])
 
     if menu == 'Project Objectives':
-        st.header('Introduction and Objectives')
+        st.header('Introduction')
         st.write('''
         This repository contains a comprehensive analysis of supply chain data using Power BI and Python. The project includes interactive visualizations, key metrics, and detailed reports to help in strategic decision making.
 
-        ### Introduction
         The supply chain is a critical component of any business, and understanding its dynamics can lead to significant improvements in efficiency and effectiveness. This project leverages the power of data analytics to provide insights into various aspects of the supply chain, from supplier performance to product trends.
 
         ### Objectives
@@ -134,7 +133,7 @@ def main():
         - 🛡️ **Risk Mitigation**: Proactively managing risks helps in avoiding disruptions and maintaining smooth operations.
         - 📈 **Strategic Planning**: Data-driven insights support long-term strategic planning and growth.
 
-        We hope this project provides valuable insights and helps in optimizing your supply chain operations. 🚚📦
+        We hope this project provides valuable insights and helps in optimizing your supply chain operations. 🚚
         ''')
 
     elif menu == 'Development Process':
