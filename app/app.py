@@ -42,11 +42,26 @@ def create_stylish_sidebar(data):
             border-left: 4px solid transparent;
             display: flex;
             align-items: center;
+            color: #2c3e50 !important;  /* Darker text color */
+            font-weight: 500 !important;  /* Slightly bolder text */
         }
         
         div.stRadio label:hover {
             background-color: #e9ecef;
             border-left: 4px solid #3498db;
+            color: #2980b9 !important;  /* Blue text on hover */
+        }
+        
+        /* Style for the selected radio button */
+        div.stRadio label[data-baseweb="radio"] input:checked + div {
+            background-color: #e3f2fd !important;
+            border-color: #3498db !important;
+        }
+        
+        /* Make the selected item more visible */
+        div.stRadio label[data-baseweb="radio"] input:checked + div + span {
+            color: #2980b9 !important;
+            font-weight: bold !important;
         }
         
         .metrics-container {
@@ -54,6 +69,7 @@ def create_stylish_sidebar(data):
             padding: 15px;
             border-radius: 10px;
             margin: 20px 0;
+            border: 1px solid #e9ecef;  /* Light border for definition */
         }
         
         .metric-mini {
@@ -69,7 +85,8 @@ def create_stylish_sidebar(data):
         
         .metric-mini-label {
             font-size: 0.8rem;
-            color: #7f8c8d;
+            color: #2c3e50;  /* Darker label color */
+            font-weight: 500;
         }
         
         .sidebar-footer {
@@ -78,11 +95,12 @@ def create_stylish_sidebar(data):
             padding-top: 10px;
             border-top: 1px solid #e9ecef;
             font-size: 0.8rem;
-            color: #7f8c8d;
+            color: #2c3e50;  /* Darker footer text */
         }
     </style>
     """, unsafe_allow_html=True)
     
+    # The rest of your sidebar code remains the same
     # App logo and title
     st.sidebar.image(os.path.join('app', 'funko.png'), use_container_width=True)
     st.sidebar.markdown('<div class="sidebar-header">Supply Chain Analytics</div>', unsafe_allow_html=True)
