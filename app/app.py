@@ -443,7 +443,7 @@ def display_key_metrics(data):
 
 # Create a prediction form
 def create_prediction_form(data, model):
-    st.markdown('<div class="sub-header">OTIF Prediction Tool</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sub-header" style="color: white;">OTIF Prediction Tool</div>', unsafe_allow_html=True)
     
     # Use Streamlit's native info box
     st.info("This tool predicts whether a delivery will be On Time In Full (OTIF) based on order parameters. Fill in the form below to generate a prediction.")
