@@ -1028,6 +1028,9 @@ def main():
             &nbsp;View on GitHub
         </a>
         """, unsafe_allow_html=True)
+
+        # Add space
+        st.markdown("<br>", unsafe_allow_html=True)
         
         # Objectives card
         #st.markdown('<div class="card">', unsafe_allow_html=True)
