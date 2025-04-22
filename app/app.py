@@ -198,24 +198,18 @@ def predict_otif(model, input_data):
         return None, None
     
     try:
-        # Add the missing columns required by the model
-        if 'cant_recibida' not in input_data.columns:
-            input_data['cant_recibida'] = input_data['cant_prod_odc']  # Assume full receipt for prediction
+        # Ensure the input data has exactly the features the model expects
+        expected_features = [
+            'cant_prod_odc', 'prec_unt', 'monto_odc', 'cant_recibida', 
+            'monto_recibido', 'costo_prod', 'reception_days',
+            'amount_difference', 'total_amount', 'delivery_time_diff'
+        ]
         
-        if 'monto_recibido' not in input_data.columns:
-            input_data['monto_recibido'] = input_data['monto_odc']  # Assume full amount received
-        
-        if 'reception_days' not in input_data.columns:
-            input_data['reception_days'] = input_data['delivery_days']  # Use delivery days as proxy
-        
-        if 'total_amount' not in input_data.columns:
-            input_data['total_amount'] = input_data['monto_odc']  # Same as order amount
-        
-        if 'amount_difference' not in input_data.columns:
-            input_data['amount_difference'] = 0  # Assume no difference for prediction
-        
-        if 'delivery_time_diff' not in input_data.columns:
-            input_data['delivery_time_diff'] = 0  # Assume on-time delivery for prediction
+        # Check if all expected features are present
+        missing_features = [feat for feat in expected_features if feat not in input_data.columns]
+        if missing_features:
+            st.error(f"Missing features: {missing_features}")
+            return None, None
             
         # Make prediction
         predictions = model.predict(input_data)
@@ -224,10 +218,9 @@ def predict_otif(model, input_data):
         return predictions, probabilities
     except Exception as e:
         st.error(f"Error making prediction: {e}")
-        # Print out the columns the model is expecting vs what we're providing
+        # Print out the columns for debugging
         st.warning("Debugging info:")
         st.warning(f"Input data columns: {input_data.columns.tolist()}")
-        st.warning(f"If the error persists, you may need to retrain the model with your current dataset structure")
         return None, None
 
 # Function to display key metrics
@@ -317,8 +310,39 @@ def create_prediction_form(data, model):
         with col2:
             order_date = st.date_input("Order Date", datetime.now())
             est_delivery_date = st.date_input("Estimated Delivery Date", datetime.now() + timedelta(days=30))
-            quantity = st.number_input("Quantity", min_value=1, value=100)
-            unit_price = st.number_input("Unit Price", min_value=1, value=50)
+            quantity = st.number_input("Quantity (cant_prod_odc)", min_value=1, value=100)
+            unit_price = st.number_input("Unit Price (prec_unt)", min_value=1, value=50)
+        
+        # Advanced options section
+        with st.expander("Advanced Options (Model Features)"):
+            st.info("The ML model was trained with these 10 key features. You can adjust them for more precise predictions.")
+            
+            col1, col2 = st.columns(2)
+            
+            with col1:
+                # Allow customizing received amount
+                perfect_delivery = st.checkbox("Perfect delivery (quantity received = quantity ordered)", value=True)
+                if not perfect_delivery:
+                    received_quantity = st.number_input("Received Quantity (cant_recibida)", 
+                                                      min_value=0, max_value=quantity, value=quantity)
+                else:
+                    received_quantity = quantity
+                
+                # Calculate costs
+                cost_factor = st.slider("Cost Factor (% of unit price)", 
+                                      min_value=0.5, max_value=0.95, value=0.8, step=0.05)
+                product_cost = unit_price * cost_factor
+                st.write(f"Product Cost: ${product_cost:.2f}")
+            
+            with col2:
+                # Allow customizing reception days
+                reception_days = st.number_input("Reception Days", 
+                                              min_value=1, value=(est_delivery_date - order_date).days)
+                
+                # Allow delivery time difference
+                delivery_time_diff = st.number_input("Delivery Time Difference (days)", 
+                                                 min_value=-30, max_value=30, value=0,
+                                                 help="Negative = early delivery, Positive = late delivery")
             
         submit_button = st.form_submit_button("Predict OTIF")
     
@@ -327,30 +351,31 @@ def create_prediction_form(data, model):
         order_amount = quantity * unit_price
         delivery_days = (est_delivery_date - order_date).days
         
-        # Create a dataframe with the input data including ALL required columns
+        # Calculate received amount based on received quantity
+        received_amount = received_quantity * unit_price
+        
+        # Calculate amount difference
+        amount_difference = order_amount - received_amount
+        
+        # Create a dataframe with exactly the 10 features needed by the model
         input_data = pd.DataFrame({
-            # Original fields
-            'nom_prov': [selected_supplier],
-            'org_pais': [selected_country],
-            'Categoria': [selected_category],
-            'Subcategoria': [selected_subcategory],
-            'descrip_prod': [selected_product],
-            'und_prod': [selected_unit],
+            # The 10 features identified by SelectKBest
             'cant_prod_odc': [quantity],
             'prec_unt': [unit_price],
             'monto_odc': [order_amount],
-            'delivery_days': [delivery_days],
-            'tmp_entrega': [delivery_days],
-            'costo_prod': [unit_price * 0.8],  # Assumption for cost
-            
-            # Additional required fields
-            'cant_recibida': [quantity],  # Assume full receipt for prediction
-            'monto_recibido': [order_amount],  # Assume full amount for prediction
-            'reception_days': [delivery_days],  # Use delivery days as proxy
-            'total_amount': [order_amount],  # Same as order amount
-            'amount_difference': [0],  # Assume no difference for prediction
-            'delivery_time_diff': [0],  # Assume no difference for prediction
+            'cant_recibida': [received_quantity],
+            'monto_recibido': [received_amount],
+            'costo_prod': [product_cost],
+            'reception_days': [reception_days],
+            'amount_difference': [amount_difference],
+            'total_amount': [order_amount],
+            'delivery_time_diff': [delivery_time_diff]
         })
+        
+        # Add other fields for reference only (not used by the model)
+        input_data['nom_prov'] = selected_supplier
+        input_data['Categoria'] = selected_category
+        input_data['descrip_prod'] = selected_product
         
         # Make prediction
         predictions, probabilities = predict_otif(model, input_data)
@@ -368,16 +393,49 @@ def create_prediction_form(data, model):
                     st.markdown('<p class="prediction-negative">❌ Not OTIF</p>', unsafe_allow_html=True)
                 
                 st.markdown(f"**Probability:** {probabilities[0]*100:.1f}%")
+                
+                # Add insights about the prediction
+                st.markdown("### Key Insights")
+                if amount_difference > 0:
+                    st.warning(f"Incomplete delivery: Ordered {quantity} but received {received_quantity}")
+                if delivery_time_diff > 0:
+                    st.warning(f"Late delivery: {delivery_time_diff} days behind schedule")
+                elif delivery_time_diff < 0:
+                    st.success(f"Early delivery: {abs(delivery_time_diff)} days ahead of schedule")
+                
+                if predictions[0] and amount_difference == 0 and delivery_time_diff == 0:
+                    st.success("Perfect delivery expected: on time and in full")
             
             with col2:
                 st.markdown("### Order Details")
                 st.markdown(f"**Supplier:** {selected_supplier}")
                 st.markdown(f"**Product:** {selected_product}")
-                st.markdown(f"**Quantity:** {quantity}")
-                st.markdown(f"**Total Amount:** ${order_amount}")
-                st.markdown(f"**Expected Delivery Timeline:** {delivery_days} days")
+                st.markdown(f"**Quantity Ordered:** {quantity}")
+                st.markdown(f"**Quantity Received:** {received_quantity}")
+                st.markdown(f"**Order Amount:** ${order_amount:.2f}")
+                st.markdown(f"**Reception Days:** {reception_days}")
             
             st.markdown('</div>', unsafe_allow_html=True)
+            
+            # Show feature importance
+            with st.expander("Feature Values Used for Prediction"):
+                # Remove the reference columns before displaying
+                prediction_features = input_data.drop(['nom_prov', 'Categoria', 'descrip_prod'], axis=1)
+                st.dataframe(prediction_features)
+                
+                st.markdown("""
+                ### Feature Explanations:
+                - **cant_prod_odc**: Quantity of products ordered
+                - **prec_unt**: Unit price of the product
+                - **monto_odc**: Total amount of the order (quantity × unit price)
+                - **cant_recibida**: Quantity of products actually received
+                - **monto_recibido**: Amount actually received (received quantity × unit price)
+                - **costo_prod**: Cost of the product (estimated as % of unit price)
+                - **reception_days**: Number of days between order and reception
+                - **amount_difference**: Difference between ordered amount and received amount
+                - **total_amount**: Total amount of the order
+                - **delivery_time_diff**: Difference between expected delivery date and actual delivery date
+                """)
             
             # Show similar past orders
             st.markdown("### Similar Past Orders")
