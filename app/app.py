@@ -954,14 +954,6 @@ def main():
         # Custom CSS for project overview page
         st.markdown("""
         <style>
-            .project-title {
-                text-align: center;
-                font-size: 2.8rem;
-                color: #3498db;
-                margin-bottom: 1.5rem;
-                padding-bottom: 0.5rem;
-                border-bottom: 2px solid #3498db;
-            }
             .card {
                 border: 1px solid #e0e0e0;
                 border-radius: 10px;
@@ -1019,8 +1011,6 @@ def main():
         </style>
         """, unsafe_allow_html=True)
         
-        # Project title
-        st.markdown('<div class="project-title">Supply Chain Analytics & Prediction Project</div>', unsafe_allow_html=True)
         
         # Introduction text
         st.markdown("""
