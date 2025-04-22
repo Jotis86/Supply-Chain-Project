@@ -864,11 +864,7 @@ def create_product_analysis(data):
 def create_correlation_analysis(data):
     st.markdown('<div class="sub-header" style="color: white;">Correlation Analysis</div>', unsafe_allow_html=True)
     
-    st.markdown("""
-    <div class="highlight">
-    This section shows correlations between different metrics to help identify factors that influence OTIF performance.
-    </div>
-    """, unsafe_allow_html=True)
+    st.info("This section shows correlations between different metrics to help identify factors that influence OTIF performance.")
     
     # Select only numeric columns for correlation
     numeric_cols = data.select_dtypes(include=['int64', 'float64']).columns.tolist()
