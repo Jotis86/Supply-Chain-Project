@@ -1,6 +1,6 @@
 # 📊 Supply Chain Project 📊
 
-![Cover Image](assets/portada.png)
+![Cover Image](app/banner.png)
 
 ![Commits](https://img.shields.io/github/commit-activity/m/Jotis86/Supply-Chain-Project)
 ![Issues Abiertas](https://img.shields.io/github/issues/Jotis86/Supply-Chain-Project)
