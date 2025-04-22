@@ -1295,43 +1295,44 @@ def main():
 
         # Create two columns for the efficiency visualizations
         # Add a section header for the order fulfillment analysis
-        st.markdown('<div class="section-header" style="color: white;">Order Fulfillment Analysis</div>', unsafe_allow_html=True)
+        st.markdown('<div class="section-header" style="color: white;">Cost Efficiency Analysis</div>', unsafe_allow_html=True)
 
-        # Create two columns for the fulfillment visualizations
+        # Create two columns for the cost efficiency visualizations
         col1, col2 = st.columns(2)
 
         with col1:
-            # Calculate and plot order completion by quantity
-            fig, ax = plt.subplots(figsize=(10, 6))
-            
-            # Calculate completion ratio (received/ordered)
-            if 'cant_prod_odc' in data.columns and 'cant_recibida' in data.columns:
-                # Create a safe copy to avoid modifying original data
+            # Cost per Unit by Category
+            if 'monto_odc' in data.columns and 'cant_prod_odc' in data.columns and 'Categoria' in data.columns:
+                # Calculate cost per unit
                 plot_data = data.copy()
+                plot_data['cost_per_unit'] = plot_data['monto_odc'] / plot_data['cant_prod_odc']
                 
-                # Calculate completion ratio as percentage
-                plot_data['completion_ratio'] = np.minimum((plot_data['cant_recibida'] / 
-                                                        plot_data['cant_prod_odc']) * 100, 100)
+                # Remove outliers (greater than 95th percentile)
+                upper_limit = np.percentile(plot_data['cost_per_unit'].dropna(), 95)
+                plot_data = plot_data[plot_data['cost_per_unit'] <= upper_limit]
                 
-                # Create histogram with KDE
-                sns.histplot(plot_data['completion_ratio'], kde=True, ax=ax, bins=30, 
-                            color='#2ecc71', alpha=0.7)
+                # Group by category
+                category_cost = plot_data.groupby('Categoria')['cost_per_unit'].mean().sort_values(ascending=False).head(10)
                 
-                # Add vertical line at 100% (fully completed orders)
-                ax.axvline(x=100, color='blue', linestyle='--', alpha=0.7)
+                # Create bar chart
+                fig, ax = plt.subplots(figsize=(10, 6))
+                bars = category_cost.plot(kind='bar', ax=ax, color=sns.color_palette('viridis', len(category_cost)))
                 
-                ax.set_title('Distribution of Order Completion Ratio', fontsize=16)
-                ax.set_xlabel('Completion Ratio (%)', fontsize=14)
-                ax.set_ylabel('Frequency', fontsize=14)
+                # Add data labels
+                for i, bar in enumerate(ax.patches):
+                    height = bar.get_height()
+                    ax.text(bar.get_x() + bar.get_width()/2., height + 0.1,
+                        f'${height:.2f}',
+                        ha='center', va='bottom', rotation=0, fontsize=9)
                 
-                # Annotate
-                mean_completion = plot_data['completion_ratio'].mean()
-                ax.text(50, ax.get_ylim()[1] * 0.9, 
-                        f'Mean: {mean_completion:.1f}%', 
-                        color='darkgreen', fontsize=12, ha='center')
+                ax.set_title('Average Cost per Unit by Category', fontsize=16)
+                ax.set_xlabel('Category', fontsize=14)
+                ax.set_ylabel('Cost per Unit ($)', fontsize=14)
+                plt.xticks(rotation=45, ha='right')
             else:
                 # If columns don't exist, create a placeholder
-                ax.text(0.5, 0.5, 'Order completion data not available', 
+                fig, ax = plt.subplots(figsize=(10, 6))
+                ax.text(0.5, 0.5, 'Cost data not available', 
                         ha='center', va='center', fontsize=14)
                 ax.set_xticks([])
                 ax.set_yticks([])
@@ -1340,38 +1341,48 @@ def main():
             st.pyplot(fig)
 
         with col2:
-            # Plot delivery days vs OTIF rate
-            if 'delivery_days' in data.columns and 'OTIF' in data.columns:
-                # Group by delivery days and calculate OTIF rate
-                delivery_otif = data.groupby(pd.cut(data['delivery_days'], 
-                                                    bins=10)).agg({'OTIF': 'mean'}).reset_index()
+            # Order Size vs Cost Efficiency
+            if 'monto_odc' in data.columns and 'cant_prod_odc' in data.columns:
+                # Calculate cost per unit
+                plot_data = data.copy()
+                plot_data['cost_per_unit'] = plot_data['monto_odc'] / plot_data['cant_prod_odc']
                 
-                # Convert to percentages
-                delivery_otif['OTIF'] = delivery_otif['OTIF'] * 100
+                # Remove outliers
+                upper_limit_cost = np.percentile(plot_data['cost_per_unit'].dropna(), 95)
+                upper_limit_qty = np.percentile(plot_data['cant_prod_odc'].dropna(), 95)
+                plot_data = plot_data[(plot_data['cost_per_unit'] <= upper_limit_cost) & 
+                                    (plot_data['cant_prod_odc'] <= upper_limit_qty)]
                 
-                # Format the bin labels to be more readable
-                delivery_otif['delivery_days'] = delivery_otif['delivery_days'].astype(str)
+                # Bin order quantities into groups
+                plot_data['quantity_bin'] = pd.qcut(plot_data['cant_prod_odc'], 
+                                                q=5, 
+                                                labels=['Very Small', 'Small', 'Medium', 'Large', 'Very Large'])
                 
+                # Group by quantity bin and calculate average cost per unit
+                bin_costs = plot_data.groupby('quantity_bin')['cost_per_unit'].mean().reset_index()
+                
+                # Create bar chart
                 fig, ax = plt.subplots(figsize=(10, 6))
-                bars = ax.bar(delivery_otif['delivery_days'], delivery_otif['OTIF'],
-                            color=sns.color_palette('viridis', len(delivery_otif)))
+                order_categories = ['Very Small', 'Small', 'Medium', 'Large', 'Very Large']
+                sorted_data = bin_costs.set_index('quantity_bin').reindex(order_categories).reset_index()
+                
+                bars = ax.bar(sorted_data['quantity_bin'], sorted_data['cost_per_unit'],
+                        color=sns.color_palette('viridis', len(sorted_data)))
                 
                 # Add data labels
                 for bar in bars:
                     height = bar.get_height()
-                    ax.text(bar.get_x() + bar.get_width()/2., height + 1,
-                        f'{height:.1f}%',
+                    ax.text(bar.get_x() + bar.get_width()/2., height + 0.1,
+                        f'${height:.2f}',
                         ha='center', va='bottom', rotation=0, fontsize=9)
                 
-                ax.set_title('OTIF Rate by Delivery Time Range', fontsize=16)
-                ax.set_xlabel('Delivery Days Range', fontsize=14)
-                ax.set_ylabel('OTIF Rate (%)', fontsize=14)
-                ax.set_ylim(0, max(100, delivery_otif['OTIF'].max() + 5))  # Leave room for labels
-                plt.xticks(rotation=45, ha='right')
+                ax.set_title('Cost Efficiency by Order Size', fontsize=16)
+                ax.set_xlabel('Order Size', fontsize=14)
+                ax.set_ylabel('Average Cost per Unit ($)', fontsize=14)
             else:
                 # Create a placeholder if data is not available
                 fig, ax = plt.subplots(figsize=(10, 6))
-                ax.text(0.5, 0.5, 'Delivery days or OTIF data not available', 
+                ax.text(0.5, 0.5, 'Order size or cost data not available', 
                         ha='center', va='center', fontsize=14)
                 ax.set_xticks([])
                 ax.set_yticks([])
