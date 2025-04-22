@@ -153,13 +153,13 @@ def create_stylish_sidebar(data):
     
     # Navigation options with icons
     pages_with_icons = [
-        "📊 Dashboard",
-        "🔮 OTIF Prediction",
-        "🏭 Supplier Analysis",
-        "📦 Product Analysis",
-        "🔗 Correlation Analysis",
         "📋 Project Overview",
-        "💼 Power BI Dashboard"
+        "📊 Dashboard",
+        "💼 Power BI Dashboard",
+        "🔗 Correlation Analysis",
+        "🏭 Supplier Analysis",
+        "📦 Product Analysis", 
+        "🔮 OTIF Prediction"
     ]
     
     selection = st.sidebar.radio("Navigation", pages_with_icons, label_visibility="collapsed")
@@ -953,7 +953,39 @@ def main():
     selection = create_stylish_sidebar(data)
     
     # Page content based on selection
-    if selection == "Dashboard":
+    if selection == "Project Overview":
+        st.header('Project Objectives')
+        
+        st.write('''
+        This project contains a comprehensive analysis of supply chain data using Power BI and Python. The project includes interactive visualizations, key metrics, detailed reports, and a machine learning model to predict OTIF (On Time In Full) delivery status.
+
+        ### Objectives
+        - 📊 **Provide an interactive and detailed analysis of supply chain metrics.**
+        - 📈 **Support strategic decision making with key performance indicators (KPIs).**
+        - 🔍 **Identify patterns and trends over time.**
+        - 🏭 **Analyze the performance of suppliers and products.**
+        - 💡 **Enhance data-driven decision making.**
+        - 🚀 **Improve supply chain efficiency and effectiveness.**
+        - 🔮 **Predict future delivery performance using machine learning.**
+        - ⚠️ **Enable proactive management of supply chain risks.**
+        - 🔄 **Foster continuous improvement in supply chain processes.**
+        ''')
+        
+        st.header('Development Process')
+        st.write('''
+        ### ETL Process
+        - **Extraction**: 📥 Data obtained from various sources, primarily Excel files.
+        - **Transformation**: 🔄 Data cleaning, normalization, and feature engineering.
+        - **Load**: 🚀 Integration of the transformed data for analysis and visualization.
+
+        ### Machine Learning Model
+        - **Data Preparation**: Feature selection and preprocessing.
+        - **Model Selection**: Comparison of multiple classification algorithms.
+        - **Training & Validation**: Model training with cross-validation.
+        - **Deployment**: Implementation of the model in this interactive application.
+        ''')
+
+    elif selection == "Dashboard":
         # Display key metrics
         display_key_metrics(data)
         
@@ -1013,54 +1045,7 @@ def main():
             ax.set_ylabel('Count', fontsize=14)
             plt.tight_layout()
             st.pyplot(fig)
-    
-    elif selection == "OTIF Prediction":
-        if model is None:
-            st.error("ML model not found. Please ensure the model file exists.")
-        else:
-            create_prediction_form(data, model)
-    
-    elif selection == "Supplier Analysis":
-        create_supplier_analysis(data)
-    
-    elif selection == "Product Analysis":
-        create_product_analysis(data)
-    
-    elif selection == "Correlation Analysis":
-        create_correlation_analysis(data)
 
-    elif selection == "Project Overview":
-        st.header('Project Objectives')
-        
-        st.write('''
-        This project contains a comprehensive analysis of supply chain data using Power BI and Python. The project includes interactive visualizations, key metrics, detailed reports, and a machine learning model to predict OTIF (On Time In Full) delivery status.
-
-        ### Objectives
-        - 📊 **Provide an interactive and detailed analysis of supply chain metrics.**
-        - 📈 **Support strategic decision making with key performance indicators (KPIs).**
-        - 🔍 **Identify patterns and trends over time.**
-        - 🏭 **Analyze the performance of suppliers and products.**
-        - 💡 **Enhance data-driven decision making.**
-        - 🚀 **Improve supply chain efficiency and effectiveness.**
-        - 🔮 **Predict future delivery performance using machine learning.**
-        - ⚠️ **Enable proactive management of supply chain risks.**
-        - 🔄 **Foster continuous improvement in supply chain processes.**
-        ''')
-        
-        st.header('Development Process')
-        st.write('''
-        ### ETL Process
-        - **Extraction**: 📥 Data obtained from various sources, primarily Excel files.
-        - **Transformation**: 🔄 Data cleaning, normalization, and feature engineering.
-        - **Load**: 🚀 Integration of the transformed data for analysis and visualization.
-
-        ### Machine Learning Model
-        - **Data Preparation**: Feature selection and preprocessing.
-        - **Model Selection**: Comparison of multiple classification algorithms.
-        - **Training & Validation**: Model training with cross-validation.
-        - **Deployment**: Implementation of the model in this interactive application.
-        ''')
-    
     elif selection == "Power BI Dashboard":
         st.header('Power BI Dashboard')
         st.write('''
@@ -1073,6 +1058,21 @@ def main():
         st.image(os.path.join('app', 'image_3.png'), caption='Products: Monitoring and analysis of the different products', use_container_width=True)
 
         display_video(os.path.join('app', 'video.mp4'))
+
+    elif selection == "Correlation Analysis":
+        create_correlation_analysis(data)
+
+    elif selection == "Supplier Analysis":
+        create_supplier_analysis(data)
+
+    elif selection == "Product Analysis":
+        create_product_analysis(data)
+
+    elif selection == "OTIF Prediction":
+        if model is None:
+            st.error("ML model not found. Please ensure the model file exists.")
+        else:
+            create_prediction_form(data, model)
 
     # Footer
     st.markdown("""
