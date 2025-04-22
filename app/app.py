@@ -951,36 +951,253 @@ def main():
     
     # Page content based on selection
     if selection == "Project Overview":
-        st.header('Project Objectives')
+        # Custom CSS for project overview page
+        st.markdown("""
+        <style>
+            .project-title {
+                text-align: center;
+                font-size: 2.8rem;
+                color: #3498db;
+                margin-bottom: 1.5rem;
+                padding-bottom: 0.5rem;
+                border-bottom: 2px solid #3498db;
+            }
+            .card {
+                border: 1px solid #e0e0e0;
+                border-radius: 10px;
+                padding: 20px;
+                margin-bottom: 20px;
+                background-color: white;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            }
+            .card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            }
+            .card-title {
+                color: #2980b9;
+                font-size: 1.5rem;
+                margin-bottom: 15px;
+                border-bottom: 1px solid #eaeaea;
+                padding-bottom: 10px;
+            }
+            .tech-badge {
+                display: inline-block;
+                background-color: #e0e0e0;
+                color: #333;
+                padding: 5px 10px;
+                border-radius: 15px;
+                margin: 5px;
+                font-size: 0.9rem;
+            }
+            .github-button {
+                display: inline-flex;
+                align-items: center;
+                background-color: #333;
+                color: white !important;
+                padding: 10px 20px;
+                border-radius: 5px;
+                text-decoration: none;
+                font-weight: bold;
+                margin-top: 20px;
+                transition: background-color 0.3s;
+            }
+            .github-button:hover {
+                background-color: #2c3e50;
+            }
+            .timeline {
+                position: relative;
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 20px 0;
+            }
+            .timeline-item {
+                padding: 10px 40px;
+                position: relative;
+                background-color: inherit;
+                width: 100%;
+            }
+            .timeline-item::after {
+                content: '';
+                position: absolute;
+                width: 20px;
+                height: 20px;
+                background-color: #3498db;
+                border: 4px solid white;
+                top: 15px;
+                border-radius: 50%;
+                z-index: 1;
+                left: 10px;
+            }
+            .timeline-content {
+                padding: 15px 15px;
+                background-color: #f9f9f9;
+                position: relative;
+                border-radius: 6px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                border-left: 4px solid #3498db;
+            }
+            .phase-title {
+                font-weight: bold;
+                color: #2980b9;
+            }
+        </style>
+        """, unsafe_allow_html=True)
         
-        st.write('''
-        This project contains a comprehensive analysis of supply chain data using Power BI and Python. The project includes interactive visualizations, key metrics, detailed reports, and a machine learning model to predict OTIF (On Time In Full) delivery status.
-
-        ### Objectives
-        - 📊 **Provide an interactive and detailed analysis of supply chain metrics.**
-        - 📈 **Support strategic decision making with key performance indicators (KPIs).**
-        - 🔍 **Identify patterns and trends over time.**
-        - 🏭 **Analyze the performance of suppliers and products.**
-        - 💡 **Enhance data-driven decision making.**
-        - 🚀 **Improve supply chain efficiency and effectiveness.**
-        - 🔮 **Predict future delivery performance using machine learning.**
-        - ⚠️ **Enable proactive management of supply chain risks.**
-        - 🔄 **Foster continuous improvement in supply chain processes.**
-        ''')
+        # Project title
+        st.markdown('<div class="project-title">Supply Chain Analytics & Prediction Project</div>', unsafe_allow_html=True)
         
-        st.header('Development Process')
-        st.write('''
-        ### ETL Process
-        - **Extraction**: 📥 Data obtained from various sources, primarily Excel files.
-        - **Transformation**: 🔄 Data cleaning, normalization, and feature engineering.
-        - **Load**: 🚀 Integration of the transformed data for analysis and visualization.
-
-        ### Machine Learning Model
-        - **Data Preparation**: Feature selection and preprocessing.
-        - **Model Selection**: Comparison of multiple classification algorithms.
-        - **Training & Validation**: Model training with cross-validation.
-        - **Deployment**: Implementation of the model in this interactive application.
-        ''')
+        # Introduction with columns for text and image
+        col1, col2 = st.columns([3, 2])
+        
+        with col1:
+            st.markdown("""
+            This interactive platform provides comprehensive analysis of supply chain data using Python and Power BI. 
+            It combines data visualization, statistical analysis and machine learning to deliver actionable insights
+            for optimizing supply chain operations.
+            """)
+        
+        with col2:
+            # Project mascot or representative image
+            st.image(os.path.join('app', 'funko.png'), width=200)
+        
+        # GitHub button
+        st.markdown("""
+        <a href="https://github.com/Jotis86/Supply-Chain-Project" class="github-button">
+            <svg height="24" width="24" viewBox="0 0 16 16" version="1.1">
+                <path fill="white" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
+            </svg>
+            &nbsp;View on GitHub
+        </a>
+        """, unsafe_allow_html=True)
+        
+        # Objectives card
+        st.markdown('<div class="card">', unsafe_allow_html=True)
+        st.markdown('<div class="card-title">🎯 Project Objectives</div>', unsafe_allow_html=True)
+        
+        # Two columns for objectives
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            st.markdown("""
+            - 📊 **Interactive metrics analysis**
+            - 📈 **KPI-driven decision support**
+            - 🔍 **Pattern & trend identification**
+            - 🏭 **Supplier performance tracking**
+            """)
+        
+        with col2:
+            st.markdown("""
+            - 💡 **Data-driven decision making**
+            - 🚀 **Supply chain optimization**
+            - 🔮 **ML-powered delivery prediction**
+            - ⚠️ **Proactive risk management**
+            """)
+        
+        st.markdown('</div>', unsafe_allow_html=True)
+        
+        # Project timeline
+        st.markdown('<div class="card">', unsafe_allow_html=True)
+        st.markdown('<div class="card-title">⏱️ Project Timeline</div>', unsafe_allow_html=True)
+        
+        st.markdown('<div class="timeline">', unsafe_allow_html=True)
+        
+        # Timeline items
+        phases = [
+            {"title": "Data Collection & Cleaning", "desc": "Gathering, preprocessing and cleaning supply chain data from various sources"},
+            {"title": "Exploratory Data Analysis", "desc": "Statistical analysis and visualization to understand data patterns and relationships"},
+            {"title": "Feature Engineering", "desc": "Creating relevant features for predictive modeling and analytics"},
+            {"title": "Model Development", "desc": "Building and validating machine learning models for OTIF prediction"},
+            {"title": "Dashboard Implementation", "desc": "Creating interactive visualizations and analytics dashboard"},
+            {"title": "Deployment & Testing", "desc": "Deploying the application and ensuring functionality"}
+        ]
+        
+        for phase in phases:
+            st.markdown(f"""
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="phase-title">{phase["title"]}</div>
+                    <p>{phase["desc"]}</p>
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+        
+        st.markdown('</div>', unsafe_allow_html=True)
+        st.markdown('</div>', unsafe_allow_html=True)
+        
+        # Technologies used
+        st.markdown('<div class="card">', unsafe_allow_html=True)
+        st.markdown('<div class="card-title">🛠️ Technology Stack</div>', unsafe_allow_html=True)
+        
+        col1, col2, col3 = st.columns(3)
+        
+        with col1:
+            st.markdown("""
+            **Data Processing:**
+            <div>
+                <span class="tech-badge">Python</span>
+                <span class="tech-badge">Pandas</span>
+                <span class="tech-badge">NumPy</span>
+            </div>
+            """, unsafe_allow_html=True)
+        
+        with col2:
+            st.markdown("""
+            **Visualization:**
+            <div>
+                <span class="tech-badge">Matplotlib</span>
+                <span class="tech-badge">Seaborn</span>
+                <span class="tech-badge">Power BI</span>
+            </div>
+            """, unsafe_allow_html=True)
+        
+        with col3:
+            st.markdown("""
+            **Machine Learning:**
+            <div>
+                <span class="tech-badge">Scikit-learn</span>
+                <span class="tech-badge">Joblib</span>
+                <span class="tech-badge">SMOTE</span>
+            </div>
+            """, unsafe_allow_html=True)
+        
+        st.markdown('</div>', unsafe_allow_html=True)
+        
+        # Interactive feature
+        st.markdown('<div class="card">', unsafe_allow_html=True)
+        st.markdown('<div class="card-title">🚀 Try the App</div>', unsafe_allow_html=True)
+        
+        st.markdown("""
+        This platform offers several interactive tools to explore and analyze supply chain data:
+        """)
+        
+        # Quick links to different sections of the app
+        col1, col2, col3 = st.columns(3)
+        
+        with col1:
+            if st.button("🔮 Try OTIF Prediction"):
+                st.session_state.current_page = "OTIF Prediction"
+                st.experimental_rerun()
+        
+        with col2:
+            if st.button("📊 View Dashboard"):
+                st.session_state.current_page = "Dashboard"
+                st.experimental_rerun()
+        
+        with col3:
+            if st.button("🔗 Explore Correlations"):
+                st.session_state.current_page = "Correlation Analysis"
+                st.experimental_rerun()
+        
+        st.markdown('</div>', unsafe_allow_html=True)
+        
+        # Contact information or additional resources
+        st.markdown("""
+        <div style="text-align: center; margin-top: 30px; color: #7f8c8d; font-size: 0.9rem;">
+            Developed by Jotis | For questions or suggestions, please reach out via GitHub
+        </div>
+        """, unsafe_allow_html=True)
 
     elif selection == "Dashboard":
         # Display key metrics
