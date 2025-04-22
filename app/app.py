@@ -281,12 +281,8 @@ def display_key_metrics(data):
 def create_prediction_form(data, model):
     st.markdown('<div class="sub-header">OTIF Prediction Tool</div>', unsafe_allow_html=True)
     
-    st.markdown("""
-    <div class="highlight">
-    This tool predicts whether a delivery will be On Time In Full (OTIF) based on order parameters.
-    Fill in the form below to generate a prediction.
-    </div>
-    """, unsafe_allow_html=True)
+    # Information about the prediction tool
+    st.info("This tool predicts whether a delivery will be On Time In Full (OTIF) based on order parameters. Fill in the form below to generate a prediction.")
     
     # Get unique values for categorical fields
     suppliers = sorted(data['nom_prov'].unique())
