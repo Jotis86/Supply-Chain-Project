@@ -1,4 +1,4 @@
-# 📊 Supply Chain Project 📊
+# 📦 Supply Chain Analytics & Prediction Platform
 
 ![Cover Image](app/banner.png)
 
@@ -95,6 +95,37 @@ A comprehensive dashboard with the following charts:
 
 ![Dashboard Image](assets/dashboard_2.png)
 
+## 🤖 Machine Learning Integration
+
+The project now incorporates an advanced machine learning model to predict OTIF (On Time In Full) delivery outcomes:
+
+- **OTIF Prediction Tool**: Interactive interface to forecast delivery success based on order parameters
+- **Category-Filtered Selection**: Smart product selection based on chosen category
+- **Real-time Predictions**: Immediate results with probability scores
+- **Influential Factors**: Automatic identification of key variables affecting prediction outcomes
+- **Similar Orders Analysis**: Contextual information through comparison with historical data
+- **User-Friendly Interface**: Intuitive form design with clear explanations
+
+## 📈 Advanced Analytics
+
+### KPI Framework
+
+The platform now includes a comprehensive KPI framework with detailed metrics:
+
+- **OTIF Rate**: Percentage of orders delivered both On Time and In Full
+- **On-Time Delivery**: Percentage of orders delivered by or before the promised date
+- **Average Delivery Days**: Mean time from order to delivery
+- **Cost Efficiency**: Resource utilization optimization metric with benchmark comparison
+
+### Efficiency Analysis
+
+New analytical capabilities for operational optimization:
+
+- **Delivery Time Analysis**: Distribution and pattern identification for delivery timeframes
+- **Cost Efficiency Analysis**: Cost structure examination by category and order size
+- **Order Fulfillment Analysis**: Completion ratio visualization and performance metrics
+- **Supplier Reliability Scoring**: Composite assessment of supplier performance
+
 ## 📂 Project Structure
 
 - `app/`: Contains the Streamlit application code.
@@ -109,16 +140,61 @@ A comprehensive dashboard with the following charts:
 - `README.md`: The main readme file for the project.
 - `requirements.txt`: Lists the Python dependencies required for the project.
 
-## 🌐 Web App (Streamlit)
+## 🌐 Interactive Web Application
 
-A web application created using Streamlit to provide an interactive interface for the analysis. This web app allows users to explore the supply chain data through various visualizations and interactive dashboards. The application is designed to be user-friendly and accessible, even for non-technical users.
+The project now features a fully functional Streamlit web application with multiple analysis sections:
 
-### Features
-- **Interactive Dashboards**: 📊 Users can interact with the visualizations to gain deeper insights into the supply chain data.
-- **Real-time Updates**: 🔄 The application updates in real-time as users interact with it, providing the most up-to-date information.
-- **User-friendly Interface**: 🖥️ The interface is designed to be intuitive and easy to use, making it accessible to a wide range of users.
-- **Comprehensive Analysis**: 📈 The app includes various types of visualizations such as histograms, pie charts, line plots, box plots, and bar plots, each offering unique insights into different aspects of the data.
-- **Calculated Columns**: 🧮 Additional columns calculated from the original data to enhance the analysis, such as on-time delivery indicators, OTIF (On Time In Full) metrics, and more.
+### Dashboard Section
+- Interactive KPI cards with trend indicators
+- Detailed metric explanations with visual guides
+- Multi-dimensional visualization of order statuses
+- Regional distribution analysis of suppliers and orders
+
+### Supplier Analysis
+- Comprehensive supplier performance evaluation
+- Historical order tracking and pattern identification
+- Time series analysis of supplier metrics
+- Category-specific performance breakdown by supplier
+
+### Product Analysis
+- Product category performance comparison
+- Cost structure visualization by product group
+- Delivery reliability assessment by product type
+- Order volume analysis across categories
+
+### Correlation Analysis
+- Interactive correlation explorer for key metrics
+- Relationship strength visualization between variables
+- Temporal correlation analysis for trend identification
+- Category-based correlation patterns
+
+### Prediction Section
+- ML-powered OTIF prediction tool
+- Scenario testing capabilities for order planning
+- Key factor identification for OTIF optimization
+- Historical comparison with similar orders
+
+## 🔍 Enhanced Visualizations
+
+The project now includes more sophisticated data visualizations:
+
+- **KPI Explanation Cards**: Visual guides explaining metric calculations and business relevance
+- **Distribution Charts**: Statistical visualization of key metrics distribution
+- **Time Series Analysis**: Temporal patterns and trend visualization
+- **Categorical Comparisons**: Side-by-side analysis of categories and suppliers
+- **Cost Structure Charts**: Financial visualization of pricing and cost efficiency
+- **Prediction Results**: Clear visual presentation of ML model outputs
+
+## 🔄 Modern UI/UX Design
+
+The user interface has been completely redesigned:
+
+- **Responsive Layout**: Optimized for different screen sizes
+- **Intuitive Navigation**: Logical flow between analysis sections
+- **Visual Consistency**: Unified color scheme and design language
+- **Interactive Elements**: Dynamic components for user engagement
+- **Explanatory Content**: Contextual information and guidance throughout
+- **Accessibility Features**: Design considerations for broader usability
 
 ### Access the Web App
 You can access the Streamlit web app using the following URL:
@@ -134,6 +210,10 @@ Explore the data and gain valuable insights into the supply chain performance th
 - 📊 Seaborn
 - 📉 Matplotlib
 - 🌐 Streamlit
+- 🤖 Scikit-learn
+- 🧠 Joblib
+- 📏 SciPy
+
 
 ## 📧 Contact
 
