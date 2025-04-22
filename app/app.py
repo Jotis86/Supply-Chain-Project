@@ -1238,7 +1238,7 @@ def main():
             st.pyplot(fig)
         
         # Delivery days distribution
-        st.markdown('<div class="section-header">Delivery Time Analysis</div>', unsafe_allow_html=True)
+        st.markdown('<div class="section-header" style="color: white;">Delivery Time Analysis</div>', unsafe_allow_html=True)
         
         fig, ax = plt.subplots(figsize=(12, 6))
         sns.histplot(data['delivery_days'], kde=True, ax=ax, bins=30, color='skyblue')
