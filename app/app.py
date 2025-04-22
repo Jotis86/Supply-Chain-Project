@@ -89,7 +89,7 @@ def main():
     st.title('Supply Chain Project')
 
     # Display the main image
-    display_main_image(os.path.join('app', 'portada.png'))
+    display_main_image(os.path.join('app', 'banner.png'))
 
     # Load data
     data_file = os.path.join('app', 'cleaned_data.csv')
