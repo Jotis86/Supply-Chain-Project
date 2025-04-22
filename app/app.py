@@ -1235,6 +1235,9 @@ def main():
 
         # Container end
         st.markdown('</div>', unsafe_allow_html=True)
+
+        # Overview visualizations
+        col1, col2 = st.columns(2)
         
         with col1:
             fig, ax = plt.subplots(figsize=(10, 6))
