@@ -45,17 +45,17 @@ This repository contains a comprehensive analysis of supply chain data using Pow
 
 ## 🛠️ Tools Used
 
-- **Power BI**: Enterprise-grade business intelligence platform for creating interactive dashboards, reports, and visualizations with powerful DAX metrics
-- **Python**: Core programming language powering the data processing pipeline, analytical models, and web application
-- **Pandas**: Data manipulation library used for ETL processes, feature engineering, and complex data transformations
-- **NumPy**: Scientific computing library providing support for mathematical operations on large datasets
-- **Seaborn & Matplotlib**: Visualization libraries for creating statistical charts, distribution plots, and custom visualizations
-- **Streamlit**: Web application framework enabling the creation of interactive data applications with minimal code
-- **Scikit-learn**: Machine learning library used to build and train the OTIF prediction model
-- **Joblib**: Tool for model persistence and serialization of machine learning pipelines
-- **SciPy**: Scientific computing library used for additional statistical functions and analysis
-- **Git**: Version control system for tracking changes and collaborative development
-- **Jupyter Notebooks**: Interactive computing environment used for data exploration and model prototyping
+- 🔍 **Power BI**: Enterprise-grade business intelligence platform for creating interactive dashboards, reports, and visualizations with powerful DAX metrics
+- 🐍 **Python**: Core programming language powering the data processing pipeline, analytical models, and web application
+- 🐼 **Pandas**: Data manipulation library used for ETL processes, feature engineering, and complex data transformations
+- 🔢 **NumPy**: Scientific computing library providing support for mathematical operations on large datasets
+- 📊 **Seaborn & Matplotlib**: Visualization libraries for creating statistical charts, distribution plots, and custom visualizations
+- 🌊 **Streamlit**: Web application framework enabling the creation of interactive data applications with minimal code
+- 🧠 **Scikit-learn**: Machine learning library used to build and train the OTIF prediction model
+- 💾 **Joblib**: Tool for model persistence and serialization of machine learning pipelines
+- 📐 **SciPy**: Scientific computing library used for additional statistical functions and analysis
+- 🔄 **Git**: Version control system for tracking changes and collaborative development
+- 📓 **Jupyter Notebooks**: Interactive computing environment used for data exploration and model prototyping
 
 ## 🔄 Development Process
 
@@ -118,32 +118,32 @@ A comprehensive dashboard with the following charts:
 
 The project now incorporates an advanced machine learning model to predict OTIF (On Time In Full) delivery outcomes:
 
-- **OTIF Prediction Tool**: Interactive interface to forecast delivery success based on order parameters
-- **Category-Filtered Selection**: Smart product selection based on chosen category
-- **Real-time Predictions**: Immediate results with probability scores
-- **Influential Factors**: Automatic identification of key variables affecting prediction outcomes
-- **Similar Orders Analysis**: Contextual information through comparison with historical data
-- **User-Friendly Interface**: Intuitive form design with clear explanations
+- 🔮 **OTIF Prediction Tool**: Interactive interface to forecast delivery success based on order parameters
+- 🗃️ **Category-Filtered Selection**: Smart product selection based on chosen category
+- ⚡ **Real-time Predictions**: Immediate results with probability scores
+- 🔍 **Influential Factors**: Automatic identification of key variables affecting prediction outcomes
+- 📊 **Similar Orders Analysis**: Contextual information through comparison with historical data
+- 😊 **User-Friendly Interface**: Intuitive form design with clear explanations
 
 ## 📈 Advanced Analytics
 
-### KPI Framework
+### 📊 KPI Framework
 
 The platform now includes a comprehensive KPI framework with detailed metrics:
 
-- **OTIF Rate**: Percentage of orders delivered both On Time and In Full
-- **On-Time Delivery**: Percentage of orders delivered by or before the promised date
-- **Average Delivery Days**: Mean time from order to delivery
-- **Cost Efficiency**: Resource utilization optimization metric with benchmark comparison
+- ✅ **OTIF Rate**: Percentage of orders delivered both On Time and In Full
+- 🕒 **On-Time Delivery**: Percentage of orders delivered by or before the promised date
+- 📅 **Average Delivery Days**: Mean time from order to delivery
+- 💰 **Cost Efficiency**: Resource utilization optimization metric with benchmark comparison
 
-### Efficiency Analysis
+### 📊 Efficiency Analysis
 
 New analytical capabilities for operational optimization:
 
-- **Delivery Time Analysis**: Distribution and pattern identification for delivery timeframes
-- **Cost Efficiency Analysis**: Cost structure examination by category and order size
-- **Order Fulfillment Analysis**: Completion ratio visualization and performance metrics
-- **Supplier Reliability Scoring**: Composite assessment of supplier performance
+- ⏱️ **Delivery Time Analysis**: Distribution and pattern identification for delivery timeframes
+- 💵 **Cost Efficiency Analysis**: Cost structure examination by category and order size
+- 📦 **Order Fulfillment Analysis**: Completion ratio visualization and performance metrics
+- ⭐ **Supplier Reliability Scoring**: Composite assessment of supplier performance
 
 ## 📂 Project Structure
 
@@ -163,57 +163,57 @@ New analytical capabilities for operational optimization:
 
 The project now features a fully functional Streamlit web application with multiple analysis sections:
 
-### Dashboard Section
-- Interactive KPI cards with trend indicators
-- Detailed metric explanations with visual guides
-- Multi-dimensional visualization of order statuses
-- Regional distribution analysis of suppliers and orders
+### 📊 Dashboard Section
+- 📈 Interactive KPI cards with trend indicators
+- 🔍 Detailed metric explanations with visual guides
+- 🧩 Multi-dimensional visualization of order statuses
+- 🌍 Regional distribution analysis of suppliers and orders
 
-### Supplier Analysis
-- Comprehensive supplier performance evaluation
-- Historical order tracking and pattern identification
-- Time series analysis of supplier metrics
-- Category-specific performance breakdown by supplier
+### 🏢 Supplier Analysis
+- ⭐ Comprehensive supplier performance evaluation
+- 📜 Historical order tracking and pattern identification
+- 📆 Time series analysis of supplier metrics
+- 📋 Category-specific performance breakdown by supplier
 
-### Product Analysis
-- Product category performance comparison
-- Cost structure visualization by product group
-- Delivery reliability assessment by product type
-- Order volume analysis across categories
+### 📦 Product Analysis
+- 🔄 Product category performance comparison
+- 💰 Cost structure visualization by product group
+- ✅ Delivery reliability assessment by product type
+- 📊 Order volume analysis across categories
 
-### Correlation Analysis
-- Interactive correlation explorer for key metrics
-- Relationship strength visualization between variables
-- Temporal correlation analysis for trend identification
-- Category-based correlation patterns
+### 🔗 Correlation Analysis
+- 🔍 Interactive correlation explorer for key metrics
+- 📏 Relationship strength visualization between variables
+- ⏱️ Temporal correlation analysis for trend identification
+- 📑 Category-based correlation patterns
 
-### Prediction Section
-- ML-powered OTIF prediction tool
-- Scenario testing capabilities for order planning
-- Key factor identification for OTIF optimization
-- Historical comparison with similar orders
+### 🔮 Prediction Section
+- 🤖 ML-powered OTIF prediction tool
+- 🧪 Scenario testing capabilities for order planning
+- 🎯 Key factor identification for OTIF optimization
+- 🔄 Historical comparison with similar orders
 
 ## 🔍 Enhanced Visualizations
 
 The project now includes more sophisticated data visualizations:
 
-- **KPI Explanation Cards**: Visual guides explaining metric calculations and business relevance
-- **Distribution Charts**: Statistical visualization of key metrics distribution
-- **Time Series Analysis**: Temporal patterns and trend visualization
-- **Categorical Comparisons**: Side-by-side analysis of categories and suppliers
-- **Cost Structure Charts**: Financial visualization of pricing and cost efficiency
-- **Prediction Results**: Clear visual presentation of ML model outputs
+- 📝 **KPI Explanation Cards**: Visual guides explaining metric calculations and business relevance
+- 📊 **Distribution Charts**: Statistical visualization of key metrics distribution
+- 📈 **Time Series Analysis**: Temporal patterns and trend visualization
+- 📋 **Categorical Comparisons**: Side-by-side analysis of categories and suppliers
+- 💲 **Cost Structure Charts**: Financial visualization of pricing and cost efficiency
+- 🎯 **Prediction Results**: Clear visual presentation of ML model outputs
 
 ## 🔄 Modern UI/UX Design
 
 The user interface has been completely redesigned:
 
-- **Responsive Layout**: Optimized for different screen sizes
-- **Intuitive Navigation**: Logical flow between analysis sections
-- **Visual Consistency**: Unified color scheme and design language
-- **Interactive Elements**: Dynamic components for user engagement
-- **Explanatory Content**: Contextual information and guidance throughout
-- **Accessibility Features**: Design considerations for broader usability
+- 📱 **Responsive Layout**: Optimized for different screen sizes
+- 🧭 **Intuitive Navigation**: Logical flow between analysis sections
+- 🎨 **Visual Consistency**: Unified color scheme and design language
+- 🖱️ **Interactive Elements**: Dynamic components for user engagement
+- 💬 **Explanatory Content**: Contextual information and guidance throughout
+- ♿ **Accessibility Features**: Design considerations for broader usability
 
 ### Access the Web App
 You can access the Streamlit web app using the following URL:
