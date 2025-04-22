@@ -1294,33 +1294,44 @@ def main():
             st.pyplot(fig)
 
         # Create two columns for the efficiency visualizations
+        # Add a section header for the order fulfillment analysis
+        st.markdown('<div class="section-header" style="color: white;">Order Fulfillment Analysis</div>', unsafe_allow_html=True)
+
+        # Create two columns for the fulfillment visualizations
         col1, col2 = st.columns(2)
 
         with col1:
-            # Histogram of delivery time differences
+            # Calculate and plot order completion by quantity
             fig, ax = plt.subplots(figsize=(10, 6))
             
-            # Ensure the delivery_time_diff column exists
-            if 'delivery_time_diff' in data.columns:
+            # Calculate completion ratio (received/ordered)
+            if 'cant_prod_odc' in data.columns and 'cant_recibida' in data.columns:
+                # Create a safe copy to avoid modifying original data
+                plot_data = data.copy()
+                
+                # Calculate completion ratio as percentage
+                plot_data['completion_ratio'] = np.minimum((plot_data['cant_recibida'] / 
+                                                        plot_data['cant_prod_odc']) * 100, 100)
+                
                 # Create histogram with KDE
-                sns.histplot(data['delivery_time_diff'], kde=True, ax=ax, bins=30, 
-                            color='#3498db', alpha=0.7)
-                ax.axvline(x=0, color='red', linestyle='--', alpha=0.7)
-                ax.set_title('Distribution of Delivery Time Differences', fontsize=16)
-                ax.set_xlabel('Days (+Late / -Early)', fontsize=14)
+                sns.histplot(plot_data['completion_ratio'], kde=True, ax=ax, bins=30, 
+                            color='#2ecc71', alpha=0.7)
+                
+                # Add vertical line at 100% (fully completed orders)
+                ax.axvline(x=100, color='blue', linestyle='--', alpha=0.7)
+                
+                ax.set_title('Distribution of Order Completion Ratio', fontsize=16)
+                ax.set_xlabel('Completion Ratio (%)', fontsize=14)
                 ax.set_ylabel('Frequency', fontsize=14)
-                # Add text annotations
-                ax.text(data['delivery_time_diff'].min() * 0.8, 
-                        ax.get_ylim()[1] * 0.9, 
-                        'Early Deliveries', 
-                        color='green', fontsize=12, ha='center')
-                ax.text(data['delivery_time_diff'].max() * 0.8, 
-                        ax.get_ylim()[1] * 0.9, 
-                        'Late Deliveries', 
-                        color='red', fontsize=12, ha='center')
+                
+                # Annotate
+                mean_completion = plot_data['completion_ratio'].mean()
+                ax.text(50, ax.get_ylim()[1] * 0.9, 
+                        f'Mean: {mean_completion:.1f}%', 
+                        color='darkgreen', fontsize=12, ha='center')
             else:
-                # If column doesn't exist, create a placeholder
-                ax.text(0.5, 0.5, 'Delivery time difference data not available', 
+                # If columns don't exist, create a placeholder
+                ax.text(0.5, 0.5, 'Order completion data not available', 
                         ha='center', va='center', fontsize=14)
                 ax.set_xticks([])
                 ax.set_yticks([])
@@ -1329,26 +1340,21 @@ def main():
             st.pyplot(fig)
 
         with col2:
-            # Calculate efficiency by category
-            if 'delivery_time_diff' in data.columns and 'Categoria' in data.columns:
-                # Group by category and calculate average absolute delivery time difference
-                efficiency_by_category = data.groupby('Categoria').agg({
-                    'delivery_time_diff': lambda x: abs(x).mean()
-                }).reset_index()
+            # Plot delivery days vs OTIF rate
+            if 'delivery_days' in data.columns and 'OTIF' in data.columns:
+                # Group by delivery days and calculate OTIF rate
+                delivery_otif = data.groupby(pd.cut(data['delivery_days'], 
+                                                    bins=10)).agg({'OTIF': 'mean'}).reset_index()
                 
-                # Convert to efficiency score (lower difference = higher score)
-                efficiency_by_category['Efficiency Score'] = 100 - np.minimum(
-                    efficiency_by_category['delivery_time_diff'] * 5, 50)
+                # Convert to percentages
+                delivery_otif['OTIF'] = delivery_otif['OTIF'] * 100
                 
-                # Sort by efficiency score
-                efficiency_by_category = efficiency_by_category.sort_values(
-                    'Efficiency Score', ascending=False).head(10)
+                # Format the bin labels to be more readable
+                delivery_otif['delivery_days'] = delivery_otif['delivery_days'].astype(str)
                 
-                # Create bar chart
                 fig, ax = plt.subplots(figsize=(10, 6))
-                bars = ax.bar(efficiency_by_category['Categoria'], 
-                        efficiency_by_category['Efficiency Score'],
-                        color=sns.color_palette('viridis', len(efficiency_by_category)))
+                bars = ax.bar(delivery_otif['delivery_days'], delivery_otif['OTIF'],
+                            color=sns.color_palette('viridis', len(delivery_otif)))
                 
                 # Add data labels
                 for bar in bars:
@@ -1357,29 +1363,21 @@ def main():
                         f'{height:.1f}%',
                         ha='center', va='bottom', rotation=0, fontsize=9)
                 
-                ax.set_title('Delivery Time Efficiency by Category', fontsize=16)
-                ax.set_xlabel('Category', fontsize=14)
-                ax.set_ylabel('Efficiency Score (%)', fontsize=14)
-                ax.set_ylim(0, 105)  # Leave room for data labels
+                ax.set_title('OTIF Rate by Delivery Time Range', fontsize=16)
+                ax.set_xlabel('Delivery Days Range', fontsize=14)
+                ax.set_ylabel('OTIF Rate (%)', fontsize=14)
+                ax.set_ylim(0, max(100, delivery_otif['OTIF'].max() + 5))  # Leave room for labels
                 plt.xticks(rotation=45, ha='right')
             else:
                 # Create a placeholder if data is not available
                 fig, ax = plt.subplots(figsize=(10, 6))
-                ax.text(0.5, 0.5, 'Category efficiency data not available', 
+                ax.text(0.5, 0.5, 'Delivery days or OTIF data not available', 
                         ha='center', va='center', fontsize=14)
                 ax.set_xticks([])
                 ax.set_yticks([])
             
             plt.tight_layout()
             st.pyplot(fig)
-
-        # Add a summary of findings
-        st.info("""
-        The Delivery Efficiency Analysis shows:
-        1. The distribution of delivery time differences helps identify if deliveries tend to be early, on-time, or late
-        2. The efficiency score by category highlights which product categories have the most predictable delivery times
-        3. Categories with lower efficiency scores may require supply chain process improvements
-        """)
 
     elif selection == "Power BI Dashboard":
         st.header('Power BI Dashboard')
