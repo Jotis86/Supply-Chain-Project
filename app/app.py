@@ -873,7 +873,7 @@ def main():
     # Footer
     st.markdown("""
     <div class="footer">
-        Supply Chain Analytics & Prediction Platform | Developed with Streamlit | &copy; 2023
+        Supply Chain Analytics & Prediction Platform | Developed by Jotis with love | &copy; 2025
     </div>
     """, unsafe_allow_html=True)
 
