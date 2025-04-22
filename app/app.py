@@ -485,7 +485,12 @@ def create_prediction_form(data, model):
     categories = sorted(data['Categoria'].unique())
     subcategories = sorted(data['Subcategoria'].unique())
     product_units = sorted(data['und_prod'].unique())
-    products = sorted(data['descrip_prod'].unique())
+    
+    # We'll set up category first, then filter products
+    selected_category = st.selectbox("Category", categories)
+    
+    # Filter products based on selected category
+    filtered_products = data[data['Categoria'] == selected_category]['descrip_prod'].unique()
     
     with st.form("prediction_form"):
         # Basic order information (category 1)
@@ -494,14 +499,16 @@ def create_prediction_form(data, model):
         
         with col1:
             selected_supplier = st.selectbox("Supplier", suppliers)
-            selected_product = st.selectbox("Product", products)
+            # Product selection is now filtered by category
+            selected_product = st.selectbox("Product", sorted(filtered_products))
             # First required model feature
             quantity = st.number_input("Quantity Ordered (cant_prod_odc)", min_value=1, value=100)
             # Second required model feature
             unit_price = st.number_input("Unit Price (prec_unt)", min_value=0.1, value=50.0, step=0.1)
             
         with col2:
-            selected_category = st.selectbox("Category", categories)
+            # Category is now pre-selected above the form
+            st.markdown(f"**Selected Category:** {selected_category}")
             selected_unit = st.selectbox("Unit", product_units)
             # Third required model feature (calculated)
             order_amount = st.number_input("Order Amount (monto_odc)", 
