@@ -486,72 +486,78 @@ def create_prediction_form(data, model):
     subcategories = sorted(data['Subcategoria'].unique())
     product_units = sorted(data['und_prod'].unique())
     
-    # Initialize session state for category if it doesn't exist
-    if 'selected_category' not in st.session_state:
-        st.session_state.selected_category = categories[0]
-    
-    # Create a container for category selection outside the form
-    category_container = st.container()
-    
-    with category_container:
-        # This selection will update the session state
-        new_category = st.selectbox(
-            "Select Category First", 
-            categories,
-            index=categories.index(st.session_state.selected_category) if st.session_state.selected_category in categories else 0
-        )
-        
-        # Update session state if category changed
-        if new_category != st.session_state.selected_category:
-            st.session_state.selected_category = new_category
-            st.experimental_rerun()
+    # We'll set up category first, then filter products
+    selected_category = st.selectbox("Category", categories)
     
     # Filter products based on selected category
-    filtered_products = data[data['Categoria'] == st.session_state.selected_category]['descrip_prod'].unique()
+    filtered_products = data[data['Categoria'] == selected_category]['descrip_prod'].unique()
     
     with st.form("prediction_form"):
-        # Basic order information
-        st.subheader("Order Details")
+        # Basic order information (category 1)
+        st.subheader("Basic Order Information")
         col1, col2 = st.columns(2)
         
         with col1:
             selected_supplier = st.selectbox("Supplier", suppliers)
+            # Product selection is now filtered by category
             selected_product = st.selectbox("Product", sorted(filtered_products))
-            selected_unit = st.selectbox("Unit", product_units)
-            quantity = st.number_input("Quantity Ordered", min_value=1, value=100)
-            unit_price = st.number_input("Unit Price", min_value=0.1, value=50.0, step=0.1)
+            # First required model feature
+            quantity = st.number_input("Quantity Ordered (cant_prod_odc)", min_value=1, value=100)
+            # Second required model feature
+            unit_price = st.number_input("Unit Price (prec_unt)", min_value=0.1, value=50.0, step=0.1)
             
         with col2:
-            order_amount = st.number_input("Order Amount", 
+            # Category is now pre-selected above the form
+            st.markdown(f"**Selected Category:** {selected_category}")
+            selected_unit = st.selectbox("Unit", product_units)
+            # Third required model feature (calculated)
+            order_amount = st.number_input("Order Amount (monto_odc)", 
                                         value=quantity*unit_price, 
                                         help="Total order amount (quantity × price)")
-            product_cost = st.number_input("Product Cost", 
+            # Sixth required model feature
+            product_cost = st.number_input("Product Cost (costo_prod)", 
                                          value=round(unit_price*0.8, 2),
                                          help="Cost of producing/acquiring the product")
-            received_quantity = st.number_input("Quantity Received", 
-                                             min_value=0, max_value=None, value=quantity,
-                                             help="Actual quantity received")
-            received_amount = st.number_input("Amount Received",
-                                           value=received_quantity*unit_price,
-                                           help="Total amount received")
-            reception_days = st.number_input("Reception Days", min_value=1, value=30,
-                                          help="Days between order and reception")
-                                          
-        # Additional required fields
-        st.subheader("Additional Details")
+        
+        # Delivery details (category 2)
+        st.subheader("Delivery Details")
         col1, col2 = st.columns(2)
         
         with col1:
+            # Fourth required model feature
+            received_quantity = st.number_input("Quantity Received (cant_recibida)", 
+                                             min_value=0, max_value=None, value=quantity,
+                                             help="Actual quantity received (may differ from ordered)")
+            # Fifth required model feature (calculated)
+            received_amount = st.number_input("Amount Received (monto_recibido)",
+                                           value=received_quantity*unit_price,
+                                           help="Total amount received (received quantity × price)")
+        
+        with col2:
+            # Seventh required model feature
+            reception_days = st.number_input("Reception Days", min_value=1, value=30,
+                                          help="Days between order and reception")
+            # Tenth required model feature
             delivery_time_diff = st.number_input("Delivery Time Difference (days)", 
                                               value=0, min_value=-100, max_value=100,
-                                              help="+ = late, - = early")
+                                              help="Difference between scheduled and actual delivery (+ = late, - = early)")
+        
+        # Financial details (category 3)
+        st.subheader("Financial Details")
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            # Eighth required model feature (calculated)
             amount_difference = st.number_input("Amount Difference", 
                                              value=order_amount-received_amount,
-                                             help="Ordered vs received amount")
+                                             help="Difference between ordered and received amounts")
+        
+        with col2:
+            # Ninth required model feature
             total_amount = st.number_input("Total Amount", 
                                          value=order_amount,
                                          help="Total amount of the order")
-            
+        
         # Auto-calculate option
         auto_calc = st.checkbox("Auto-calculate derived values", value=True)
         if auto_calc:
@@ -559,9 +565,6 @@ def create_prediction_form(data, model):
             received_amount = received_quantity * unit_price
             amount_difference = order_amount - received_amount
             total_amount = order_amount
-        
-        # Display selected category from session state
-        st.info(f"Selected Category: {st.session_state.selected_category}")
         
         submit_button = st.form_submit_button("Predict OTIF")
     
@@ -591,13 +594,15 @@ def create_prediction_form(data, model):
         reference_info = {
             'supplier': selected_supplier,
             'product': selected_product,
-            'category': st.session_state.selected_category
+            'category': selected_category
         }
         
         # Make prediction
         predictions, probabilities = predict_otif(model, input_data)
         
         if predictions is not None:
+            #st.markdown('<div class="prediction-box">', unsafe_allow_html=True)
+            
             col1, col2 = st.columns(2)
             
             with col1:
@@ -623,10 +628,12 @@ def create_prediction_form(data, model):
                 st.markdown("### Order Summary")
                 st.markdown(f"**Supplier:** {selected_supplier}")
                 st.markdown(f"**Product:** {selected_product}")
-                st.markdown(f"**Category:** {st.session_state.selected_category}")
+                st.markdown(f"**Category:** {selected_category}")
                 st.markdown(f"**Order Amount:** ${order_amount:.2f}")
                 st.markdown(f"**Received Amount:** ${received_amount:.2f}")
                 st.markdown(f"**Reception Days:** {reception_days}")
+            
+            st.markdown('</div>', unsafe_allow_html=True)
             
             # Show model input features
             with st.expander("Model Input Features"):
@@ -652,7 +659,7 @@ def create_prediction_form(data, model):
             st.markdown("### Similar Past Orders")
             similar_orders = data[
                 (data['nom_prov'] == selected_supplier) | 
-                (data['Categoria'] == st.session_state.selected_category)
+                (data['Categoria'] == selected_category)
             ].head(5)
             
             if not similar_orders.empty:
