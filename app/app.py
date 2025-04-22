@@ -185,7 +185,7 @@ def load_css():
     <style>
         .main-header {
             font-size: 2.5rem;
-            color: #2c3e50;
+            color: white;
             text-align: center;
             margin-bottom: 1rem;
             padding-bottom: 1rem;
@@ -944,7 +944,7 @@ def main():
     model = load_ml_model()
     
     # App header
-    st.markdown('<div class="main-header">Supply Chain Analytics & Prediction Platform</div>', unsafe_allow_html=True)
+    st.markdown('<div class="main-header" style="color: white;">Supply Chain Analytics & Prediction Platform</div>', unsafe_allow_html=True)
     
     # Display the main image
     display_main_image(os.path.join('app', 'banner.png'))
