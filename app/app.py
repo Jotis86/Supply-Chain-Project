@@ -1148,6 +1148,76 @@ def main():
         
         # Overview visualizations
         col1, col2 = st.columns(2)
+
+        # ADD THE KPI EXPLANATIONS HERE
+        st.markdown("""
+        <style>
+            .kpi-explanation-container {
+                margin-top: 10px;
+                margin-bottom: 30px;
+                background-color: rgba(255, 255, 255, 0.1);
+                border-radius: 10px;
+                padding: 15px;
+            }
+            .kpi-explanation {
+                display: flex;
+                margin-bottom: 10px;
+                padding: 10px;
+                border-radius: 5px;
+                background-color: rgba(255, 255, 255, 0.05);
+            }
+            .kpi-icon {
+                font-size: 1.5rem;
+                margin-right: 15px;
+                color: #3498db;
+                min-width: 30px;
+                text-align: center;
+            }
+            .kpi-text {
+                flex-grow: 1;
+                color: white;
+            }
+            .kpi-title {
+                font-weight: bold;
+                margin-bottom: 5px;
+                color: #3498db;
+            }
+        </style>
+
+        <div class="kpi-explanation-container">
+            <div class="kpi-explanation">
+                <div class="kpi-icon">📊</div>
+                <div class="kpi-text">
+                    <div class="kpi-title">OTIF Rate</div>
+                    <div>Percentage of orders delivered both On Time and In Full. A key measure of overall supply chain effectiveness.</div>
+                </div>
+            </div>
+            
+            <div class="kpi-explanation">
+                <div class="kpi-icon">🕒</div>
+                <div class="kpi-text">
+                    <div class="kpi-title">On-Time Delivery</div>
+                    <div>Percentage of orders delivered by or before the promised delivery date, regardless of completeness.</div>
+                </div>
+            </div>
+            
+            <div class="kpi-explanation">
+                <div class="kpi-icon">📆</div>
+                <div class="kpi-text">
+                    <div class="kpi-title">Average Delivery Days</div>
+                    <div>The average number of days from order placement to delivery, a measure of supply chain speed.</div>
+                </div>
+            </div>
+            
+            <div class="kpi-explanation">
+                <div class="kpi-icon">⏱️</div>
+                <div class="kpi-text">
+                    <div class="kpi-title">Delivery Time Efficiency</div>
+                    <div>How closely actual deliveries match scheduled delivery dates. Higher values indicate better schedule adherence.</div>
+                </div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
         
         with col1:
             fig, ax = plt.subplots(figsize=(10, 6))
