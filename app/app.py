@@ -431,29 +431,42 @@ def display_key_metrics(data):
         )
     
     with col4:
-        # Calculate average delivery time efficiency
-        # This represents how close actual delivery time was to estimated time
-        # Lower is better (closer to estimate)
-        
-        # First make sure we have the right columns
-        if 'delivery_time_diff' in data.columns:
-            # If you already have a delivery_time_diff column
-            avg_delivery_variance = abs(data['delivery_time_diff']).mean()
-            efficiency_score = 100 - min(avg_delivery_variance * 5, 50)  # Convert to 0-100 scale
-        elif 'tmp_entrega' in data.columns and 'delivery_days' in data.columns:
-            # Calculate from time planned vs actual delivery days
-            avg_delivery_variance = abs(data['delivery_days'] - data['tmp_entrega']).mean()
-            efficiency_score = 100 - min(avg_delivery_variance * 5, 50)  # Convert to 0-100 scale
+        # Calculate cost efficiency
+        if 'monto_odc' in data.columns and 'cant_prod_odc' in data.columns:
+            # Calculate cost per unit for each order
+            plot_data = data.copy()
+            plot_data['cost_per_unit'] = plot_data['monto_odc'] / plot_data['cant_prod_odc']
+            
+            # Remove outliers
+            upper_limit = np.percentile(plot_data['cost_per_unit'].dropna(), 95)
+            plot_data = plot_data[plot_data['cost_per_unit'] <= upper_limit]
+            
+            # Calculate cost efficiency metrics
+            avg_cost = plot_data['cost_per_unit'].mean()
+            min_cost = plot_data['cost_per_unit'].min()
+            max_cost = plot_data['cost_per_unit'].max()
+            
+            # Convert to efficiency score (0-100%)
+            # Lower cost = higher efficiency, so we invert the scale
+            # If cost is at minimum, efficiency is 100%
+            # If cost is at maximum, efficiency is 0%
+            cost_range = max_cost - min_cost
+            if cost_range > 0:
+                efficiency_score = 100 * (1 - ((avg_cost - min_cost) / cost_range))
+            else:
+                efficiency_score = 100  # If all costs are the same
+                
+            # Ensure the score is within 0-100 range
+            efficiency_score = max(0, min(100, efficiency_score))
         else:
-            # Fallback to average days to receive orders
-            avg_delivery_days = data['delivery_days'].mean()
-            efficiency_score = max(100 - (avg_delivery_days/2), 50)  # Simple conversion to score
+            # Fallback if we don't have the necessary columns
+            efficiency_score = 75  # Default value
         
         st.markdown(
             f"""
             <div class="metric-card">
                 <div class="metric-value">{efficiency_score:.1f}%</div>
-                <div class="metric-label">Delivery Efficiency</div>
+                <div class="metric-label">Cost Efficiency</div>
             </div>
             """, 
             unsafe_allow_html=True
@@ -1225,10 +1238,10 @@ def main():
         # KPI 4
         st.markdown("""
             <div class="kpi-explanation">
-                <div class="kpi-icon">⏱️</div>
+                <div class="kpi-icon">💰</div>
                 <div class="kpi-text">
-                    <div class="kpi-title">Delivery Time Efficiency</div>
-                    <div>How closely actual deliveries match scheduled delivery dates. Higher values indicate better schedule adherence.</div>
+                    <div class="kpi-title">Cost Efficiency</div>
+                    <div>Measures how efficiently resources are being utilized in the supply chain. Higher values indicate better cost optimization relative to order sizes.</div>
                 </div>
             </div>
         """, unsafe_allow_html=True)
