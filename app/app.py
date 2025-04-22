@@ -184,7 +184,7 @@ def display_video(video_path):
 
 # ML model functions
 @st.cache_resource
-def load_ml_model(model_path='app/best_otif_model.pkl'):
+def load_ml_model(model_path='best/best_otif_model.pkl'):
     """Load the trained ML model"""
     if os.path.exists(model_path):
         return joblib.load(model_path)
