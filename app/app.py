@@ -97,7 +97,7 @@ def main():
 
     # Sidebar menu for navigation
     st.sidebar.title('Navigation')
-    st.sidebar.image(os.path.join('app', 'menu.png'), use_container_width=True)
+    st.sidebar.image(os.path.join('app', 'funko.png'), use_container_width=True)
     menu = st.sidebar.radio('Go to', ['Project Objectives', 'Development Process', 'Visualizations', 'Power BI', 'GitHub Repository'])
 
     if menu == 'Project Objectives':
