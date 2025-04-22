@@ -453,7 +453,7 @@ def display_key_metrics(data):
             f"""
             <div class="metric-card">
                 <div class="metric-value">{efficiency_score:.1f}%</div>
-                <div class="metric-label">Delivery Time Efficiency</div>
+                <div class="metric-label">Delivery Efficiency</div>
             </div>
             """, 
             unsafe_allow_html=True
