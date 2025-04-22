@@ -1056,9 +1056,12 @@ def main():
             """)
         
         st.markdown('</div>', unsafe_allow_html=True)
+
+        # Add space
+        st.markdown("<br>", unsafe_allow_html=True)
         
         # Simplified Project timeline as badges
-        st.markdown('<div class="card">', unsafe_allow_html=True)
+        #st.markdown('<div class="card">', unsafe_allow_html=True)
         st.markdown('<div class="card-title">⏱️ Project Timeline</div>', unsafe_allow_html=True)
         
         st.markdown("""
@@ -1081,7 +1084,7 @@ def main():
         st.markdown('</div>', unsafe_allow_html=True)
         
         # Technologies used
-        st.markdown('<div class="card">', unsafe_allow_html=True)
+        #st.markdown('<div class="card">', unsafe_allow_html=True)
         st.markdown('<div class="card-title">🛠️ Technology Stack</div>', unsafe_allow_html=True)
         
         col1, col2, col3 = st.columns(3)
