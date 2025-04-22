@@ -594,7 +594,7 @@ def create_prediction_form(data, model):
         predictions, probabilities = predict_otif(model, input_data)
         
         if predictions is not None:
-            st.markdown('<div class="prediction-box">', unsafe_allow_html=True)
+            #st.markdown('<div class="prediction-box">', unsafe_allow_html=True)
             
             col1, col2 = st.columns(2)
             
