@@ -2,7 +2,7 @@
 
 ![Cover Image](app/banner.png)
 
-![Total Commits](https://img.shields.io/github/commits-since/Jotis86/Supply-Chain-Project/main?label=total%20commits)
+[![GitHub commits](https://img.shields.io/github/commit-activity/t/Jotis86/Supply-Chain-Project?label=Commits&color=C19A6B)](https://github.com/Jotis86/Supply-Chain-Project/commits/main)
 ![Issues Abiertas](https://img.shields.io/github/issues/Jotis86/Supply-Chain-Project)
 ![Pull Requests](https://img.shields.io/github/issues-pr/Jotis86/Supply-Chain-Project)
 ![Forks](https://img.shields.io/github/forks/Jotis86/Supply-Chain-Project)
