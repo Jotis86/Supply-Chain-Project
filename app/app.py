@@ -1155,16 +1155,17 @@ def main():
             .kpi-explanation-container {
                 margin-top: 10px;
                 margin-bottom: 30px;
-                background-color: rgba(255, 255, 255, 0.1);
+                background-color: #2c3e50;
                 border-radius: 10px;
                 padding: 15px;
+                border: 1px solid #3498db;
             }
             .kpi-explanation {
                 display: flex;
                 margin-bottom: 10px;
                 padding: 10px;
                 border-radius: 5px;
-                background-color: rgba(255, 255, 255, 0.05);
+                background-color: #34495e;
             }
             .kpi-icon {
                 font-size: 1.5rem;
@@ -1183,8 +1184,13 @@ def main():
                 color: #3498db;
             }
         </style>
+        """, unsafe_allow_html=True)
 
-        <div class="kpi-explanation-container">
+        # Container start
+        st.markdown('<div class="kpi-explanation-container">', unsafe_allow_html=True)
+
+        # KPI 1
+        st.markdown("""
             <div class="kpi-explanation">
                 <div class="kpi-icon">📊</div>
                 <div class="kpi-text">
@@ -1192,7 +1198,10 @@ def main():
                     <div>Percentage of orders delivered both On Time and In Full. A key measure of overall supply chain effectiveness.</div>
                 </div>
             </div>
-            
+        """, unsafe_allow_html=True)
+
+        # KPI 2
+        st.markdown("""
             <div class="kpi-explanation">
                 <div class="kpi-icon">🕒</div>
                 <div class="kpi-text">
@@ -1200,7 +1209,10 @@ def main():
                     <div>Percentage of orders delivered by or before the promised delivery date, regardless of completeness.</div>
                 </div>
             </div>
-            
+        """, unsafe_allow_html=True)
+
+        # KPI 3
+        st.markdown("""
             <div class="kpi-explanation">
                 <div class="kpi-icon">📆</div>
                 <div class="kpi-text">
@@ -1208,7 +1220,10 @@ def main():
                     <div>The average number of days from order placement to delivery, a measure of supply chain speed.</div>
                 </div>
             </div>
-            
+        """, unsafe_allow_html=True)
+
+        # KPI 4
+        st.markdown("""
             <div class="kpi-explanation">
                 <div class="kpi-icon">⏱️</div>
                 <div class="kpi-text">
@@ -1216,8 +1231,10 @@ def main():
                     <div>How closely actual deliveries match scheduled delivery dates. Higher values indicate better schedule adherence.</div>
                 </div>
             </div>
-        </div>
         """, unsafe_allow_html=True)
+
+        # Container end
+        st.markdown('</div>', unsafe_allow_html=True)
         
         with col1:
             fig, ax = plt.subplots(figsize=(10, 6))
