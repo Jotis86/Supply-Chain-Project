@@ -19,62 +19,75 @@ st.set_page_config(
 def create_stylish_sidebar(data):
     st.sidebar.markdown("""
     <style>
+        /* Overall sidebar styling */
+        section[data-testid="stSidebar"] {
+            background-color: #2c3e50;
+            color: white;
+        }
+        
+        /* Sidebar header */
         .sidebar-header {
             text-align: center;
             font-size: 1.8rem;
-            color: #2c3e50;
+            color: white;
             margin-bottom: 20px;
             padding-bottom: 10px;
             border-bottom: 2px solid #3498db;
+            font-weight: bold;
         }
         
+        /* Navigation container */
         div.stRadio > div {
-            background-color: #f8f9fa;
-            border-radius: 10px;
-            padding: 5px 10px;
+            background-color: transparent;
+            padding: 0;
         }
         
+        /* Navigation items */
         div.stRadio label {
-            padding: 10px 15px;
-            border-radius: 8px;
-            margin: 5px 0;
-            transition: all 0.3s;
-            border-left: 4px solid transparent;
+            background-color: #34495e;
+            color: white !important;
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin: 8px 0;
             display: flex;
             align-items: center;
-            color: #2c3e50 !important;  /* Darker text color */
-            font-weight: 500 !important;  /* Slightly bolder text */
+            font-weight: 400;
+            transition: all 0.2s;
         }
         
+        /* Hover state */
         div.stRadio label:hover {
-            background-color: #e9ecef;
-            border-left: 4px solid #3498db;
-            color: #2980b9 !important;  /* Blue text on hover */
+            background-color: #3498db;
+            transform: translateX(5px);
         }
         
-        /* Style for the selected radio button */
+        /* Selected state */
         div.stRadio label[data-baseweb="radio"] input:checked + div {
-            background-color: #e3f2fd !important;
-            border-color: #3498db !important;
+            background-color: #3498db !important;
+            border-color: white !important;
         }
         
-        /* Make the selected item more visible */
         div.stRadio label[data-baseweb="radio"] input:checked + div + span {
-            color: #2980b9 !important;
+            color: white !important;
             font-weight: bold !important;
         }
         
+        /* Metrics container */
         .metrics-container {
-            background-color: #f8f9fa;
+            background-color: #34495e;
             padding: 15px;
             border-radius: 10px;
             margin: 20px 0;
-            border: 1px solid #e9ecef;  /* Light border for definition */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         
+        /* Individual metrics */
         .metric-mini {
             text-align: center;
             margin-bottom: 10px;
+            padding: 5px;
+            background-color: #2c3e50;
+            border-radius: 6px;
         }
         
         .metric-mini-value {
@@ -84,23 +97,31 @@ def create_stylish_sidebar(data):
         }
         
         .metric-mini-label {
-            font-size: 0.8rem;
-            color: #2c3e50;  /* Darker label color */
-            font-weight: 500;
+            font-size: 0.85rem;
+            color: white;
+            margin-top: 4px;
         }
         
+        /* Footer */
         .sidebar-footer {
             text-align: center;
             margin-top: 20px;
             padding-top: 10px;
-            border-top: 1px solid #e9ecef;
+            border-top: 1px solid #34495e;
             font-size: 0.8rem;
-            color: #2c3e50;  /* Darker footer text */
+            color: #ecf0f1;
+        }
+        
+        /* Make category headers more visible */
+        .stRadio + div > label {
+            color: white !important;
+            font-weight: bold !important;
+            font-size: 1.2rem !important;
+            margin-top: 1rem;
         }
     </style>
     """, unsafe_allow_html=True)
     
-    # The rest of your sidebar code remains the same
     # App logo and title
     st.sidebar.image(os.path.join('app', 'funko.png'), use_container_width=True)
     st.sidebar.markdown('<div class="sidebar-header">Supply Chain Analytics</div>', unsafe_allow_html=True)
@@ -142,7 +163,7 @@ def create_stylish_sidebar(data):
         "💼 Power BI Dashboard"
     ]
     
-    selection = st.sidebar.radio("### Navigation", pages_with_icons)
+    selection = st.sidebar.radio("Navigation", pages_with_icons, label_visibility="collapsed")
     
     # Remove the icon to get the actual page name
     page = selection.split(" ", 1)[1]
