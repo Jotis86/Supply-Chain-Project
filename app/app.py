@@ -1030,7 +1030,7 @@ def main():
         """, unsafe_allow_html=True)
         
         # Objectives card
-        st.markdown('<div class="card">', unsafe_allow_html=True)
+        #st.markdown('<div class="card">', unsafe_allow_html=True)
         st.markdown('<div class="card-title">🎯 Project Objectives</div>', unsafe_allow_html=True)
         
         # Two columns for objectives
