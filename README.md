@@ -6,7 +6,7 @@
 ![Issues](https://img.shields.io/github/issues/Jotis86/Supply-Chain-Project?color=0099ff)
 ![Pull Requests](https://img.shields.io/github/issues-pr/Jotis86/Supply-Chain-Project?color=1E90FF)
 ![Forks](https://img.shields.io/github/forks/Jotis86/Supply-Chain-Project?color=0073e6)
-![Repository Size](https://img.shields.io/github/repo-size/Jotis86/Supply-Chain-Project?color=4169E1)
+![Repository Size](https://img.shields.io/github/repo-size/Jotis86/Supply-Chain-Project?color=1E90FF)
 ![Author](https://img.shields.io/badge/autor-Juan%20Duran%20Bon-blue)
 ![License](https://img.shields.io/github/license/Jotis86/Supply-Chain-Project?color=0000FF)
 
