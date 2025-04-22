@@ -392,7 +392,7 @@ def create_prediction_form(data, model):
             else:
                 st.info("No similar orders found in the dataset.")
 
-                
+
 # Create supplier analysis section
 def create_supplier_analysis(data):
     st.markdown('<div class="sub-header">Supplier Performance Analysis</div>', unsafe_allow_html=True)
@@ -635,11 +635,22 @@ def create_correlation_analysis(data):
     # Select only numeric columns for correlation
     numeric_cols = data.select_dtypes(include=['int64', 'float64']).columns.tolist()
     
+    # Ensure default columns exist in the dataset
+    default_cols = ['OTIF', 'ontime', 'delivery_days', 'cant_prod_odc']
+    # Add more defaults if they exist
+    if 'percentage_received' in numeric_cols:
+        default_cols.append('percentage_received')
+    if 'tmp_entrega' in numeric_cols:
+        default_cols.append('tmp_entrega')
+    
+    # Filter defaults to only include columns that exist in the dataset
+    valid_defaults = [col for col in default_cols if col in numeric_cols]
+    
     # Let user select columns of interest
     selected_cols = st.multiselect(
         "Select metrics for correlation analysis:",
-        numeric_cols,
-        default=['OTIF', 'ontime', 'delivery_days', 'cant_prod_odc', 'percentage_received', 'tmp_entrega']
+        options=numeric_cols,
+        default=valid_defaults[:4]  # Use at most 4 defaults to avoid overwhelming the visualization
     )
     
     if len(selected_cols) < 2:
@@ -657,7 +668,7 @@ def create_correlation_analysis(data):
             x_metric = st.selectbox("Select X-axis metric:", selected_cols, index=0)
         
         with col2:
-            y_metric = st.selectbox("Select Y-axis metric:", selected_cols, index=1 if len(selected_cols) > 1 else 0)
+            y_metric = st.selectbox("Select Y-axis metric:", selected_cols, index=min(1, len(selected_cols)-1))
         
         fig, ax = plt.subplots(figsize=(10, 6))
         sns.scatterplot(x=x_metric, y=y_metric, data=data, hue='OTIF', palette=['red', 'green'], ax=ax)
