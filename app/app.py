@@ -1000,14 +1000,14 @@ def main():
             }
             .phase-badge {
                 display: inline-block;
-                background-color: #3498db;
-                color: white;
+                background-color: white;
+                color: #3498db;
                 padding: 6px 12px;
                 border-radius: 6px;
                 margin: 4px;
                 font-size: 0.9rem;
                 font-weight: 500;
-            }
+                border: 1px solid #3498db;
         </style>
         """, unsafe_allow_html=True)
         
