@@ -305,13 +305,14 @@ def create_prediction_form(data, model):
             selected_category = st.selectbox("Product Category", categories)
             selected_subcategory = st.selectbox("Product Subcategory", subcategories)
             selected_product = st.selectbox("Product Description", products)
-            selected_unit = st.selectbox("Product Unit", product_units)
+            
             
         with col2:
             order_date = st.date_input("Order Date", datetime.now())
             est_delivery_date = st.date_input("Estimated Delivery Date", datetime.now() + timedelta(days=30))
             quantity = st.number_input("Quantity (cant_prod_odc)", min_value=1, value=100)
             unit_price = st.number_input("Unit Price (prec_unt)", min_value=1, value=50)
+            selected_unit = st.selectbox("Product Unit", product_units)
         
         # Advanced options section
         with st.expander("Advanced Options (Model Features)"):
