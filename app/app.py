@@ -968,7 +968,7 @@ def main():
                 box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
             }
             .card-title {
-                color: #2980b9;
+                color: white;
                 font-size: 1.5rem;
                 margin-bottom: 15px;
                 border-bottom: 1px solid #eaeaea;
