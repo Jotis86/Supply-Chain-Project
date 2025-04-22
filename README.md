@@ -19,24 +19,43 @@ This repository contains a comprehensive analysis of supply chain data using Pow
 
 ## 🎯 Objectives
 
-- 🎯 Provide an interactive and detailed analysis of supply chain metrics.
-- 📊 Support strategic decision making with key performance indicators (KPIs).
-- 📈 Identify patterns and trends over time.
-- 📦 Analyze the performance of suppliers and products.
+- 🎯 **Comprehensive Supply Chain Analysis**: Deliver in-depth insights across all supply chain operations from ordering to delivery
+- 📊 **Data-Driven Decision Support**: Provide actionable intelligence through carefully designed KPIs and performance metrics
+- 📈 **Pattern Recognition**: Identify temporal trends, seasonal variations, and anomalies in supply chain performance
+- 📦 **Supplier & Product Evaluation**: Enable objective assessment of supplier reliability and product category performance
+- 🔮 **Predictive Capabilities**: Forecast delivery outcomes to support proactive management and risk mitigation
+- 💰 **Cost Optimization**: Identify opportunities for improving cost efficiency throughout the supply chain
+- 🚚 **Delivery Performance Enhancement**: Support strategies to improve on-time and in-full delivery rates
+- 🔄 **Process Improvement**: Highlight operational inefficiencies and bottlenecks for targeted improvement
 
 ## ⚙️ Functionality
 
-- 📈 Interactive visualizations with pivot charts and tables.
-- 📊 Analysis of key metrics such as ontime, OTIF, delivery days, sales, and orders.
-- 📅 Temporal analysis to identify patterns and opportunities.
-- 📋 Detailed reports and dashboards.
+- 📈 **Interactive Dashboards**: Dynamic visualizations with drill-down capabilities and real-time filtering
+- 📊 **Multi-dimensional KPI System**: Comprehensive metrics covering delivery performance, cost efficiency, and supplier reliability
+- 📅 **Temporal Analysis**: Advanced time-series visualization for identifying trends, cyclical patterns, and anomalies
+- 📋 **Customizable Reports**: Flexible reporting options for different stakeholder needs
+- 🔍 **Supplier Performance Tracking**: Detailed monitoring of supplier metrics with comparative analysis
+- 📦 **Product Category Intelligence**: Category-level insights on costs, delivery performance, and order volumes
+- 🌍 **Geographical Distribution Analysis**: Regional performance differences and logistics patterns
+- 🔄 **Correlation Explorer**: Interactive tool for discovering relationships between supply chain variables
+- 🤖 **OTIF Prediction Model**: Machine learning-powered forecasting of delivery success probabilities
+- 📱 **User-friendly Interface**: Intuitive design accessible to both technical and non-technical users
+- 📉 **Statistical Distribution Analysis**: Probability distributions of key metrics for deeper understanding
+- 💡 **Automatic Insight Generation**: Proactive highlighting of notable patterns and opportunities
 
 ## 🛠️ Tools Used
 
-- **Power BI**: For creating interactive dashboards and visualizations.
-- **Python**: For data extraction, transformation, and loading (ETL) processes.
-- **Pandas**: For data manipulation and analysis.
-- **Seaborn & Matplotlib**: For creating visualizations in Python.
+- **Power BI**: Enterprise-grade business intelligence platform for creating interactive dashboards, reports, and visualizations with powerful DAX metrics
+- **Python**: Core programming language powering the data processing pipeline, analytical models, and web application
+- **Pandas**: Data manipulation library used for ETL processes, feature engineering, and complex data transformations
+- **NumPy**: Scientific computing library providing support for mathematical operations on large datasets
+- **Seaborn & Matplotlib**: Visualization libraries for creating statistical charts, distribution plots, and custom visualizations
+- **Streamlit**: Web application framework enabling the creation of interactive data applications with minimal code
+- **Scikit-learn**: Machine learning library used to build and train the OTIF prediction model
+- **Joblib**: Tool for model persistence and serialization of machine learning pipelines
+- **SciPy**: Scientific computing library used for additional statistical functions and analysis
+- **Git**: Version control system for tracking changes and collaborative development
+- **Jupyter Notebooks**: Interactive computing environment used for data exploration and model prototyping
 
 ## 🔄 Development Process
 
