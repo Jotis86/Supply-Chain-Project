@@ -171,7 +171,8 @@ def create_stylish_sidebar(data):
     st.sidebar.markdown("""
     <div class="sidebar-footer">
         Supply Chain Analytics Platform v1.0<br>
-        &copy; 2023 All Rights Reserved
+        Created by Jotis<br>
+        &copy; 2025 All Rights Reserved
     </div>
     """, unsafe_allow_html=True)
     
