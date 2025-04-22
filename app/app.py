@@ -15,6 +15,132 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
+
+def create_stylish_sidebar(data):
+    st.sidebar.markdown("""
+    <style>
+        .sidebar-header {
+            text-align: center;
+            font-size: 1.8rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #3498db;
+        }
+        
+        div.stRadio > div {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 5px 10px;
+        }
+        
+        div.stRadio label {
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin: 5px 0;
+            transition: all 0.3s;
+            border-left: 4px solid transparent;
+            display: flex;
+            align-items: center;
+        }
+        
+        div.stRadio label:hover {
+            background-color: #e9ecef;
+            border-left: 4px solid #3498db;
+        }
+        
+        .metrics-container {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .metric-mini {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        
+        .metric-mini-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #3498db;
+        }
+        
+        .metric-mini-label {
+            font-size: 0.8rem;
+            color: #7f8c8d;
+        }
+        
+        .sidebar-footer {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 10px;
+            border-top: 1px solid #e9ecef;
+            font-size: 0.8rem;
+            color: #7f8c8d;
+        }
+    </style>
+    """, unsafe_allow_html=True)
+    
+    # App logo and title
+    st.sidebar.image(os.path.join('app', 'funko.png'), use_container_width=True)
+    st.sidebar.markdown('<div class="sidebar-header">Supply Chain Analytics</div>', unsafe_allow_html=True)
+    
+    # Mini metrics dashboard in sidebar
+    st.sidebar.markdown('<div class="metrics-container">', unsafe_allow_html=True)
+    
+    col1, col2 = st.sidebar.columns(2)
+    
+    with col1:
+        otif_pct = data['OTIF'].mean() * 100
+        st.markdown(f"""
+        <div class="metric-mini">
+            <div class="metric-mini-value">{otif_pct:.1f}%</div>
+            <div class="metric-mini-label">OTIF Rate</div>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with col2:
+        on_time_pct = data['ontime'].mean() * 100
+        st.markdown(f"""
+        <div class="metric-mini">
+            <div class="metric-mini-value">{on_time_pct:.1f}%</div>
+            <div class="metric-mini-label">On-Time</div>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    st.sidebar.markdown('</div>', unsafe_allow_html=True)
+    
+    # Navigation options with icons
+    pages_with_icons = [
+        "📊 Dashboard",
+        "🔮 OTIF Prediction",
+        "🏭 Supplier Analysis",
+        "📦 Product Analysis",
+        "🔗 Correlation Analysis",
+        "📈 Visualizations",
+        "📋 Project Overview",
+        "💼 Power BI Dashboard"
+    ]
+    
+    selection = st.sidebar.radio("### Navigation", pages_with_icons)
+    
+    # Remove the icon to get the actual page name
+    page = selection.split(" ", 1)[1]
+    
+    # Add footer
+    st.sidebar.markdown("""
+    <div class="sidebar-footer">
+        Supply Chain Analytics Platform v1.0<br>
+        &copy; 2023 All Rights Reserved
+    </div>
+    """, unsafe_allow_html=True)
+    
+    return page
+
+
+
 # Add custom CSS
 def load_css():
     st.markdown("""
@@ -785,22 +911,8 @@ def main():
     # Display the main image
     display_main_image(os.path.join('app', 'banner.png'))
     
-    # Sidebar navigation
-    st.sidebar.title('Navigation')
-    st.sidebar.image(os.path.join('app', 'funko.png'), use_container_width=True)
-    
-    pages = [
-        "Dashboard",
-        "OTIF Prediction",
-        "Supplier Analysis",
-        "Product Analysis",
-        "Correlation Analysis",
-        "Visualizations",
-        "Project Overview",
-        "Power BI Dashboard"
-    ]
-    
-    selection = st.sidebar.radio("Go to", pages)
+    # Call the stylish sidebar function to get the selected page
+    selection = create_stylish_sidebar(data)
     
     # Page content based on selection
     if selection == "Dashboard":
