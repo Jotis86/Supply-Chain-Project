@@ -1006,41 +1006,15 @@ def main():
             .github-button:hover {
                 background-color: #2c3e50;
             }
-            .timeline {
-                position: relative;
-                max-width: 1200px;
-                margin: 0 auto;
-                padding: 20px 0;
-            }
-            .timeline-item {
-                padding: 10px 40px;
-                position: relative;
-                background-color: inherit;
-                width: 100%;
-            }
-            .timeline-item::after {
-                content: '';
-                position: absolute;
-                width: 20px;
-                height: 20px;
+            .phase-badge {
+                display: inline-block;
                 background-color: #3498db;
-                border: 4px solid white;
-                top: 15px;
-                border-radius: 50%;
-                z-index: 1;
-                left: 10px;
-            }
-            .timeline-content {
-                padding: 15px 15px;
-                background-color: #f9f9f9;
-                position: relative;
+                color: white;
+                padding: 6px 12px;
                 border-radius: 6px;
-                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-                border-left: 4px solid #3498db;
-            }
-            .phase-title {
-                font-weight: bold;
-                color: #2980b9;
+                margin: 4px;
+                font-size: 0.9rem;
+                font-weight: 500;
             }
         </style>
         """, unsafe_allow_html=True)
@@ -1048,23 +1022,16 @@ def main():
         # Project title
         st.markdown('<div class="project-title">Supply Chain Analytics & Prediction Project</div>', unsafe_allow_html=True)
         
-        # Introduction with columns for text and image
-        col1, col2 = st.columns([3, 2])
-        
-        with col1:
-            st.markdown("""
-            This interactive platform provides comprehensive analysis of supply chain data using Python and Power BI. 
-            It combines data visualization, statistical analysis and machine learning to deliver actionable insights
-            for optimizing supply chain operations.
-            """)
-        
-        with col2:
-            # Project mascot or representative image
-            st.image(os.path.join('app', 'funko.png'), width=200)
+        # Introduction text
+        st.markdown("""
+        This interactive platform provides comprehensive analysis of supply chain data using Python and Power BI. 
+        It combines data visualization, statistical analysis and machine learning to deliver actionable insights
+        for optimizing supply chain operations.
+        """)
         
         # GitHub button
         st.markdown("""
-        <a href="https://github.com/Jotis86/Supply-Chain-Project" class="github-button">
+        <a href="https://github.com/jotis/" class="github-button">
             <svg height="24" width="24" viewBox="0 0 16 16" version="1.1">
                 <path fill="white" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
             </svg>
@@ -1097,33 +1064,27 @@ def main():
         
         st.markdown('</div>', unsafe_allow_html=True)
         
-        # Project timeline
+        # Simplified Project timeline as badges
         st.markdown('<div class="card">', unsafe_allow_html=True)
         st.markdown('<div class="card-title">⏱️ Project Timeline</div>', unsafe_allow_html=True)
         
-        st.markdown('<div class="timeline">', unsafe_allow_html=True)
+        st.markdown("""
+        <div style="text-align: center;">
+            <span class="phase-badge">1️⃣ Data Collection</span>
+            <span class="phase-badge">2️⃣ EDA</span>
+            <span class="phase-badge">3️⃣ Feature Engineering</span>
+            <span class="phase-badge">4️⃣ Model Development</span>
+            <span class="phase-badge">5️⃣ Dashboard Creation</span>
+            <span class="phase-badge">6️⃣ Deployment</span>
+        </div>
         
-        # Timeline items
-        phases = [
-            {"title": "Data Collection & Cleaning", "desc": "Gathering, preprocessing and cleaning supply chain data from various sources"},
-            {"title": "Exploratory Data Analysis", "desc": "Statistical analysis and visualization to understand data patterns and relationships"},
-            {"title": "Feature Engineering", "desc": "Creating relevant features for predictive modeling and analytics"},
-            {"title": "Model Development", "desc": "Building and validating machine learning models for OTIF prediction"},
-            {"title": "Dashboard Implementation", "desc": "Creating interactive visualizations and analytics dashboard"},
-            {"title": "Deployment & Testing", "desc": "Deploying the application and ensuring functionality"}
-        ]
+        <div style="margin-top: 15px;">
+            The project followed a structured approach to data science, starting with data gathering and preparation, 
+            proceeding through analysis and model development, and culminating in the creation of interactive dashboards 
+            and deployment of prediction tools.
+        </div>
+        """, unsafe_allow_html=True)
         
-        for phase in phases:
-            st.markdown(f"""
-            <div class="timeline-item">
-                <div class="timeline-content">
-                    <div class="phase-title">{phase["title"]}</div>
-                    <p>{phase["desc"]}</p>
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
-        
-        st.markdown('</div>', unsafe_allow_html=True)
         st.markdown('</div>', unsafe_allow_html=True)
         
         # Technologies used
@@ -1161,34 +1122,6 @@ def main():
                 <span class="tech-badge">SMOTE</span>
             </div>
             """, unsafe_allow_html=True)
-        
-        st.markdown('</div>', unsafe_allow_html=True)
-        
-        # Interactive feature
-        st.markdown('<div class="card">', unsafe_allow_html=True)
-        st.markdown('<div class="card-title">🚀 Try the App</div>', unsafe_allow_html=True)
-        
-        st.markdown("""
-        This platform offers several interactive tools to explore and analyze supply chain data:
-        """)
-        
-        # Quick links to different sections of the app
-        col1, col2, col3 = st.columns(3)
-        
-        with col1:
-            if st.button("🔮 Try OTIF Prediction"):
-                st.session_state.current_page = "OTIF Prediction"
-                st.experimental_rerun()
-        
-        with col2:
-            if st.button("📊 View Dashboard"):
-                st.session_state.current_page = "Dashboard"
-                st.experimental_rerun()
-        
-        with col3:
-            if st.button("🔗 Explore Correlations"):
-                st.session_state.current_page = "Correlation Analysis"
-                st.experimental_rerun()
         
         st.markdown('</div>', unsafe_allow_html=True)
         
