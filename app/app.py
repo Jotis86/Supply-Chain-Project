@@ -633,7 +633,7 @@ def create_prediction_form(data, model):
 
 # Create supplier analysis section
 def create_supplier_analysis(data):
-    st.markdown('<div class="sub-header">Supplier Performance Analysis</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sub-header" style="color: white;">Supplier Performance Analysis</div>', unsafe_allow_html=True)
     
     # Group by supplier
     supplier_stats = data.groupby('nom_prov').agg({
@@ -760,7 +760,7 @@ def create_supplier_analysis(data):
 
 # Create product category analysis
 def create_product_analysis(data):
-    st.markdown('<div class="sub-header">Product Category Analysis</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sub-header" style="color: white;">Product Category Analysis</div>', unsafe_allow_html=True)
     
     # Group by category
     category_stats = data.groupby('Categoria').agg({
@@ -862,7 +862,7 @@ def create_product_analysis(data):
 
 # Create a correlation analysis section
 def create_correlation_analysis(data):
-    st.markdown('<div class="sub-header">Correlation Analysis</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sub-header" style="color: white;">Correlation Analysis</div>', unsafe_allow_html=True)
     
     st.markdown("""
     <div class="highlight">
