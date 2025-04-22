@@ -508,7 +508,11 @@ def create_prediction_form(data, model):
             
         with col2:
             # Category is now pre-selected above the form
-            st.markdown(f"**Selected Category:** {selected_category}")
+            st.selectbox(
+                "Category", 
+                [selected_category],  # Only one option - the pre-selected category
+                disabled=True  # Make it non-interactive
+            )
             selected_unit = st.selectbox("Unit", product_units)
             # Third required model feature (calculated)
             order_amount = st.number_input("Order Amount (monto_odc)", 
