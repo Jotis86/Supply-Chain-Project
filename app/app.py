@@ -198,6 +198,25 @@ def predict_otif(model, input_data):
         return None, None
     
     try:
+        # Add the missing columns required by the model
+        if 'cant_recibida' not in input_data.columns:
+            input_data['cant_recibida'] = input_data['cant_prod_odc']  # Assume full receipt for prediction
+        
+        if 'monto_recibido' not in input_data.columns:
+            input_data['monto_recibido'] = input_data['monto_odc']  # Assume full amount received
+        
+        if 'reception_days' not in input_data.columns:
+            input_data['reception_days'] = input_data['delivery_days']  # Use delivery days as proxy
+        
+        if 'total_amount' not in input_data.columns:
+            input_data['total_amount'] = input_data['monto_odc']  # Same as order amount
+        
+        if 'amount_difference' not in input_data.columns:
+            input_data['amount_difference'] = 0  # Assume no difference for prediction
+        
+        if 'delivery_time_diff' not in input_data.columns:
+            input_data['delivery_time_diff'] = 0  # Assume on-time delivery for prediction
+            
         # Make prediction
         predictions = model.predict(input_data)
         probabilities = model.predict_proba(input_data)[:, 1]
@@ -205,6 +224,10 @@ def predict_otif(model, input_data):
         return predictions, probabilities
     except Exception as e:
         st.error(f"Error making prediction: {e}")
+        # Print out the columns the model is expecting vs what we're providing
+        st.warning("Debugging info:")
+        st.warning(f"Input data columns: {input_data.columns.tolist()}")
+        st.warning(f"If the error persists, you may need to retrain the model with your current dataset structure")
         return None, None
 
 # Function to display key metrics
@@ -304,8 +327,9 @@ def create_prediction_form(data, model):
         order_amount = quantity * unit_price
         delivery_days = (est_delivery_date - order_date).days
         
-        # Create a dataframe with the input data
+        # Create a dataframe with the input data including ALL required columns
         input_data = pd.DataFrame({
+            # Original fields
             'nom_prov': [selected_supplier],
             'org_pais': [selected_country],
             'Categoria': [selected_category],
@@ -316,9 +340,16 @@ def create_prediction_form(data, model):
             'prec_unt': [unit_price],
             'monto_odc': [order_amount],
             'delivery_days': [delivery_days],
-            # Add other required features with default values
             'tmp_entrega': [delivery_days],
             'costo_prod': [unit_price * 0.8],  # Assumption for cost
+            
+            # Additional required fields
+            'cant_recibida': [quantity],  # Assume full receipt for prediction
+            'monto_recibido': [order_amount],  # Assume full amount for prediction
+            'reception_days': [delivery_days],  # Use delivery days as proxy
+            'total_amount': [order_amount],  # Same as order amount
+            'amount_difference': [0],  # Assume no difference for prediction
+            'delivery_time_diff': [0],  # Assume no difference for prediction
         })
         
         # Make prediction
@@ -361,6 +392,7 @@ def create_prediction_form(data, model):
             else:
                 st.info("No similar orders found in the dataset.")
 
+                
 # Create supplier analysis section
 def create_supplier_analysis(data):
     st.markdown('<div class="sub-header">Supplier Performance Analysis</div>', unsafe_allow_html=True)
