@@ -389,7 +389,7 @@ def predict_otif(model, input_data):
 
 # Function to display key metrics
 def display_key_metrics(data):
-    st.markdown('<div class="sub-header">Key Supply Chain Metrics</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sub-header" style="color: white;">Key Supply Chain Metrics</div>', unsafe_allow_html=True)
     
     col1, col2, col3, col4 = st.columns(4)
     
