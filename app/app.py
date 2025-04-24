@@ -89,9 +89,9 @@ create_banner()
 def create_stylish_sidebar(data):
     st.sidebar.markdown("""
     <style>
-        /* Overall sidebar styling */
+        /* Overall sidebar styling - applying gradient */
         section[data-testid="stSidebar"] {
-            background-color: #2c3e50;
+            background: linear-gradient(to bottom, #1a2980, #26d0ce);
             color: white;
         }
         
@@ -102,8 +102,9 @@ def create_stylish_sidebar(data):
             color: white;
             margin-bottom: 20px;
             padding-bottom: 10px;
-            border-bottom: 2px solid #3498db;
+            border-bottom: 2px solid white;
             font-weight: bold;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
         }
         
         /* Navigation container */
@@ -114,7 +115,7 @@ def create_stylish_sidebar(data):
         
         /* Navigation items */
         div.stRadio label {
-            background-color: #34495e;
+            background-color: rgba(26, 41, 128, 0.3);
             color: white !important;
             padding: 12px 15px;
             border-radius: 6px;
@@ -127,13 +128,13 @@ def create_stylish_sidebar(data):
         
         /* Hover state */
         div.stRadio label:hover {
-            background-color: #3498db;
+            background-color: rgba(26, 41, 128, 0.7);
             transform: translateX(5px);
         }
         
         /* Selected state */
         div.stRadio label[data-baseweb="radio"] input:checked + div {
-            background-color: #3498db !important;
+            background-color: #1a2980 !important;
             border-color: white !important;
         }
         
@@ -144,11 +145,12 @@ def create_stylish_sidebar(data):
         
         /* Metrics container */
         .metrics-container {
-            background-color: #34495e;
+            background-color: rgba(26, 41, 128, 0.3);
             padding: 15px;
             border-radius: 10px;
             margin: 20px 0;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5px);
         }
         
         /* Individual metrics */
@@ -156,14 +158,14 @@ def create_stylish_sidebar(data):
             text-align: center;
             margin-bottom: 10px;
             padding: 5px;
-            background-color: #2c3e50;
+            background-color: rgba(26, 41, 128, 0.5);
             border-radius: 6px;
         }
         
         .metric-mini-value {
             font-size: 1.5rem;
             font-weight: bold;
-            color: #3498db;
+            color: white;
         }
         
         .metric-mini-label {
@@ -177,9 +179,9 @@ def create_stylish_sidebar(data):
             text-align: center;
             margin-top: 20px;
             padding-top: 10px;
-            border-top: 1px solid #34495e;
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
             font-size: 0.8rem;
-            color: #ecf0f1;
+            color: white;
         }
         
         /* Make category headers more visible */
@@ -188,6 +190,29 @@ def create_stylish_sidebar(data):
             font-weight: bold !important;
             font-size: 1.2rem !important;
             margin-top: 1rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+        
+        /* Improve other elements like selectbox, etc. */
+        .stSelectbox > div > div, 
+        .stMultiSelect > div > div {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-radius: 6px;
+        }
+        
+        /* Style scrollbar */
+        section[data-testid="stSidebar"]::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        section[data-testid="stSidebar"]::-webkit-scrollbar-track {
+            background: rgba(26, 41, 128, 0.2);
+        }
+        
+        section[data-testid="stSidebar"]::-webkit-scrollbar-thumb {
+            background: rgba(26, 41, 128, 0.8);
+            border-radius: 4px;
         }
     </style>
     """, unsafe_allow_html=True)
