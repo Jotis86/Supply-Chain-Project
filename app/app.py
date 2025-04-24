@@ -15,6 +15,76 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
+def create_banner():
+    st.markdown("""
+    <style>
+        .banner-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(to right, #1a2980, #26d0ce);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .banner-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.5rem;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .banner-subtitle {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        
+        .banner-icons {
+            display: flex;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+        
+        .banner-icon {
+            font-size: 2rem;
+            margin: 0 1rem;
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            .banner-title {
+                font-size: 2rem;
+            }
+            .banner-subtitle {
+                font-size: 1rem;
+            }
+        }
+    </style>
+    
+    <div class="banner-container">
+        <div class="banner-title">📦 Supply Chain Analytics</div>
+        <div class="banner-subtitle">Interactive insights & predictive analysis for optimized supply chain management</div>
+        <div class="banner-icons">
+            <div class="banner-icon">🚚</div>
+            <div class="banner-icon">📊</div>
+            <div class="banner-icon">⏱️</div>
+            <div class="banner-icon">📈</div>
+            <div class="banner-icon">🔍</div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+# Add this near the top of your app, after setting page config
+create_banner()
+
+
 
 def create_stylish_sidebar(data):
     st.sidebar.markdown("""
