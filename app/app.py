@@ -1052,7 +1052,7 @@ def main():
     model = load_ml_model()
     
     # App header
-    st.markdown('<div class="main-header" style="color: white;">Supply Chain Analytics & Prediction Platform</div>', unsafe_allow_html=True)
+    #st.markdown('<div class="main-header" style="color: white;">Supply Chain Analytics & Prediction Platform</div>', unsafe_allow_html=True)
     
     # Display the main image
     #display_main_image(os.path.join('app', 'banner.png'))
