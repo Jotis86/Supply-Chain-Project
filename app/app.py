@@ -1112,35 +1112,78 @@ def create_correlation_analysis(data):
         # Create correlation heatmap
         plot_heatmap(data, selected_cols, "Correlation Between Supply Chain Metrics")
         
-        # Scatter plot for exploring relationships
-        st.markdown("### Explore Relationship Between Metrics")
+        # NEW MULTI-SELECT SCATTER PLOT SECTION
+        st.markdown('<div class="dashboard-section-title" style="font-size: 1.3rem;">Explore Relationships Between Metrics</div>', unsafe_allow_html=True)
         
-        col1, col2 = st.columns(2)
+        # Let users select multiple metrics for scatter plots
+        scatter_cols = st.multiselect(
+            "Select metrics to generate scatter plots (select at least 2):",
+            options=selected_cols,
+            default=selected_cols[:min(3, len(selected_cols))]
+        )
         
-        with col1:
-            x_metric = st.selectbox("Select X-axis metric:", selected_cols, index=0)
-        
-        with col2:
-            y_metric = st.selectbox("Select Y-axis metric:", selected_cols, index=min(1, len(selected_cols)-1))
-        
-        fig, ax = plt.subplots(figsize=(10, 6))
-        sns.scatterplot(x=x_metric, y=y_metric, data=data, hue='OTIF', palette=['red', 'green'], ax=ax)
-        ax.set_title(f'Relationship Between {x_metric} and {y_metric}', fontsize=16)
-        ax.set_xlabel(x_metric, fontsize=14)
-        ax.set_ylabel(y_metric, fontsize=14)
-        plt.tight_layout()
-        st.pyplot(fig)
-        
-        # Show correlation value
-        correlation = data[[x_metric, y_metric]].corr().iloc[0, 1]
-        st.markdown(f"**Correlation coefficient between {x_metric} and {y_metric}:** {correlation:.3f}")
-        
-        if abs(correlation) > 0.7:
-            st.markdown("**Interpretation:** Strong correlation")
-        elif abs(correlation) > 0.4:
-            st.markdown("**Interpretation:** Moderate correlation")
+        if len(scatter_cols) < 2:
+            st.warning("Please select at least 2 metrics to generate scatter plots.")
         else:
-            st.markdown("**Interpretation:** Weak correlation")
+            # Create scatter plot matrix for all selected combinations
+            import itertools
+            pairs = list(itertools.combinations(scatter_cols, 2))
+            
+            # Calculate how many rows we need (2 plots per row)
+            num_pairs = len(pairs)
+            num_rows = (num_pairs + 1) // 2
+            
+            # Create plots in a grid
+            for i in range(num_rows):
+                col1, col2 = st.columns(2)
+                
+                # First plot in the row
+                if i*2 < num_pairs:
+                    x_metric, y_metric = pairs[i*2]
+                    with col1:
+                        fig, ax = plt.subplots(figsize=(10, 6))
+                        sns.scatterplot(x=x_metric, y=y_metric, data=data, hue='OTIF', palette=['red', 'green'], ax=ax)
+                        ax.set_title(f'{x_metric} vs {y_metric}', fontsize=16)
+                        ax.set_xlabel(x_metric, fontsize=14)
+                        ax.set_ylabel(y_metric, fontsize=14)
+                        plt.tight_layout()
+                        st.pyplot(fig)
+                        
+                        # Show correlation value
+                        correlation = data[[x_metric, y_metric]].corr().iloc[0, 1]
+                        st.markdown(f"**Correlation: {correlation:.3f}**")
+                        
+                        # Interpretation with styled colors
+                        if abs(correlation) > 0.7:
+                            st.markdown("<div class='correlation-strong'>Strong correlation</div>", unsafe_allow_html=True)
+                        elif abs(correlation) > 0.4:
+                            st.markdown("<div class='correlation-moderate'>Moderate correlation</div>", unsafe_allow_html=True)
+                        else:
+                            st.markdown("<div class='correlation-weak'>Weak correlation</div>", unsafe_allow_html=True)
+                
+                # Second plot in the row
+                if i*2 + 1 < num_pairs:
+                    x_metric, y_metric = pairs[i*2 + 1]
+                    with col2:
+                        fig, ax = plt.subplots(figsize=(10, 6))
+                        sns.scatterplot(x=x_metric, y=y_metric, data=data, hue='OTIF', palette=['red', 'green'], ax=ax)
+                        ax.set_title(f'{x_metric} vs {y_metric}', fontsize=16)
+                        ax.set_xlabel(x_metric, fontsize=14)
+                        ax.set_ylabel(y_metric, fontsize=14)
+                        plt.tight_layout()
+                        st.pyplot(fig)
+                        
+                        # Show correlation value
+                        correlation = data[[x_metric, y_metric]].corr().iloc[0, 1]
+                        st.markdown(f"**Correlation: {correlation:.3f}**")
+                        
+                        # Interpretation with styled colors
+                        if abs(correlation) > 0.7:
+                            st.markdown("<div class='correlation-strong'>Strong correlation</div>", unsafe_allow_html=True)
+                        elif abs(correlation) > 0.4:
+                            st.markdown("<div class='correlation-moderate'>Moderate correlation</div>", unsafe_allow_html=True)
+                        else:
+                            st.markdown("<div class='correlation-weak'>Weak correlation</div>", unsafe_allow_html=True)
 
 # Main function to run the Streamlit app
 def main():
