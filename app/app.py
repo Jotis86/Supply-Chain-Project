@@ -888,6 +888,10 @@ def create_supplier_analysis(data):
     
     # Display top 10 suppliers
     st.markdown(f"### Top 10 Suppliers by {sort_by}")
+    
+    # Add space for better visibility
+    st.markdown("<br>", unsafe_allow_html=True)
+
     top_suppliers = supplier_stats_sorted.head(10)
     
     # Create visualization
