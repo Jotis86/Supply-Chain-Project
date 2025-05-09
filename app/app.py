@@ -781,8 +781,80 @@ def create_prediction_form(data, model):
 
 # Create supplier analysis section
 def create_supplier_analysis(data):
-    st.markdown('<div class="sub-header" style="color: white;">Supplier Performance Analysis</div>', unsafe_allow_html=True)
+    st.markdown('<div class="dashboard-section-title">Supplier Performance Analysis</div>', unsafe_allow_html=True)
     
+    # Add mode-adaptive CSS
+    st.markdown("""
+    <style>
+        /* Section headers - ensure visibility in both modes */
+        h3 {
+            color: white !important;
+            background: linear-gradient(to right, rgba(26, 41, 128, 0.8), rgba(38, 208, 206, 0.8));
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-size: 1.3rem;
+            margin: 20px 0 15px 0;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Metric cards - adaptive styling */
+        .metric-card {
+            background: linear-gradient(135deg, rgba(26, 41, 128, 0.1), rgba(38, 208, 206, 0.1));
+            padding: 1rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 0.15rem 0.5rem rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(38, 208, 206, 0.3);
+            backdrop-filter: blur(5px);
+        }
+        
+        /* Metric values with gradient text */
+        .metric-value {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(to right, #1a2980, #26d0ce);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.3rem;
+            text-shadow: none;
+        }
+        
+        /* Ensure metric labels are visible */
+        .metric-label {
+            font-size: 1rem;
+            color: inherit !important;
+            opacity: 0.9;
+        }
+        
+        /* Style selectboxes for better visibility */
+        .stSelectbox > div > div[data-baseweb="select"] > div {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(38, 208, 206, 0.3);
+        }
+        
+        /* Force selectbox text to be visible */
+        .stSelectbox label, .stSelectbox span {
+            color: inherit !important;
+        }
+        
+        /* Ensure dataframe headers are visible */
+        .dataframe th {
+            background-color: rgba(26, 41, 128, 0.2) !important;
+            color: inherit !important;
+            font-weight: bold !important;
+        }
+        
+        /* Style dataframe cells */
+        .dataframe td {
+            background-color: rgba(255, 255, 255, 0.05) !important;
+            color: inherit !important;
+        }
+    </style>
+    """, unsafe_allow_html=True)
+
+
+
     # Group by supplier
     supplier_stats = data.groupby('nom_prov').agg({
         'OTIF': 'mean',
