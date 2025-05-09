@@ -580,10 +580,135 @@ def display_key_metrics(data):
 
 # Create a prediction form
 def create_prediction_form(data, model):
-    st.markdown('<div class="sub-header" style="color: white;">OTIF Prediction Tool</div>', unsafe_allow_html=True)
+    st.markdown('<div class="dashboard-section-title">OTIF Prediction Tool</div>', unsafe_allow_html=True)
     
-    # Use Streamlit's native info box
-    st.info("This tool predicts whether a delivery will be On Time In Full (OTIF) based on order parameters. Fill in the form below to generate a prediction.")
+    # Add CSS for prediction form styling
+    st.markdown("""
+    <style>
+        /* Form container */
+        .stForm {
+            background: linear-gradient(135deg, rgba(26, 41, 128, 0.05), rgba(38, 208, 206, 0.05));
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid rgba(38, 208, 206, 0.3);
+            margin-bottom: 25px;
+        }
+        
+        /* Form section headers */
+        .stForm h3 {
+            color: white !important;
+            background: linear-gradient(to right, rgba(26, 41, 128, 0.8), rgba(38, 208, 206, 0.8));
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            margin: 15px 0 15px 0;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Form inputs */
+        .stNumberInput, .stSelectbox {
+            margin-bottom: 15px;
+        }
+        
+        /* Input labels */
+        .stNumberInput label p, .stSelectbox label p {
+            color: inherit !important;
+            font-weight: 500 !important;
+            margin-bottom: 5px !important;
+        }
+        
+        /* Help text */
+        .stNumberInput div[data-baseweb="help-helper"] {
+            color: inherit !important;
+            opacity: 0.8;
+        }
+        
+        /* Selectbox styling */
+        .stSelectbox > div > div[data-baseweb="select"] > div {
+            background-color: rgba(255, 255, 255, 0.9) !important;
+            color: #333 !important;
+            border: 1px solid rgba(38, 208, 206, 0.3) !important;
+        }
+        
+        /* Submit button */
+        .stButton button {
+            background: linear-gradient(to right, #1a2980, #26d0ce) !important;
+            color: white !important;
+            font-weight: bold !important;
+            padding: 10px 20px !important;
+            border-radius: 5px !important;
+            border: none !important;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+            transition: all 0.3s ease !important;
+        }
+        
+        /* Submit button hover */
+        .stButton button:hover {
+            transform: translateY(-2px) !important;
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15) !important;
+        }
+        
+        /* Prediction results */
+        .prediction-box {
+            background: linear-gradient(135deg, rgba(26, 41, 128, 0.1), rgba(38, 208, 206, 0.1));
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid rgba(38, 208, 206, 0.3);
+            margin: 20px 0;
+        }
+        
+        /* Prediction result cards */
+        .prediction-positive, .prediction-negative {
+            font-size: 1.3rem;
+            font-weight: bold;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .prediction-positive {
+            background-color: rgba(25, 135, 84, 0.2);
+            border: 1px solid rgba(25, 135, 84, 0.5);
+            color: #198754;
+        }
+        
+        .prediction-negative {
+            background-color: rgba(220, 53, 69, 0.2);
+            border: 1px solid rgba(220, 53, 69, 0.5);
+            color: #dc3545;
+        }
+        
+        /* Result metrics */
+        .result-metric {
+            background: linear-gradient(135deg, rgba(26, 41, 128, 0.05), rgba(38, 208, 206, 0.05));
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border: 1px solid rgba(38, 208, 206, 0.2);
+        }
+        
+        /* Order summary */
+        .order-summary {
+            background: linear-gradient(135deg, rgba(26, 41, 128, 0.05), rgba(38, 208, 206, 0.05));
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(38, 208, 206, 0.2);
+        }
+    </style>
+    """, unsafe_allow_html=True)
+    
+    # Introduction with styled info box
+    st.markdown("""
+    <div style="background-color: rgba(26, 41, 128, 0.1); padding: 15px; border-radius: 8px; border: 1px solid rgba(38, 208, 206, 0.3); margin-bottom: 20px;">
+        <div style="display: flex; align-items: center;">
+            <div style="font-size: 1.5rem; margin-right: 10px; color: #1a2980;">ℹ️</div>
+            <div>
+                This tool predicts whether a delivery will be On Time In Full (OTIF) based on order parameters. Fill in the form below to generate a prediction.
+            </div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
     
     # Get unique values for categorical fields
     suppliers = sorted(data['nom_prov'].unique())
@@ -592,7 +717,8 @@ def create_prediction_form(data, model):
     subcategories = sorted(data['Subcategoria'].unique())
     product_units = sorted(data['und_prod'].unique())
     
-    # We'll set up category first, then filter products
+    # Category first, then filter products - using a section title
+    st.markdown('<div class="dashboard-section-title" style="font-size: 1.2rem;">Select Product Category</div>', unsafe_allow_html=True)
     selected_category = st.selectbox("Category", categories)
     
     # Filter products based on selected category
@@ -711,42 +837,64 @@ def create_prediction_form(data, model):
         predictions, probabilities = predict_otif(model, input_data)
         
         if predictions is not None:
-            #st.markdown('<div class="prediction-box">', unsafe_allow_html=True)
+            st.markdown('<div class="dashboard-section-title">Prediction Results</div>', unsafe_allow_html=True)
+            st.markdown('<div class="prediction-box">', unsafe_allow_html=True)
             
             col1, col2 = st.columns(2)
             
             with col1:
-                st.markdown("### Prediction Result")
+                st.markdown('<div class="dashboard-section-title" style="font-size: 1.2rem;">Prediction Result</div>', unsafe_allow_html=True)
                 if predictions[0]:
                     st.markdown('<p class="prediction-positive">✅ OTIF - On Time In Full</p>', unsafe_allow_html=True)
                 else:
                     st.markdown('<p class="prediction-negative">❌ Not OTIF</p>', unsafe_allow_html=True)
                 
-                st.markdown(f"**Probability:** {probabilities[0]*100:.1f}%")
+                st.markdown(f"""
+                <div class="result-metric">
+                    <strong>Probability:</strong> {probabilities[0]*100:.1f}%
+                </div>
+                """, unsafe_allow_html=True)
                 
                 # Show key factors
-                st.markdown("### Key Factors")
+                st.markdown('<div class="dashboard-section-title" style="font-size: 1.2rem;">Key Factors</div>', unsafe_allow_html=True)
                 if quantity != received_quantity:
-                    st.warning(f"Quantity discrepancy: Ordered {quantity} but received {received_quantity}")
+                    st.markdown(f"""
+                    <div class="result-metric" style="border-color: rgba(255, 193, 7, 0.5); background-color: rgba(255, 193, 7, 0.1);">
+                        <strong>Quantity discrepancy:</strong> Ordered {quantity} but received {received_quantity}
+                    </div>
+                    """, unsafe_allow_html=True)
                 if delivery_time_diff != 0:
                     if delivery_time_diff > 0:
-                        st.warning(f"Late delivery: {delivery_time_diff} days behind schedule")
+                        st.markdown(f"""
+                        <div class="result-metric" style="border-color: rgba(220, 53, 69, 0.5); background-color: rgba(220, 53, 69, 0.1);">
+                            <strong>Late delivery:</strong> {delivery_time_diff} days behind schedule
+                        </div>
+                        """, unsafe_allow_html=True)
                     else:
-                        st.info(f"Early delivery: {abs(delivery_time_diff)} days ahead of schedule")
+                        st.markdown(f"""
+                        <div class="result-metric" style="border-color: rgba(25, 135, 84, 0.5); background-color: rgba(25, 135, 84, 0.1);">
+                            <strong>Early delivery:</strong> {abs(delivery_time_diff)} days ahead of schedule
+                        </div>
+                        """, unsafe_allow_html=True)
             
             with col2:
-                st.markdown("### Order Summary")
-                st.markdown(f"**Supplier:** {selected_supplier}")
-                st.markdown(f"**Product:** {selected_product}")
-                st.markdown(f"**Category:** {selected_category}")
-                st.markdown(f"**Order Amount:** ${order_amount:.2f}")
-                st.markdown(f"**Received Amount:** ${received_amount:.2f}")
-                st.markdown(f"**Reception Days:** {reception_days}")
+                st.markdown('<div class="dashboard-section-title" style="font-size: 1.2rem;">Order Summary</div>', unsafe_allow_html=True)
+                st.markdown(f"""
+                <div class="order-summary">
+                    <div style="margin-bottom: 10px;"><strong>Supplier:</strong> {selected_supplier}</div>
+                    <div style="margin-bottom: 10px;"><strong>Product:</strong> {selected_product}</div>
+                    <div style="margin-bottom: 10px;"><strong>Category:</strong> {selected_category}</div>
+                    <div style="margin-bottom: 10px;"><strong>Order Amount:</strong> ${order_amount:.2f}</div>
+                    <div style="margin-bottom: 10px;"><strong>Received Amount:</strong> ${received_amount:.2f}</div>
+                    <div><strong>Reception Days:</strong> {reception_days}</div>
+                </div>
+                """, unsafe_allow_html=True)
             
             st.markdown('</div>', unsafe_allow_html=True)
             
-            # Show model input features
-            with st.expander("Model Input Features"):
+            # Show model input features with styled expander
+            st.markdown('<div class="dashboard-section-title" style="font-size: 1.2rem;">Model Details</div>', unsafe_allow_html=True)
+            with st.expander("View Model Input Features"):
                 st.dataframe(input_data)
                 
                 st.markdown("""
@@ -766,7 +914,7 @@ def create_prediction_form(data, model):
                 """)
                 
             # Show similar past orders
-            st.markdown("### Similar Past Orders")
+            st.markdown('<div class="dashboard-section-title" style="font-size: 1.2rem;">Similar Past Orders</div>', unsafe_allow_html=True)
             similar_orders = data[
                 (data['nom_prov'] == selected_supplier) | 
                 (data['Categoria'] == selected_category)
@@ -776,7 +924,14 @@ def create_prediction_form(data, model):
                 st.dataframe(similar_orders[['fecha_odc', 'nom_prov', 'descrip_prod', 
                                            'cant_prod_odc', 'monto_odc', 'delivery_days', 'OTIF']])
             else:
-                st.info("No similar orders found in the dataset.")
+                st.markdown("""
+                <div style="background-color: rgba(26, 41, 128, 0.1); padding: 15px; border-radius: 8px; border: 1px solid rgba(38, 208, 206, 0.3);">
+                    <div style="display: flex; align-items: center;">
+                        <div style="font-size: 1.5rem; margin-right: 10px; color: #1a2980;">ℹ️</div>
+                        <div>No similar orders found in the dataset.</div>
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
 
 
 # Create supplier analysis section
