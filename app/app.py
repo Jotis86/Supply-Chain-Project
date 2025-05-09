@@ -1301,7 +1301,7 @@ def create_supplier_analysis(data):
     selected_supplier = st.radio(
         label="",
         options=top_supplier_names,
-        horizontal=len(top_supplier_names) <= 5  # Horizontal if 5 or fewer options
+        horizontal=True
     )
     
     # Allow custom search if the supplier isn't in the top 10
