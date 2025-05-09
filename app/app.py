@@ -783,7 +783,7 @@ def create_prediction_form(data, model):
 def create_supplier_analysis(data):
     st.markdown('<div class="dashboard-section-title">Supplier Performance Analysis</div>', unsafe_allow_html=True)
     
-    # Add mode-adaptive CSS
+    # Add mode-adaptive CSS with reliable radio button styling
     st.markdown("""
     <style>
         /* Section headers - ensure visibility in both modes */
@@ -827,66 +827,15 @@ def create_supplier_analysis(data):
             opacity: 0.9;
         }
         
-        /* IMPROVED SELECTBOX STYLING - REPLACES YOUR CURRENT SELECTBOX STYLES */
-        /* Improve selectbox appearance for consistent display in both modes */
-        .stSelectbox > div {
-            width: 100%; /* Make full width */
+        /* Radio button container styling */
+        div.stRadio > div {
+            background-color: transparent;
+            padding: 0;
         }
         
-        /* Style the selectbox container - more neutral background with border */
-        .stSelectbox > div > div[data-baseweb="select"] > div {
-            background-color: rgba(255, 255, 255, 0.9) !important; /* Almost white background */
-            border: 1px solid rgba(38, 208, 206, 0.5) !important; /* Border with your theme color */
-            border-radius: 4px !important;
-            color: #333 !important; /* Dark text for contrast */
-            padding: 8px 16px !important; /* Consistent padding */
-            font-size: 1rem !important; /* Standard text size */
-        }
-        
-        /* Fix selectbox label */
-        .stSelectbox label {
-            color: inherit !important; /* Inherit color from parent */
-            font-weight: 500 !important;
-            font-size: 1rem !important;
-            margin-bottom: 8px !important;
-        }
-        
-        /* Ensure dropdown options are visible */
-        div[data-baseweb="popover"] div[role="listbox"] {
-            background-color: white !important;
-            border: 1px solid rgba(38, 208, 206, 0.5) !important;
-            border-radius: 4px !important;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important;
-        }
-        
-        /* Style dropdown options */
-        div[data-baseweb="popover"] div[role="listbox"] ul li,
-        div[data-baseweb="select"] ul li {
-            color: #333 !important;
-            background-color: white !important;
-            padding: 8px 16px !important;
-            font-size: 1rem !important;
-        }
-        
-        /* Hover effect for options */
-        div[role="listbox"] ul li:hover {
-            background-color: rgba(38, 208, 206, 0.1) !important;
-        }
-        
-        /* Style the dropdown arrow */
-        [data-baseweb="select"] svg {
-            fill: #333 !important;
-        }
-        
-        /* Style selected value text */
-        .stSelectbox span[aria-selected="true"] {
-            color: #333 !important;
-            font-weight: 400 !important;
-        }
-        
-        /* Fix for any animations or transitions */
-        .stSelectbox * {
-            transition: all 0.2s ease-in-out !important;
+        /* Radio button label styling */
+        div.stRadio label {
+            color: inherit !important;
         }
         
         /* Ensure dataframe headers are visible */
@@ -901,11 +850,44 @@ def create_supplier_analysis(data):
             background-color: rgba(255, 255, 255, 0.05) !important;
             color: inherit !important;
         }
+        
+        /* Custom supplier filters container */
+        .supplier-filter-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        /* Filter option styling */
+        .filter-option {
+            background: linear-gradient(135deg, rgba(26, 41, 128, 0.1), rgba(38, 208, 206, 0.1));
+            padding: 10px 15px;
+            border-radius: 6px;
+            border: 1px solid rgba(38, 208, 206, 0.3);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: inherit !important;
+            font-weight: 500;
+        }
+        
+        /* Filter option hover effect */
+        .filter-option:hover {
+            background: linear-gradient(135deg, rgba(26, 41, 128, 0.2), rgba(38, 208, 206, 0.2));
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Active filter option */
+        .filter-option.active {
+            background: linear-gradient(135deg, rgba(26, 41, 128, 0.3), rgba(38, 208, 206, 0.3));
+            border: 1px solid rgba(38, 208, 206, 0.8);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            font-weight: bold;
+        }
     </style>
     """, unsafe_allow_html=True)
-
-
-
+    
     # Group by supplier
     supplier_stats = data.groupby('nom_prov').agg({
         'OTIF': 'mean',
@@ -927,22 +909,23 @@ def create_supplier_analysis(data):
     supplier_stats['OTIF Rate'] = supplier_stats['OTIF Rate'] * 100
     supplier_stats['On-Time Rate'] = supplier_stats['On-Time Rate'] * 100
     
-    # Sort by different metrics
-    sort_by = st.selectbox(
-        "Sort suppliers by:", 
-        ["OTIF Rate", "On-Time Rate", "Avg Delivery Days", "Number of Orders", "Total Order Amount"],
-        index=0
+    # Use radio buttons instead of selectbox for sorting
+    st.markdown("<div style='font-weight: 500; margin-bottom: 10px;'>Sort suppliers by:</div>", unsafe_allow_html=True)
+    sort_by = st.radio(
+        label="", 
+        options=["OTIF Rate", "On-Time Rate", "Avg Delivery Days", "Number of Orders", "Total Order Amount"],
+        horizontal=True
     )
     
     ascending = True if sort_by == "Avg Delivery Days" else False
     supplier_stats_sorted = supplier_stats.sort_values(by=sort_by, ascending=ascending)
     
     # Display top 10 suppliers
-    st.markdown(f"### Top 10 Suppliers by {sort_by}")
-
+    st.markdown('<div class="dashboard-section-title" style="font-size: 1.3rem;">Top 10 Suppliers by {}</div>'.format(sort_by), unsafe_allow_html=True)
+    
     # Add space for better visibility
     st.markdown("<br>", unsafe_allow_html=True)
-
+    
     top_suppliers = supplier_stats_sorted.head(10)
     
     # Create visualization
@@ -956,17 +939,46 @@ def create_supplier_analysis(data):
     st.pyplot(fig)
     
     # Show detailed supplier data
-    st.markdown("### Detailed Supplier Performance")
+    st.markdown('<div class="dashboard-section-title" style="font-size: 1.3rem;">Detailed Supplier Performance</div>', unsafe_allow_html=True)
     st.dataframe(supplier_stats_sorted)
     
-    # Allow user to select a specific supplier for detailed analysis
-    selected_supplier = st.selectbox("Select a supplier for detailed analysis:", 
-                                     supplier_stats['nom_prov'].tolist())
+    # Supplier selection with radio buttons
+    st.markdown("<div style='font-weight: 500; margin: 20px 0 10px 0;'>Select a supplier for detailed analysis:</div>", unsafe_allow_html=True)
+    
+    # Get the top 10 suppliers by the current sort metric
+    top_supplier_names = top_suppliers['nom_prov'].tolist()
+    
+    # Use a radio button for supplier selection
+    selected_supplier = st.radio(
+        label="",
+        options=top_supplier_names,
+        horizontal=len(top_supplier_names) <= 5  # Horizontal if 5 or fewer options
+    )
+    
+    # Allow custom search if the supplier isn't in the top 10
+    st.markdown("<div style='margin: 15px 0 5px 0;'>Or search for another supplier:</div>", unsafe_allow_html=True)
+    
+    # Create a text input for search
+    other_supplier = st.text_input("", placeholder="Type a supplier name")
+    
+    # If user entered a search term, find matching suppliers
+    if other_supplier:
+        matches = [s for s in supplier_stats['nom_prov'].tolist() if other_supplier.lower() in s.lower()]
+        if matches:
+            selected_supplier = st.radio(
+                "Select from matching suppliers:",
+                options=matches,
+                horizontal=len(matches) <= 5
+            )
+        else:
+            st.warning("No suppliers found matching your search.")
     
     # Filter data for selected supplier
     supplier_data = data[data['nom_prov'] == selected_supplier]
     
     # Show supplier-specific metrics
+    st.markdown('<div class="dashboard-section-title" style="font-size: 1.3rem;">Performance Metrics for {}</div>'.format(selected_supplier), unsafe_allow_html=True)
+    
     col1, col2, col3 = st.columns(3)
     
     with col1:
@@ -1006,13 +1018,13 @@ def create_supplier_analysis(data):
         )
     
     # Show supplier order history
-    st.markdown("### Order History")
+    st.markdown('<div class="dashboard-section-title" style="font-size: 1.3rem;">Order History</div>', unsafe_allow_html=True)
     st.dataframe(supplier_data[['fecha_odc', 'descrip_prod', 'cant_prod_odc', 
                               'prec_unt', 'monto_odc', 'delivery_days', 'OTIF']])
     
     # Time series analysis of supplier performance
     if len(supplier_data) > 5:  # Only if there's enough data
-        st.markdown("### Performance Over Time")
+        st.markdown('<div class="dashboard-section-title" style="font-size: 1.3rem;">Performance Over Time</div>', unsafe_allow_html=True)
         
         # Group by month
         supplier_data['year_month'] = supplier_data['fecha_odc'].dt.to_period('M')
@@ -1032,6 +1044,9 @@ def create_supplier_analysis(data):
         plt.xticks(rotation=45)
         plt.tight_layout()
         st.pyplot(fig)
+
+
+
 
 # Create product category analysis
 def create_product_analysis(data):
@@ -1134,6 +1149,9 @@ def create_product_analysis(data):
     
     # Show detailed subcategory data
     st.dataframe(subcategory_stats)
+
+
+
 
 # Create a correlation analysis section
 def create_correlation_analysis(data):
