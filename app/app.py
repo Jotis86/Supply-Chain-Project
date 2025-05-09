@@ -1287,48 +1287,78 @@ def main():
         
 
     elif selection == "Dashboard":
-        # Display key metrics
-        display_key_metrics(data)
-        
-        # Overview visualizations
-        col1, col2 = st.columns(2)
 
-        # ADD THE KPI EXPLANATIONS HERE
+        # Add CSS with gradient backgrounds for headers to ensure visibility in both modes
         st.markdown("""
         <style>
+            /* Dashboard section headers - with gradient background for visibility in both modes */
+            h2, h3, h4 {
+                color: white !important;
+                background: linear-gradient(to right, #1a2980, #26d0ce);
+                padding: 8px 15px;
+                border-radius: 8px;
+                margin-top: 20px;
+                margin-bottom: 20px;
+                text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+            
+            /* KPI explanation container - adaptive styling */
             .kpi-explanation-container {
                 margin-top: 10px;
                 margin-bottom: 30px;
-                background-color: #2c3e50;
+                background-color: rgba(26, 41, 128, 0.1);
                 border-radius: 10px;
                 padding: 15px;
-                border: 1px solid #3498db;
+                border: 1px solid rgba(52, 152, 219, 0.5);
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             }
+            
+            /* Individual KPI explanation cards */
             .kpi-explanation {
                 display: flex;
                 margin-bottom: 10px;
                 padding: 10px;
                 border-radius: 5px;
-                background-color: #34495e;
+                background-color: rgba(26, 41, 128, 0.2);
+                border: 1px solid rgba(52, 152, 219, 0.3);
             }
-            .kpi-icon {
+            
+            /* Make sure KPI text is always visible */
+            .kpi-explanation h4 {
+                color: white !important;
+                background: none;
+                padding: 0;
+                margin: 0 0 8px 0;
+                box-shadow: none;
+            }
+            
+            /* Ensure section titles are visible */
+            .dashboard-section-title {
+                color: white !important;
+                background: linear-gradient(to right, #1a2980, #26d0ce);
+                padding: 10px 15px;
+                border-radius: 8px;
                 font-size: 1.5rem;
-                margin-right: 15px;
-                color: #3498db;
-                min-width: 30px;
-                text-align: center;
-            }
-            .kpi-text {
-                flex-grow: 1;
-                color: white;
-            }
-            .kpi-title {
                 font-weight: bold;
-                margin-bottom: 5px;
-                color: #3498db;
+                margin: 20px 0;
+                text-align: center;
+                text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             }
         </style>
         """, unsafe_allow_html=True)
+        
+        
+        # Display key metrics
+        display_key_metrics(data)
+
+        # Add section title with new class
+        st.markdown('<div class="dashboard-section-title">Key Supply Chain Metrics</div>', unsafe_allow_html=True)
+        
+        # Overview visualizations
+        col1, col2 = st.columns(2)
+
 
         # Container start
         #st.markdown('<div class="kpi-explanation-container">', unsafe_allow_html=True)
@@ -1402,7 +1432,7 @@ def main():
             st.pyplot(fig)
         
         # Delivery days distribution
-        st.markdown('<div class="section-header" style="color: white;">Delivery Time Analysis</div>', unsafe_allow_html=True)
+        st.markdown('<div class="dashboard-section-title">Delivery Time Analysis</div>', unsafe_allow_html=True)
         
         fig, ax = plt.subplots(figsize=(12, 6))
         sns.histplot(data['delivery_days'], kde=True, ax=ax, bins=30, color='skyblue')
@@ -1439,7 +1469,7 @@ def main():
 
         # Create two columns for the efficiency visualizations
         # Add a section header for the order fulfillment analysis
-        st.markdown('<div class="section-header" style="color: white;">Cost Efficiency Analysis</div>', unsafe_allow_html=True)
+        st.markdown('<div class="dashboard-section-title">Cost Efficiency Analysis</div>', unsafe_allow_html=True)
 
         # Create two columns for the cost efficiency visualizations
         col1, col2 = st.columns(2)
