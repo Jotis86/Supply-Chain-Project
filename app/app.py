@@ -1050,7 +1050,77 @@ def create_supplier_analysis(data):
 
 # Create product category analysis
 def create_product_analysis(data):
-    st.markdown('<div class="sub-header" style="color: white;">Product Category Analysis</div>', unsafe_allow_html=True)
+    st.markdown('<div class="dashboard-section-title">Product Category Analysis</div>', unsafe_allow_html=True)
+    
+    # Add mode-adaptive CSS with reliable radio button styling
+    st.markdown("""
+    <style>
+        /* Section headers - ensure visibility in both modes */
+        h3 {
+            color: white !important;
+            background: linear-gradient(to right, rgba(26, 41, 128, 0.8), rgba(38, 208, 206, 0.8));
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-size: 1.3rem;
+            margin: 20px 0 15px 0;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Metric cards - adaptive styling */
+        .metric-card {
+            background: linear-gradient(135deg, rgba(26, 41, 128, 0.1), rgba(38, 208, 206, 0.1));
+            padding: 1rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 0.15rem 0.5rem rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(38, 208, 206, 0.3);
+            backdrop-filter: blur(5px);
+        }
+        
+        /* Metric values with gradient text */
+        .metric-value {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(to right, #1a2980, #26d0ce);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.3rem;
+            text-shadow: none;
+        }
+        
+        /* Ensure metric labels are visible */
+        .metric-label {
+            font-size: 1rem;
+            color: inherit !important;
+            opacity: 0.9;
+        }
+        
+        /* Radio button container styling */
+        div.stRadio > div {
+            background-color: transparent;
+            padding: 0;
+        }
+        
+        /* Radio button label styling */
+        div.stRadio label {
+            color: inherit !important;
+        }
+        
+        /* Ensure dataframe headers are visible */
+        .dataframe th {
+            background-color: rgba(26, 41, 128, 0.2) !important;
+            color: inherit !important;
+            font-weight: bold !important;
+        }
+        
+        /* Style dataframe cells */
+        .dataframe td {
+            background-color: rgba(255, 255, 255, 0.05) !important;
+            color: inherit !important;
+        }
+    </style>
+    """, unsafe_allow_html=True)
     
     # Group by category
     category_stats = data.groupby('Categoria').agg({
@@ -1066,20 +1136,12 @@ def create_product_analysis(data):
     # Convert rates to percentages
     category_stats['OTIF Rate'] = category_stats['OTIF Rate'] * 100
     
-    # Display category metrics
-    fig, ax = plt.subplots(figsize=(12, 6))
-    sns.barplot(x='Category', y='OTIF Rate', data=category_stats, palette='viridis', ax=ax)
-    ax.set_title('OTIF Rate by Product Category', fontsize=16)
-    ax.set_xlabel('Category', fontsize=14)
-    ax.set_ylabel('OTIF Rate (%)', fontsize=14)
-    plt.xticks(rotation=45, ha='right')
-    plt.tight_layout()
-    st.pyplot(fig)
-    
-    # Allow user to select analysis type
-    analysis_type = st.selectbox(
-        "Select category analysis:", 
-        ["OTIF Rate", "Average Delivery Days", "Total Order Amount", "Average Order Amount"]
+    # Allow user to select analysis type with radio buttons
+    st.markdown("<div style='font-weight: 500; margin-bottom: 10px;'>Select analysis metric:</div>", unsafe_allow_html=True)
+    analysis_type = st.radio(
+        label="",
+        options=["OTIF Rate", "Average Delivery Days", "Total Order Amount", "Average Order Amount"],
+        horizontal=True
     )
     
     if analysis_type == "OTIF Rate":
@@ -1099,9 +1161,19 @@ def create_product_analysis(data):
         title = 'Average Order Amount by Product Category'
         ylabel = 'Amount ($)'
     
+    # Sort categories by the selected metric
+    ascending = True if y_col == 'Avg Delivery Days' else False
+    category_stats_sorted = category_stats.sort_values(by=y_col, ascending=ascending)
+    
+    # Display category visualization
+    st.markdown(f'<div class="dashboard-section-title" style="font-size: 1.3rem;">Category Performance by {analysis_type}</div>', unsafe_allow_html=True)
+    
+    # Add space for better visibility
+    st.markdown("<br>", unsafe_allow_html=True)
+    
     # Create visualization
     fig, ax = plt.subplots(figsize=(12, 6))
-    sns.barplot(x='Category', y=y_col, data=category_stats, palette='viridis', ax=ax)
+    sns.barplot(x='Category', y=y_col, data=category_stats_sorted, palette='viridis', ax=ax)
     ax.set_title(title, fontsize=16)
     ax.set_xlabel('Category', fontsize=14)
     ax.set_ylabel(ylabel, fontsize=14)
@@ -1110,18 +1182,90 @@ def create_product_analysis(data):
     st.pyplot(fig)
     
     # Show detailed category data
-    st.markdown("### Detailed Category Performance")
-    st.dataframe(category_stats)
+    st.markdown('<div class="dashboard-section-title" style="font-size: 1.3rem;">Detailed Category Performance</div>', unsafe_allow_html=True)
+    st.dataframe(category_stats_sorted)
     
-    # Subcategory analysis
-    st.markdown("### Subcategory Analysis")
+    # Subcategory analysis with radio buttons
+    st.markdown('<div class="dashboard-section-title" style="font-size: 1.3rem;">Subcategory Analysis</div>', unsafe_allow_html=True)
     
-    # Select category for subcategory analysis
-    selected_category = st.selectbox("Select a category for subcategory analysis:", 
-                                    data['Categoria'].unique())
+    # Get categories as a list
+    categories = list(data['Categoria'].unique())
+    
+    # Category selection with radio buttons
+    st.markdown("<div style='font-weight: 500; margin: 20px 0 10px 0;'>Select a category to explore subcategories:</div>", unsafe_allow_html=True)
+    
+    # Use a radio button grid for category selection if there are many categories
+    if len(categories) > 6:
+        # Display in 2 columns
+        col1, col2 = st.columns(2)
+        with col1:
+            selected_category = st.radio(
+                label="",
+                options=categories[:len(categories)//2],
+                key="cat_radio1"
+            )
+        with col2:
+            cat_radio2 = st.radio(
+                label="",
+                options=categories[len(categories)//2:],
+                key="cat_radio2"
+            )
+        
+        # Determine which radio button was selected
+        if 'cat_radio2' in st.session_state and st.session_state.cat_radio2 != categories[len(categories)//2]:
+            selected_category = cat_radio2
+    else:
+        # If few categories, just use a single row of radio buttons
+        selected_category = st.radio(
+            label="",
+            options=categories,
+            horizontal=True if len(categories) <= 5 else False
+        )
     
     # Filter data for selected category
     category_data = data[data['Categoria'] == selected_category]
+    
+    # Display category-specific metrics
+    st.markdown(f'<div class="dashboard-section-title" style="font-size: 1.3rem;">Performance Metrics for {selected_category}</div>', unsafe_allow_html=True)
+    
+    # Display key metrics for the selected category in cards
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        otif_rate = category_data['OTIF'].mean() * 100
+        st.markdown(
+            f"""
+            <div class="metric-card">
+                <div class="metric-value">{otif_rate:.1f}%</div>
+                <div class="metric-label">OTIF Rate</div>
+            </div>
+            """, 
+            unsafe_allow_html=True
+        )
+    
+    with col2:
+        avg_days = category_data['delivery_days'].mean()
+        st.markdown(
+            f"""
+            <div class="metric-card">
+                <div class="metric-value">{avg_days:.1f}</div>
+                <div class="metric-label">Avg. Delivery Days</div>
+            </div>
+            """, 
+            unsafe_allow_html=True
+        )
+    
+    with col3:
+        num_orders = len(category_data)
+        st.markdown(
+            f"""
+            <div class="metric-card">
+                <div class="metric-value">{num_orders}</div>
+                <div class="metric-label">Number of Orders</div>
+            </div>
+            """, 
+            unsafe_allow_html=True
+        )
     
     # Group by subcategory
     subcategory_stats = category_data.groupby('Subcategoria').agg({
@@ -1137,18 +1281,24 @@ def create_product_analysis(data):
     # Convert rates to percentages
     subcategory_stats['OTIF Rate'] = subcategory_stats['OTIF Rate'] * 100
     
+    # Sort subcategories by the same metric used for categories
+    subcategory_stats_sorted = subcategory_stats.sort_values(by=y_col, ascending=ascending)
+    
     # Create visualization
+    st.markdown(f'<div class="dashboard-section-title" style="font-size: 1.3rem;">Subcategory Analysis for {selected_category}</div>', unsafe_allow_html=True)
+    
     fig, ax = plt.subplots(figsize=(12, 6))
-    sns.barplot(x='Subcategory', y='OTIF Rate', data=subcategory_stats, palette='viridis', ax=ax)
-    ax.set_title(f'OTIF Rate by Subcategory for {selected_category}', fontsize=16)
+    sns.barplot(x='Subcategory', y=y_col, data=subcategory_stats_sorted, palette='viridis', ax=ax)
+    ax.set_title(f'{analysis_type} by Subcategory for {selected_category}', fontsize=16)
     ax.set_xlabel('Subcategory', fontsize=14)
-    ax.set_ylabel('OTIF Rate (%)', fontsize=14)
+    ax.set_ylabel(ylabel, fontsize=14)
     plt.xticks(rotation=45, ha='right')
     plt.tight_layout()
     st.pyplot(fig)
     
     # Show detailed subcategory data
-    st.dataframe(subcategory_stats)
+    st.markdown('<div class="dashboard-section-title" style="font-size: 1.3rem;">Detailed Subcategory Performance</div>', unsafe_allow_html=True)
+    st.dataframe(subcategory_stats_sorted)
 
 
 
