@@ -1015,24 +1015,55 @@ def create_correlation_analysis(data):
     # Add custom CSS to ensure dropdowns are visible in all modes
     st.markdown("""
     <style>
-        /* Make sure selectbox text is visible in all modes */
+        /* Force label text visibility */
+        .stSelectbox label p, .stMultiSelect label p {
+            color: inherit !important;
+            font-weight: bold !important;
+            font-size: 1rem !important;
+        }
+        
+        /* Style the selectbox container */
         .stSelectbox > div > div[data-baseweb="select"] > div,
         .stMultiSelect > div > div[data-baseweb="select"] > div {
-            color: black !important;
+            background-color: white !important;
+            border: 1px solid #ccc !important;
+            color: #333 !important;
+        }
+        
+        /* Style selected values in the dropdown box */
+        .stMultiSelect div[role="button"] {
+            color: #333 !important;
             background-color: white !important;
         }
         
-        /* Style the dropdown menu items */
+        /* Style dropdown menu */
+        div[role="listbox"] {
+            background-color: white !important;
+            color: #333 !important;
+        }
+        
+        /* Style dropdown options */
         div[role="listbox"] ul li {
-            color: black !important;
+            color: #333 !important;
             background-color: white !important;
         }
         
-        /* Fix multiselect chips */
+        /* Hover effect for options */
+        div[role="listbox"] ul li:hover {
+            background-color: #f0f0f0 !important;
+        }
+        
+        /* Force multiselect chip colors */
         .stMultiSelect div[data-testid="stVerticalBlock"] span {
-            color: black !important;
+            color: #333 !important;
             background-color: #e6f3ff !important;
             border: 1px solid #bbd9ff !important;
+        }
+        
+        /* Style the placeholder text */
+        .stMultiSelect [data-baseweb="tag"] span,
+        .stMultiSelect [data-baseweb="select"] [aria-selected="true"] {
+            color: #333 !important;
         }
         
         /* Fix the width of the select boxes */
@@ -1040,10 +1071,14 @@ def create_correlation_analysis(data):
             width: 100%;
         }
         
-        /* Make labels more visible */
-        .stSelectbox label, .stMultiSelect label {
-            color: inherit !important;
-            font-weight: bold !important;
+        /* Fix clear button in multiselect */
+        .stMultiSelect [role="button"] svg {
+            fill: #333 !important;
+        }
+        
+        /* Style dropdown arrow */
+        [data-baseweb="select"] svg {
+            fill: #333 !important;
         }
     </style>
     """, unsafe_allow_html=True)
