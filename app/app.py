@@ -1098,38 +1098,49 @@ def main():
     
     # Page content based on selection
     if selection == "Project Overview":
-        # Custom CSS for project overview page
+        # Custom CSS for project overview page - fixed for both light and dark modes
         st.markdown("""
         <style>
+            /* Card styles - adapted for both modes */
             .card {
-                border: 1px solid #e0e0e0;
+                border: 1px solid rgba(128, 128, 128, 0.2);
                 border-radius: 10px;
                 padding: 20px;
                 margin-bottom: 20px;
-                background-color: white;
+                background-color: rgba(255, 255, 255, 0.05);
                 box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
                 transition: transform 0.3s ease, box-shadow 0.3s ease;
             }
+            
             .card:hover {
                 transform: translateY(-5px);
                 box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
             }
+            
+            /* Card title with gradient background - visible in both modes */
             .card-title {
-                color: white;
+                color: white !important; /* Always white text */
                 font-size: 1.5rem;
                 margin-bottom: 15px;
-                border-bottom: 1px solid #eaeaea;
-                padding-bottom: 10px;
+                border-bottom: 1px solid rgba(128, 128, 128, 0.2);
+                padding: 8px 15px;
+                border-radius: 8px;
+                background: linear-gradient(to right, #1a2980, #26d0ce); /* Your gradient */
+                text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             }
+            
             .tech-badge {
                 display: inline-block;
-                background-color: #e0e0e0;
-                color: #333;
+                background-color: rgba(26, 41, 128, 0.1);
+                color: inherit; /* Inherits text color from parent */
                 padding: 5px 10px;
                 border-radius: 15px;
                 margin: 5px;
                 font-size: 0.9rem;
+                border: 1px solid rgba(26, 41, 128, 0.2);
             }
+            
             .github-button {
                 display: inline-flex;
                 align-items: center;
@@ -1142,19 +1153,22 @@ def main():
                 margin-top: 20px;
                 transition: background-color 0.3s;
             }
+            
             .github-button:hover {
                 background-color: #2c3e50;
             }
+            
             .phase-badge {
                 display: inline-block;
-                background-color: white;
-                color: #3498db;
+                background-color: rgba(255, 255, 255, 0.1);
+                color: inherit;
                 padding: 6px 12px;
                 border-radius: 6px;
                 margin: 4px;
                 font-size: 0.9rem;
                 font-weight: 500;
-                border: 1px solid #3498db;
+                border: 1px solid rgba(52, 152, 219, 0.5);
+            }
         </style>
         """, unsafe_allow_html=True)
         
