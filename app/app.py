@@ -1361,7 +1361,7 @@ def main():
 
 
         # Container start
-        st.markdown('<div class="kpi-explanation-container">', unsafe_allow_html=True)
+        #st.markdown('<div class="kpi-explanation-container">', unsafe_allow_html=True)
 
         # KPI 1
         st.markdown("""
