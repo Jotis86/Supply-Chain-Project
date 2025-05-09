@@ -1011,6 +1011,42 @@ def create_product_analysis(data):
 # Create a correlation analysis section
 def create_correlation_analysis(data):
     #st.markdown('<div class="sub-header" style="color: white;">Correlation Analysis</div>', unsafe_allow_html=True)
+
+    # Add custom CSS to ensure dropdowns are visible in all modes
+    st.markdown("""
+    <style>
+        /* Make sure selectbox text is visible in all modes */
+        .stSelectbox > div > div[data-baseweb="select"] > div,
+        .stMultiSelect > div > div[data-baseweb="select"] > div {
+            color: black !important;
+            background-color: white !important;
+        }
+        
+        /* Style the dropdown menu items */
+        div[role="listbox"] ul li {
+            color: black !important;
+            background-color: white !important;
+        }
+        
+        /* Fix multiselect chips */
+        .stMultiSelect div[data-testid="stVerticalBlock"] span {
+            color: black !important;
+            background-color: #e6f3ff !important;
+            border: 1px solid #bbd9ff !important;
+        }
+        
+        /* Fix the width of the select boxes */
+        .stSelectbox, .stMultiSelect {
+            width: 100%;
+        }
+        
+        /* Make labels more visible */
+        .stSelectbox label, .stMultiSelect label {
+            color: inherit !important;
+            font-weight: bold !important;
+        }
+    </style>
+    """, unsafe_allow_html=True)
     
     st.write("This section shows correlations between different metrics to help identify factors that influence OTIF performance.")
     
