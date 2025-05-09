@@ -92,19 +92,27 @@ def create_stylish_sidebar(data):
         /* Overall sidebar styling - applying gradient */
         section[data-testid="stSidebar"] {
             background: linear-gradient(to bottom, #1a2980, #26d0ce);
-            color: white;
+            color: white !important;
+        }
+        
+        /* Force all text elements in sidebar to be white */
+        section[data-testid="stSidebar"] div, 
+        section[data-testid="stSidebar"] span, 
+        section[data-testid="stSidebar"] label, 
+        section[data-testid="stSidebar"] p {
+            color: white !important;
         }
         
         /* Sidebar header */
         .sidebar-header {
             text-align: center;
             font-size: 1.8rem;
-            color: white;
+            color: white !important;
             margin-bottom: 20px;
             padding-bottom: 10px;
             border-bottom: 2px solid white;
             font-weight: bold;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
         }
         
         /* Navigation container */
@@ -113,65 +121,98 @@ def create_stylish_sidebar(data):
             padding: 0;
         }
         
-        /* Navigation items */
+        /* Navigation items - enhanced contrast */
         div.stRadio label {
-            background-color: rgba(26, 41, 128, 0.3);
+            background-color: rgba(26, 41, 128, 0.5); /* Darker background */
             color: white !important;
             padding: 12px 15px;
             border-radius: 6px;
             margin: 8px 0;
             display: flex;
             align-items: center;
-            font-weight: 400;
+            font-weight: 500; /* Slightly bolder */
             transition: all 0.2s;
+            text-shadow: 0px 1px 2px rgba(0,0,0,0.3); /* Text shadow for better readability */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        /* Navigation items text */
+        div.stRadio label span {
+            color: white !important;
         }
         
         /* Hover state */
         div.stRadio label:hover {
-            background-color: rgba(26, 41, 128, 0.7);
+            background-color: rgba(26, 41, 128, 0.8);
             transform: translateX(5px);
         }
         
         /* Selected state */
         div.stRadio label[data-baseweb="radio"] input:checked + div {
-            background-color: #1a2980 !important;
+            background-color: white !important;
             border-color: white !important;
         }
         
         div.stRadio label[data-baseweb="radio"] input:checked + div + span {
             color: white !important;
             font-weight: bold !important;
+            text-shadow: 0px 1px 2px rgba(0,0,0,0.5);
+        }
+        
+        /* Force radio button colors */
+        div.stRadio label[data-baseweb="radio"] div[role="radioitem"] {
+            background-color: white !important;
         }
         
         /* Metrics container */
         .metrics-container {
-            background-color: rgba(26, 41, 128, 0.3);
+            background-color: rgba(26, 41, 128, 0.5); /* Darker for contrast */
             padding: 15px;
             border-radius: 10px;
             margin: 20px 0;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(5px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
         }
         
         /* Individual metrics */
         .metric-mini {
             text-align: center;
             margin-bottom: 10px;
-            padding: 5px;
-            background-color: rgba(26, 41, 128, 0.5);
+            padding: 8px 5px;
+            background-color: rgba(26, 41, 128, 0.7); /* Darker for better contrast */
             border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         
         .metric-mini-value {
             font-size: 1.5rem;
             font-weight: bold;
-            color: white;
+            color: white !important;
+            text-shadow: 0px 1px 2px rgba(0,0,0,0.3);
         }
         
         .metric-mini-label {
             font-size: 0.85rem;
-            color: white;
+            color: white !important;
             margin-top: 4px;
+            text-shadow: 0px 1px 1px rgba(0,0,0,0.2);
+        }
+        
+        /* Override any theme-based text coloring throughout the sidebar */
+        [data-testid="stSidebar"] [data-testid="stText"],
+        [data-testid="stSidebar"] [data-testid="stMarkdown"] p,
+        [data-testid="stSidebar"] .stSelectbox label,
+        [data-testid="stSidebar"] .stSelectbox span {
+            color: white !important;
+        }
+        
+        /* Dropdown menu and options */
+        .stSelectbox div[data-baseweb="select"] > div {
+            background-color: rgba(255, 255, 255, 0.15) !important;
+            color: white !important;
+        }
+        
+        .stSelectbox div[data-baseweb="select"] > div > div {
+            color: white !important;
         }
         
         /* Footer */
@@ -179,40 +220,10 @@ def create_stylish_sidebar(data):
             text-align: center;
             margin-top: 20px;
             padding-top: 10px;
-            border-top: 1px solid rgba(255, 255, 255, 0.3);
+            border-top: 1px solid rgba(255, 255, 255, 0.4);
             font-size: 0.8rem;
-            color: white;
-        }
-        
-        /* Make category headers more visible */
-        .stRadio + div > label {
             color: white !important;
-            font-weight: bold !important;
-            font-size: 1.2rem !important;
-            margin-top: 1rem;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-        }
-        
-        /* Improve other elements like selectbox, etc. */
-        .stSelectbox > div > div, 
-        .stMultiSelect > div > div {
-            background-color: rgba(255, 255, 255, 0.1);
-            color: white;
-            border-radius: 6px;
-        }
-        
-        /* Style scrollbar */
-        section[data-testid="stSidebar"]::-webkit-scrollbar {
-            width: 8px;
-        }
-        
-        section[data-testid="stSidebar"]::-webkit-scrollbar-track {
-            background: rgba(26, 41, 128, 0.2);
-        }
-        
-        section[data-testid="stSidebar"]::-webkit-scrollbar-thumb {
-            background: rgba(26, 41, 128, 0.8);
-            border-radius: 4px;
+            text-shadow: 0px 1px 1px rgba(0,0,0,0.2);
         }
     </style>
     """, unsafe_allow_html=True)
