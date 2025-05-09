@@ -611,7 +611,7 @@ def create_prediction_form(data, model):
         }
         
         /* Input labels */
-        .stNumberInput label p, .stSelectbox label p {
+        .stNumberInput label p, .stSelectbox label p, .stRadio label p {
             color: inherit !important;
             font-weight: 500 !important;
             margin-bottom: 5px !important;
@@ -623,11 +623,40 @@ def create_prediction_form(data, model):
             opacity: 0.8;
         }
         
-        /* Selectbox styling */
+        /* Improved selectbox styling */
         .stSelectbox > div > div[data-baseweb="select"] > div {
-            background-color: rgba(255, 255, 255, 0.9) !important;
+            background-color: white !important;
             color: #333 !important;
-            border: 1px solid rgba(38, 208, 206, 0.3) !important;
+            border: 2px solid rgba(38, 208, 206, 0.5) !important;
+            border-radius: 8px !important;
+            padding: 10px 15px !important;
+            font-size: 1rem !important;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1) !important;
+        }
+        
+        /* Dropdown option styling */
+        div[data-baseweb="popover"] div[role="listbox"] {
+            background-color: white !important;
+            border: 1px solid rgba(38, 208, 206, 0.5) !important;
+            border-radius: 8px !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+            max-height: 300px !important;
+            overflow-y: auto !important;
+        }
+        
+        /* Dropdown items */
+        div[data-baseweb="popover"] div[role="listbox"] ul li,
+        div[data-baseweb="select"] ul li {
+            color: #333 !important;
+            background-color: white !important;
+            padding: 10px 15px !important;
+            border-bottom: 1px solid rgba(200, 200, 200, 0.3) !important;
+        }
+        
+        /* Dropdown hover effect */
+        div[data-baseweb="popover"] div[role="listbox"] ul li:hover,
+        div[data-baseweb="select"] ul li:hover {
+            background-color: rgba(38, 208, 206, 0.1) !important;
         }
         
         /* Submit button */
@@ -646,6 +675,20 @@ def create_prediction_form(data, model):
         .stButton button:hover {
             transform: translateY(-2px) !important;
             box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15) !important;
+        }
+        
+        /* Radio button styling */
+        .stRadio > div {
+            background-color: rgba(255, 255, 255, 0.05) !important;
+            padding: 10px !important;
+            border-radius: 8px !important;
+            border: 1px solid rgba(38, 208, 206, 0.3) !important;
+        }
+        
+        /* Radio button labels */
+        .stRadio label {
+            color: inherit !important;
+            font-weight: 500 !important;
         }
         
         /* Prediction results */
@@ -695,6 +738,18 @@ def create_prediction_form(data, model):
             border-radius: 8px;
             border: 1px solid rgba(38, 208, 206, 0.2);
         }
+        
+        /* Selection indicator */
+        .selection-indicator {
+            background-color: rgba(255, 255, 255, 0.95);
+            color: #333;
+            border: 1px solid rgba(38, 208, 206, 0.5);
+            border-radius: 6px;
+            padding: 10px 15px;
+            margin: 10px 0;
+            font-weight: 500;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
     </style>
     """, unsafe_allow_html=True)
     
@@ -717,22 +772,94 @@ def create_prediction_form(data, model):
     subcategories = sorted(data['Subcategoria'].unique())
     product_units = sorted(data['und_prod'].unique())
     
-    # Category first, then filter products - using a section title
-    st.markdown('<div class="dashboard-section-title" style="font-size: 1.2rem;">Select Product Category</div>', unsafe_allow_html=True)
-    selected_category = st.selectbox("Category", categories)
+    # Category selection using radio buttons instead of selectbox for better visibility
+    st.markdown('<div class="dashboard-section-title" style="font-size: 1.2rem;">Step 1: Select Product Category</div>', unsafe_allow_html=True)
+    
+    # If many categories, show top 5 as radio buttons with a "More..." option
+    if len(categories) > 5:
+        # Initialize state for category selection
+        if 'show_all_categories' not in st.session_state:
+            st.session_state.show_all_categories = False
+            
+        # Determine which categories to show
+        if st.session_state.show_all_categories:
+            display_categories = categories
+        else:
+            display_categories = categories[:5]
+            
+        # Radio selection with most common categories
+        selected_category = st.radio(
+            "Select a category:", 
+            display_categories,
+            horizontal=len(display_categories) <= 5
+        )
+        
+        # Toggle button to show all
+        if not st.session_state.show_all_categories:
+            if st.button("Show all categories..."):
+                st.session_state.show_all_categories = True
+        else:
+            if st.button("Show fewer categories"):
+                st.session_state.show_all_categories = False
+    else:
+        # For few categories, just use radio buttons
+        selected_category = st.radio("Select a category:", categories, horizontal=True)
+    
+    # Display selected category indicator
+    st.markdown(f"""
+    <div class="selection-indicator">
+        <strong>Selected Category:</strong> {selected_category}
+    </div>
+    """, unsafe_allow_html=True)
     
     # Filter products based on selected category
-    filtered_products = data[data['Categoria'] == selected_category]['descrip_prod'].unique()
+    filtered_products = sorted(data[data['Categoria'] == selected_category]['descrip_prod'].unique())
     
+    # Product selection - using a search box first, then radio buttons for matching products
+    st.markdown('<div class="dashboard-section-title" style="font-size: 1.2rem;">Step 2: Select Product</div>', unsafe_allow_html=True)
+    
+    # Product search for better usability
+    product_search = st.text_input("Search product by name", placeholder="Type to filter products...")
+    
+    # Filter products based on search
+    if product_search:
+        matching_products = [p for p in filtered_products if product_search.lower() in p.lower()]
+        if not matching_products:
+            st.warning(f"No products found matching '{product_search}'. Showing all products in this category.")
+            display_products = filtered_products
+        else:
+            display_products = matching_products
+    else:
+        display_products = filtered_products
+    
+    # If too many products to show as radio buttons, use a compact selectbox instead
+    if len(display_products) > 10:
+        selected_product = st.selectbox("Select a product:", display_products)
+    else:
+        # For a reasonable number of products, use radio buttons
+        selected_product = st.radio("Select a product:", display_products)
+    
+    # Display selected product indicator
+    st.markdown(f"""
+    <div class="selection-indicator">
+        <strong>Selected Product:</strong> {selected_product}
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Actual prediction form
     with st.form("prediction_form"):
         # Basic order information (category 1)
         st.subheader("Basic Order Information")
         col1, col2 = st.columns(2)
         
         with col1:
-            selected_supplier = st.selectbox("Supplier", suppliers)
-            # Product selection is now filtered by category
-            selected_product = st.selectbox("Product", sorted(filtered_products))
+            # Supplier selection
+            # If many suppliers, use selectbox with search, otherwise use radio buttons
+            if len(suppliers) > 10:
+                selected_supplier = st.selectbox("Supplier", suppliers)
+            else:
+                selected_supplier = st.radio("Supplier", suppliers)
+                
             # First required model feature
             quantity = st.number_input("Quantity Ordered (cant_prod_odc)", min_value=1, value=100)
             # Second required model feature
@@ -740,12 +867,18 @@ def create_prediction_form(data, model):
             
         with col2:
             # Category is now pre-selected above the form
-            st.selectbox(
-                "Category", 
-                [selected_category],  # Only one option - the pre-selected category
-                disabled=True  # Make it non-interactive
-            )
-            selected_unit = st.selectbox("Unit", product_units)
+            st.markdown(f"""
+            <div style="padding: 10px; background-color: rgba(38, 208, 206, 0.1); border-radius: 8px; border: 1px solid rgba(38, 208, 206, 0.3); margin-bottom: 15px;">
+                <strong>Category:</strong> {selected_category}
+            </div>
+            """, unsafe_allow_html=True)
+            
+            # Unit selection with radio buttons for better visibility
+            if len(product_units) <= 5:
+                selected_unit = st.radio("Unit", product_units, horizontal=True)
+            else:
+                selected_unit = st.selectbox("Unit", product_units)
+                
             # Third required model feature (calculated)
             order_amount = st.number_input("Order Amount (monto_odc)", 
                                         value=quantity*unit_price, 
