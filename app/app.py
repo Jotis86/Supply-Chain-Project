@@ -582,7 +582,7 @@ def display_key_metrics(data):
 def create_prediction_form(data, model):
     st.markdown('<div class="dashboard-section-title">OTIF Prediction Tool</div>', unsafe_allow_html=True)
     
-    # Add CSS for prediction form styling
+    # Add CSS for prediction form styling with improved selection elements
     st.markdown("""
     <style>
         /* Form container */
@@ -623,40 +623,43 @@ def create_prediction_form(data, model):
             opacity: 0.8;
         }
         
-        /* Improved selectbox styling */
-        .stSelectbox > div > div[data-baseweb="select"] > div {
-            background-color: white !important;
-            color: #333 !important;
-            border: 2px solid rgba(38, 208, 206, 0.5) !important;
-            border-radius: 8px !important;
-            padding: 10px 15px !important;
-            font-size: 1rem !important;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1) !important;
+        /* Selection cards container */
+        .selection-cards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 10px 0;
         }
         
-        /* Dropdown option styling */
-        div[data-baseweb="popover"] div[role="listbox"] {
-            background-color: white !important;
-            border: 1px solid rgba(38, 208, 206, 0.5) !important;
-            border-radius: 8px !important;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
-            max-height: 300px !important;
-            overflow-y: auto !important;
+        /* Selection card styling */
+        .selection-card {
+            background: white;
+            color: #333;
+            padding: 8px 16px;
+            border-radius: 6px;
+            border: 1px solid rgba(38, 208, 206, 0.5);
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 200px;
         }
         
-        /* Dropdown items */
-        div[data-baseweb="popover"] div[role="listbox"] ul li,
-        div[data-baseweb="select"] ul li {
-            color: #333 !important;
-            background-color: white !important;
-            padding: 10px 15px !important;
-            border-bottom: 1px solid rgba(200, 200, 200, 0.3) !important;
+        /* Selection card hover */
+        .selection-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-color: #1a2980;
         }
         
-        /* Dropdown hover effect */
-        div[data-baseweb="popover"] div[role="listbox"] ul li:hover,
-        div[data-baseweb="select"] ul li:hover {
-            background-color: rgba(38, 208, 206, 0.1) !important;
+        /* Active selection card */
+        .selection-card.active {
+            background: linear-gradient(to right, #1a2980, #26d0ce);
+            color: white;
+            font-weight: bold;
+            border: none;
         }
         
         /* Submit button */
@@ -677,18 +680,16 @@ def create_prediction_form(data, model):
             box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15) !important;
         }
         
-        /* Radio button styling */
-        .stRadio > div {
-            background-color: rgba(255, 255, 255, 0.05) !important;
-            padding: 10px !important;
-            border-radius: 8px !important;
-            border: 1px solid rgba(38, 208, 206, 0.3) !important;
-        }
-        
-        /* Radio button labels */
-        .stRadio label {
-            color: inherit !important;
-            font-weight: 500 !important;
+        /* Search input styling */
+        .search-box {
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 2px solid rgba(38, 208, 206, 0.5);
+            width: 100%;
+            font-size: 16px;
+            margin-bottom: 15px;
+            background-color: white;
+            color: #333;
         }
         
         /* Prediction results */
@@ -772,127 +773,189 @@ def create_prediction_form(data, model):
     subcategories = sorted(data['Subcategoria'].unique())
     product_units = sorted(data['und_prod'].unique())
     
-    # Category selection using radio buttons instead of selectbox for better visibility
+    # STEP 1: Category Selection with visual buttons
     st.markdown('<div class="dashboard-section-title" style="font-size: 1.2rem;">Step 1: Select Product Category</div>', unsafe_allow_html=True)
     
-    # If many categories, show top 5 as radio buttons with a "More..." option
-    if len(categories) > 5:
-        # Initialize state for category selection
-        if 'show_all_categories' not in st.session_state:
-            st.session_state.show_all_categories = False
-            
-        # Determine which categories to show
-        if st.session_state.show_all_categories:
-            display_categories = categories
-        else:
-            display_categories = categories[:5]
-            
-        # Radio selection with most common categories
-        selected_category = st.radio(
-            "Select a category:", 
-            display_categories,
-            horizontal=len(display_categories) <= 5
-        )
-        
-        # Toggle button to show all
-        if not st.session_state.show_all_categories:
-            if st.button("Show all categories..."):
-                st.session_state.show_all_categories = True
-        else:
-            if st.button("Show fewer categories"):
-                st.session_state.show_all_categories = False
-    else:
-        # For few categories, just use radio buttons
-        selected_category = st.radio("Select a category:", categories, horizontal=True)
+    # Initialize session state for selections
+    if 'selected_category' not in st.session_state:
+        st.session_state.selected_category = categories[0]
     
-    # Display selected category indicator
+    # Show the top 6 most common categories as buttons
+    top_categories = categories[:6]
+    
+    # Create 3 columns for buttons layout
+    col1, col2, col3 = st.columns(3)
+    
+    # Distribute top categories across columns
+    with col1:
+        for idx, cat in enumerate(top_categories[::3]):
+            if st.button(f"{cat}", key=f"cat_{idx*3}"):
+                st.session_state.selected_category = cat
+                
+    with col2:
+        for idx, cat in enumerate(top_categories[1::3]):
+            if st.button(f"{cat}", key=f"cat_{idx*3+1}"):
+                st.session_state.selected_category = cat
+                
+    with col3:
+        for idx, cat in enumerate(top_categories[2::3]):
+            if st.button(f"{cat}", key=f"cat_{idx*3+2}"):
+                st.session_state.selected_category = cat
+    
+    # Add a "More categories" expander for the remaining categories
+    if len(categories) > 6:
+        with st.expander("More categories..."):
+            # Create a search box for categories
+            cat_search = st.text_input("Search for category", key="cat_search", placeholder="Type to search categories...")
+            
+            # Filter categories based on search
+            if cat_search:
+                filtered_cats = [c for c in categories[6:] if cat_search.lower() in c.lower()]
+            else:
+                filtered_cats = categories[6:]
+            
+            # Display filtered categories in a grid (3 columns)
+            cols = st.columns(3)
+            for i, cat in enumerate(filtered_cats):
+                with cols[i % 3]:
+                    if st.button(f"{cat}", key=f"more_cat_{i}"):
+                        st.session_state.selected_category = cat
+    
+    # Display selected category
+    selected_category = st.session_state.selected_category
     st.markdown(f"""
     <div class="selection-indicator">
         <strong>Selected Category:</strong> {selected_category}
     </div>
     """, unsafe_allow_html=True)
     
+    # STEP 2: Product Selection with search functionality
+    st.markdown('<div class="dashboard-section-title" style="font-size: 1.2rem;">Step 2: Select Product</div>', unsafe_allow_html=True)
+    
     # Filter products based on selected category
     filtered_products = sorted(data[data['Categoria'] == selected_category]['descrip_prod'].unique())
     
-    # Product selection - using a search box first, then radio buttons for matching products
-    st.markdown('<div class="dashboard-section-title" style="font-size: 1.2rem;">Step 2: Select Product</div>', unsafe_allow_html=True)
+    # Initialize selected product if needed
+    if 'selected_product' not in st.session_state or st.session_state.selected_product not in filtered_products:
+        st.session_state.selected_product = filtered_products[0] if filtered_products else ""
     
     # Product search for better usability
-    product_search = st.text_input("Search product by name", placeholder="Type to filter products...")
+    product_search = st.text_input("Search product by name", placeholder="Type to search products...", key="product_search")
     
     # Filter products based on search
     if product_search:
-        matching_products = [p for p in filtered_products if product_search.lower() in p.lower()]
-        if not matching_products:
-            st.warning(f"No products found matching '{product_search}'. Showing all products in this category.")
-            display_products = filtered_products
-        else:
-            display_products = matching_products
+        display_products = [p for p in filtered_products if product_search.lower() in p.lower()]
+        if not display_products:
+            st.warning(f"No products found matching '{product_search}'. Showing top products instead.")
+            display_products = filtered_products[:10]
     else:
-        display_products = filtered_products
+        # Only show top 10 products if no search
+        display_products = filtered_products[:10]
     
-    # If too many products to show as radio buttons, use a compact selectbox instead
-    if len(display_products) > 10:
-        selected_product = st.selectbox("Select a product:", display_products)
-    else:
-        # For a reasonable number of products, use radio buttons
-        selected_product = st.radio("Select a product:", display_products)
+    # Display products as a grid of buttons (max 10)
+    cols = st.columns(2)  # 2 columns for product buttons
+    for i, product in enumerate(display_products):
+        with cols[i % 2]:
+            button_label = product[:30] + "..." if len(product) > 30 else product
+            if st.button(button_label, key=f"prod_{i}"):
+                st.session_state.selected_product = product
     
-    # Display selected product indicator
+    # If there are more products, show an expander
+    if len(filtered_products) > 10 and not product_search:
+        with st.expander("Show more products"):
+            # Create 2 more columns in the expander
+            more_cols = st.columns(2)
+            for i, product in enumerate(filtered_products[10:30]):  # Show next 20 products
+                with more_cols[i % 2]:
+                    button_label = product[:30] + "..." if len(product) > 30 else product
+                    if st.button(button_label, key=f"more_prod_{i}"):
+                        st.session_state.selected_product = product
+            
+            # If still more products, add a note
+            if len(filtered_products) > 30:
+                st.caption(f"{len(filtered_products) - 30} more products available. Use the search box to find specific products.")
+    
+    # Display selected product
+    selected_product = st.session_state.selected_product
     st.markdown(f"""
     <div class="selection-indicator">
         <strong>Selected Product:</strong> {selected_product}
     </div>
     """, unsafe_allow_html=True)
     
-    # Actual prediction form
+    # STEP 3: Prediction Form
+    st.markdown('<div class="dashboard-section-title" style="font-size: 1.2rem;">Step 3: Enter Order Details</div>', unsafe_allow_html=True)
+    
+    # Initialize supplier selection if needed
+    if 'selected_supplier' not in st.session_state:
+        st.session_state.selected_supplier = suppliers[0]
+    
+    # Supplier selection with search and top options
+    st.markdown("#### Select Supplier")
+    supplier_search = st.text_input("Search for supplier", placeholder="Type to search suppliers...", key="supplier_search")
+    
+    # Filter suppliers based on search
+    if supplier_search:
+        display_suppliers = [s for s in suppliers if supplier_search.lower() in s.lower()]
+        if not display_suppliers:
+            st.warning(f"No suppliers found matching '{supplier_search}'. Showing top suppliers instead.")
+            display_suppliers = suppliers[:10]
+    else:
+        # Only show top 8 suppliers if no search
+        display_suppliers = suppliers[:8]
+    
+    # Display suppliers as a grid of buttons
+    cols = st.columns(4)  # 4 columns for supplier buttons
+    for i, supplier in enumerate(display_suppliers):
+        with cols[i % 4]:
+            button_label = supplier[:20] + "..." if len(supplier) > 20 else supplier
+            if st.button(button_label, key=f"sup_{i}"):
+                st.session_state.selected_supplier = supplier
+    
+    # If there are more suppliers, show an expander
+    if len(suppliers) > 8 and not supplier_search:
+        with st.expander("More suppliers"):
+            # Create 4 more columns in the expander
+            more_cols = st.columns(4)
+            for i, supplier in enumerate(suppliers[8:24]):  # Show next 16 suppliers
+                with more_cols[i % 4]:
+                    button_label = supplier[:20] + "..." if len(supplier) > 20 else supplier
+                    if st.button(button_label, key=f"more_sup_{i}"):
+                        st.session_state.selected_supplier = supplier
+    
+    # Display selected supplier
+    selected_supplier = st.session_state.selected_supplier
+    st.markdown(f"""
+    <div class="selection-indicator">
+        <strong>Selected Supplier:</strong> {selected_supplier}
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Display product units as simple radio buttons (usually short list)
+    st.markdown("#### Select Unit")
+    selected_unit = st.radio("Unit", product_units, horizontal=len(product_units) <= 6)
+    
+    # Actual prediction form for numerical inputs
     with st.form("prediction_form"):
         # Basic order information (category 1)
-        st.subheader("Basic Order Information")
+        st.subheader("Order Information")
         col1, col2 = st.columns(2)
         
         with col1:
-            # Supplier selection
-            # If many suppliers, use selectbox with search, otherwise use radio buttons
-            if len(suppliers) > 10:
-                selected_supplier = st.selectbox("Supplier", suppliers)
-            else:
-                selected_supplier = st.radio("Supplier", suppliers)
-                
             # First required model feature
             quantity = st.number_input("Quantity Ordered (cant_prod_odc)", min_value=1, value=100)
             # Second required model feature
             unit_price = st.number_input("Unit Price (prec_unt)", min_value=0.1, value=50.0, step=0.1)
-            
-        with col2:
-            # Category is now pre-selected above the form
-            st.markdown(f"""
-            <div style="padding: 10px; background-color: rgba(38, 208, 206, 0.1); border-radius: 8px; border: 1px solid rgba(38, 208, 206, 0.3); margin-bottom: 15px;">
-                <strong>Category:</strong> {selected_category}
-            </div>
-            """, unsafe_allow_html=True)
-            
-            # Unit selection with radio buttons for better visibility
-            if len(product_units) <= 5:
-                selected_unit = st.radio("Unit", product_units, horizontal=True)
-            else:
-                selected_unit = st.selectbox("Unit", product_units)
-                
             # Third required model feature (calculated)
             order_amount = st.number_input("Order Amount (monto_odc)", 
                                         value=quantity*unit_price, 
                                         help="Total order amount (quantity × price)")
+        
+        with col2:
             # Sixth required model feature
             product_cost = st.number_input("Product Cost (costo_prod)", 
                                          value=round(unit_price*0.8, 2),
                                          help="Cost of producing/acquiring the product")
-        
-        # Delivery details (category 2)
-        st.subheader("Delivery Details")
-        col1, col2 = st.columns(2)
-        
-        with col1:
             # Fourth required model feature
             received_quantity = st.number_input("Quantity Received (cant_recibida)", 
                                              min_value=0, max_value=None, value=quantity,
@@ -902,26 +965,24 @@ def create_prediction_form(data, model):
                                            value=received_quantity*unit_price,
                                            help="Total amount received (received quantity × price)")
         
-        with col2:
-            # Seventh required model feature
-            reception_days = st.number_input("Reception Days", min_value=1, value=30,
-                                          help="Days between order and reception")
-            # Tenth required model feature
-            delivery_time_diff = st.number_input("Delivery Time Difference (days)", 
-                                              value=0, min_value=-100, max_value=100,
-                                              help="Difference between scheduled and actual delivery (+ = late, - = early)")
-        
-        # Financial details (category 3)
-        st.subheader("Financial Details")
+        # Delivery details
+        st.subheader("Delivery Details")
         col1, col2 = st.columns(2)
         
         with col1:
+            # Seventh required model feature
+            reception_days = st.number_input("Reception Days", min_value=1, value=30,
+                                          help="Days between order and reception")
             # Eighth required model feature (calculated)
             amount_difference = st.number_input("Amount Difference", 
                                              value=order_amount-received_amount,
                                              help="Difference between ordered and received amounts")
         
         with col2:
+            # Tenth required model feature
+            delivery_time_diff = st.number_input("Delivery Time Difference (days)", 
+                                              value=0, min_value=-100, max_value=100,
+                                              help="Difference between scheduled and actual delivery (+ = late, - = early)")
             # Ninth required model feature
             total_amount = st.number_input("Total Amount", 
                                          value=order_amount,
