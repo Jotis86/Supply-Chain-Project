@@ -1568,7 +1568,7 @@ def main():
             st.pyplot(fig)
 
     elif selection == "Power BI Dashboard":
-        st.markdown('<div class="sub-header" style="color: white;">Power BI Dashboard</div>', unsafe_allow_html=True)
+        st.markdown('<div class="dashboard-section-title">Power BI Dashboard</div>', unsafe_allow_html=True)
         st.write('''
         In this section, you can view screenshots of our Power BI dashboard. The dashboard provides comprehensive insights into the supply chain data with interactive visualizations and detailed reports.
         ''')
