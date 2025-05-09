@@ -1357,11 +1357,11 @@ def main():
         st.markdown('<div class="dashboard-section-title">Key Supply Chain Metrics</div>', unsafe_allow_html=True)
         
         # Overview visualizations
-        col1, col2 = st.columns(2)
+        #col1, col2 = st.columns(2)
 
 
         # Container start
-        #st.markdown('<div class="kpi-explanation-container">', unsafe_allow_html=True)
+        st.markdown('<div class="kpi-explanation-container">', unsafe_allow_html=True)
 
         # KPI 1
         st.markdown("""
@@ -1409,6 +1409,9 @@ def main():
 
         # Container end
         st.markdown('</div>', unsafe_allow_html=True)
+
+        # Distribution charts section
+        st.markdown('<div class="dashboard-section-title">Distribution Analysis</div>', unsafe_allow_html=True)
 
         # Overview visualizations
         col1, col2 = st.columns(2)
