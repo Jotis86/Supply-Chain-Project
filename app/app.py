@@ -827,15 +827,66 @@ def create_supplier_analysis(data):
             opacity: 0.9;
         }
         
-        /* Style selectboxes for better visibility */
-        .stSelectbox > div > div[data-baseweb="select"] > div {
-            background-color: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(38, 208, 206, 0.3);
+        /* IMPROVED SELECTBOX STYLING - REPLACES YOUR CURRENT SELECTBOX STYLES */
+        /* Improve selectbox appearance for consistent display in both modes */
+        .stSelectbox > div {
+            width: 100%; /* Make full width */
         }
         
-        /* Force selectbox text to be visible */
-        .stSelectbox label, .stSelectbox span {
-            color: inherit !important;
+        /* Style the selectbox container - more neutral background with border */
+        .stSelectbox > div > div[data-baseweb="select"] > div {
+            background-color: rgba(255, 255, 255, 0.9) !important; /* Almost white background */
+            border: 1px solid rgba(38, 208, 206, 0.5) !important; /* Border with your theme color */
+            border-radius: 4px !important;
+            color: #333 !important; /* Dark text for contrast */
+            padding: 8px 16px !important; /* Consistent padding */
+            font-size: 1rem !important; /* Standard text size */
+        }
+        
+        /* Fix selectbox label */
+        .stSelectbox label {
+            color: inherit !important; /* Inherit color from parent */
+            font-weight: 500 !important;
+            font-size: 1rem !important;
+            margin-bottom: 8px !important;
+        }
+        
+        /* Ensure dropdown options are visible */
+        div[data-baseweb="popover"] div[role="listbox"] {
+            background-color: white !important;
+            border: 1px solid rgba(38, 208, 206, 0.5) !important;
+            border-radius: 4px !important;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important;
+        }
+        
+        /* Style dropdown options */
+        div[data-baseweb="popover"] div[role="listbox"] ul li,
+        div[data-baseweb="select"] ul li {
+            color: #333 !important;
+            background-color: white !important;
+            padding: 8px 16px !important;
+            font-size: 1rem !important;
+        }
+        
+        /* Hover effect for options */
+        div[role="listbox"] ul li:hover {
+            background-color: rgba(38, 208, 206, 0.1) !important;
+        }
+        
+        /* Style the dropdown arrow */
+        [data-baseweb="select"] svg {
+            fill: #333 !important;
+        }
+        
+        /* Style selected value text */
+        .stSelectbox span[aria-selected="true"] {
+            color: #333 !important;
+            font-weight: 400 !important;
+        }
+        
+        /* Fix for any animations or transitions */
+        .stSelectbox * {
+            transition: all 0.2s ease-in-out !important;
         }
         
         /* Ensure dataframe headers are visible */
@@ -888,7 +939,7 @@ def create_supplier_analysis(data):
     
     # Display top 10 suppliers
     st.markdown(f"### Top 10 Suppliers by {sort_by}")
-    
+
     # Add space for better visibility
     st.markdown("<br>", unsafe_allow_html=True)
 
